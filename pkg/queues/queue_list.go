@@ -2,6 +2,7 @@ package queues
 
 // Represents a list of queues
 type QueueList struct {
+	// The list of queues.
 	Items []Queue `json:"items,omitempty" required:"true" maxItems:"100"`
 }
 

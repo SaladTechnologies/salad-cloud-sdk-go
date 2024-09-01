@@ -4,16 +4,21 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
 )
 
-// Represents a queue
+// Represents a queue.
 type Queue struct {
-	Id          *string `json:"id,omitempty" required:"true"`
-	Name        *string `json:"name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[a-z][a-z0-9-]{0,61}[a-z0-9]$"`
+	// The queue identifier. This is automatically generated and assigned when the queue is created.
+	Id *string `json:"id,omitempty" required:"true"`
+	// The queue name. This must be unique within the project.
+	Name *string `json:"name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[a-z][a-z0-9-]{0,61}[a-z0-9]$"`
+	// The display name. This may be used as a more human-readable name.
 	DisplayName *string `json:"display_name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[ ,-.0-9A-Za-z]+$"`
-	// The description
+	// The description. This may be used as a space for notes or other information about the queue.
 	Description     *string                 `json:"description,omitempty" maxLength:"500"`
 	ContainerGroups []shared.ContainerGroup `json:"container_groups,omitempty" required:"true" maxItems:"100"`
-	CreateTime      *string                 `json:"create_time,omitempty" required:"true"`
-	UpdateTime      *string                 `json:"update_time,omitempty" required:"true"`
+	// The date and time the queue was created.
+	CreateTime *string `json:"create_time,omitempty" required:"true"`
+	// The date and time the queue was last updated.
+	UpdateTime *string `json:"update_time,omitempty" required:"true"`
 }
 
 func (q *Queue) SetId(id string) {

@@ -20,11 +20,11 @@ Gets the list of all inference endpoints
 
 **Parameters**
 
-| Name             | Type                                | Required | Description                   |
-| :--------------- | :---------------------------------- | :------- | :---------------------------- |
-| ctx              | Context                             | ✅       | Default go language context   |
-| organizationName | string                              | ✅       | The unique organization name  |
-| params           | ListInferenceEndpointsRequestParams | ✅       | Additional request parameters |
+| Name             | Type                                | Required | Description                                                                                                                                                                                                                                         |
+| :--------------- | :---------------------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx              | Context                             | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName | string                              | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| params           | ListInferenceEndpointsRequestParams | ✅       | Additional request parameters                                                                                                                                                                                                                       |
 
 **Return Type**
 
@@ -65,11 +65,11 @@ Gets an inference endpoint
 
 **Parameters**
 
-| Name                  | Type    | Required | Description                        |
-| :-------------------- | :------ | :------- | :--------------------------------- |
-| ctx                   | Context | ✅       | Default go language context        |
-| organizationName      | string  | ✅       | The unique organization name       |
-| inferenceEndpointName | string  | ✅       | The unique inference endpoint name |
+| Name                  | Type    | Required | Description                                                                                                                                                                                                                                         |
+| :-------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                   | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName      | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| inferenceEndpointName | string  | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
 
 **Return Type**
 
@@ -105,12 +105,12 @@ Retrieves a list of an inference endpoint jobs
 
 **Parameters**
 
-| Name                  | Type                                  | Required | Description                        |
-| :-------------------- | :------------------------------------ | :------- | :--------------------------------- |
-| ctx                   | Context                               | ✅       | Default go language context        |
-| organizationName      | string                                | ✅       | The unique organization name       |
-| inferenceEndpointName | string                                | ✅       | The unique inference endpoint name |
-| params                | GetInferenceEndpointJobsRequestParams | ✅       | Additional request parameters      |
+| Name                  | Type                                  | Required | Description                                                                                                                                                                                                                                         |
+| :-------------------- | :------------------------------------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                   | Context                               | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName      | string                                | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| inferenceEndpointName | string                                | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
+| params                | GetInferenceEndpointJobsRequestParams | ✅       | Additional request parameters                                                                                                                                                                                                                       |
 
 **Return Type**
 
@@ -151,12 +151,12 @@ Creates a new job
 
 **Parameters**
 
-| Name                       | Type                       | Required | Description                        |
-| :------------------------- | :------------------------- | :------- | :--------------------------------- |
-| ctx                        | Context                    | ✅       | Default go language context        |
-| organizationName           | string                     | ✅       | The unique organization name       |
-| inferenceEndpointName      | string                     | ✅       | The unique inference endpoint name |
-| createInferenceEndpointJob | CreateInferenceEndpointJob | ✅       |                                    |
+| Name                       | Type                       | Required | Description                                                                                                                                                                                                                                         |
+| :------------------------- | :------------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                        | Context                    | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName           | string                     | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| inferenceEndpointName      | string                     | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
+| createInferenceEndpointJob | CreateInferenceEndpointJob | ✅       |                                                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -197,12 +197,12 @@ Retrieves a job in an inference endpoint
 
 **Parameters**
 
-| Name                   | Type    | Required | Description                        |
-| :--------------------- | :------ | :------- | :--------------------------------- |
-| ctx                    | Context | ✅       | Default go language context        |
-| organizationName       | string  | ✅       | The unique organization name       |
-| inferenceEndpointName  | string  | ✅       | The unique inference endpoint name |
-| inferenceEndpointJobId | string  | ✅       | The unique job id                  |
+| Name                   | Type    | Required | Description                                                                                                                                                                                                                                         |
+| :--------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                    | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName       | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| inferenceEndpointName  | string  | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
+| inferenceEndpointJobId | string  | ✅       | The unique job id                                                                                                                                                                                                                                   |
 
 **Return Type**
 
@@ -238,12 +238,12 @@ Deletes an inference endpoint job
 
 **Parameters**
 
-| Name                   | Type    | Required | Description                        |
-| :--------------------- | :------ | :------- | :--------------------------------- |
-| ctx                    | Context | ✅       | Default go language context        |
-| organizationName       | string  | ✅       | The unique organization name       |
-| inferenceEndpointName  | string  | ✅       | The unique inference endpoint name |
-| inferenceEndpointJobId | string  | ✅       | The unique job id                  |
+| Name                   | Type    | Required | Description                                                                                                                                                                                                                                         |
+| :--------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                    | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName       | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| inferenceEndpointName  | string  | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
+| inferenceEndpointJobId | string  | ✅       | The unique job id                                                                                                                                                                                                                                   |
 
 **Return Type**
 
