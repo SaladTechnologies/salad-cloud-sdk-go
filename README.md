@@ -100,9 +100,9 @@ The SDK includes several models that represent the data structures used in API r
 | [ContainerGroupInstance](documentation/models/container_group_instance.md)                         | Represents the details of a single container group instance              |
 | [WorkloadErrorList](documentation/models/workload_error_list.md)                                   | Represents a list of workload errors                                     |
 | [QueueList](documentation/models/queue_list.md)                                                    | Represents a list of queues                                              |
-| [CreateQueue](documentation/models/create_queue.md)                                                | Represents a request to create a queue                                   |
-| [Queue](documentation/models/queue.md)                                                             | Represents a queue                                                       |
-| [UpdateQueue](documentation/models/update_queue.md)                                                | Represents a request to update a queue                                   |
+| [CreateQueue](documentation/models/create_queue.md)                                                | Represents a request to create a new queue.                              |
+| [Queue](documentation/models/queue.md)                                                             | Represents a queue.                                                      |
+| [UpdateQueue](documentation/models/update_queue.md)                                                | Represents a request to update an existing queue.                        |
 | [QueueJobList](documentation/models/queue_job_list.md)                                             | Represents a list of queue jobs                                          |
 | [CreateQueueJob](documentation/models/create_queue_job.md)                                         | Represents a request to create a queue job                               |
 | [QueueJob](documentation/models/queue_job.md)                                                      | Represents a queue job                                                   |

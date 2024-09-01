@@ -1,9 +1,10 @@
 package queues
 
-// Represents a request to update a queue
+// Represents a request to update an existing queue.
 type UpdateQueue struct {
+	// The display name. This may be used as a more human-readable name.
 	DisplayName *string `json:"display_name,omitempty" maxLength:"63" minLength:"2" pattern:"^[ ,-.0-9A-Za-z]+$"`
-	// The description
+	// The description. This may be used as a space for notes or other information about the queue.
 	Description *string `json:"description,omitempty" maxLength:"500"`
 }
 

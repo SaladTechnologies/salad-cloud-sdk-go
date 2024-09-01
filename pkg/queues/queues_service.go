@@ -33,7 +33,7 @@ func (api *QueuesService) SetApiKey(apiKey string) {
 	config.SetApiKey(apiKey)
 }
 
-// Gets the list of queues
+// Gets the list of queues in the given project.
 func (api *QueuesService) ListQueues(ctx context.Context, organizationName string, projectName string) (*shared.SaladCloudSdkResponse[QueueList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -52,7 +52,7 @@ func (api *QueuesService) ListQueues(ctx context.Context, organizationName strin
 	return shared.NewSaladCloudSdkResponse[QueueList](resp), nil
 }
 
-// Creates a new queue
+// Creates a new queue in the given project.
 func (api *QueuesService) CreateQueue(ctx context.Context, organizationName string, projectName string, createQueue CreateQueue) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -73,7 +73,7 @@ func (api *QueuesService) CreateQueue(ctx context.Context, organizationName stri
 	return shared.NewSaladCloudSdkResponse[Queue](resp), nil
 }
 
-// Gets a queue
+// Gets an existing queue in the given project.
 func (api *QueuesService) GetQueue(ctx context.Context, organizationName string, projectName string, queueName string) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -93,7 +93,7 @@ func (api *QueuesService) GetQueue(ctx context.Context, organizationName string,
 	return shared.NewSaladCloudSdkResponse[Queue](resp), nil
 }
 
-// Updates a queue
+// Updates an existing queue in the given project.
 func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName string, projectName string, queueName string, updateQueue UpdateQueue) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -115,7 +115,7 @@ func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName stri
 	return shared.NewSaladCloudSdkResponse[Queue](resp), nil
 }
 
-// Deletes a queue
+// Deletes an existing queue in the given project.
 func (api *QueuesService) DeleteQueue(ctx context.Context, organizationName string, projectName string, queueName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
