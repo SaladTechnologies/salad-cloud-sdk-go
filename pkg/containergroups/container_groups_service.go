@@ -2,6 +2,7 @@ package containergroups
 
 import (
 	"context"
+
 	restClient "github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
@@ -100,7 +101,7 @@ func (api *ContainerGroupsService) UpdateContainerGroup(ctx context.Context, org
 	client := restClient.NewRestClient[shared.ContainerGroup](config)
 
 	request := httptransport.NewRequest(ctx, "PATCH", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}", config)
-
+	request.SetHeader("content-type", "application/merge-patch+json")
 	request.Body = updateContainerGroup
 
 	request.SetPathParam("organization_name", organizationName)
