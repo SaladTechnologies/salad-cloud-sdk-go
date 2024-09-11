@@ -59,6 +59,7 @@ func (api *ContainerGroupsService) CreateContainerGroup(ctx context.Context, org
 	client := restClient.NewRestClient[shared.ContainerGroup](config)
 
 	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/containers", config)
+	request.Headers["Content-Type"] = "application/json"
 
 	request.Body = createContainerGroup
 
@@ -100,6 +101,7 @@ func (api *ContainerGroupsService) UpdateContainerGroup(ctx context.Context, org
 	client := restClient.NewRestClient[shared.ContainerGroup](config)
 
 	request := httptransport.NewRequest(ctx, "PATCH", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}", config)
+	request.Headers["Content-Type"] = "application/merge-patch+json"
 
 	request.Body = updateContainerGroup
 

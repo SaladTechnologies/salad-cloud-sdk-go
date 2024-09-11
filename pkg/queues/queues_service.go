@@ -59,6 +59,7 @@ func (api *QueuesService) CreateQueue(ctx context.Context, organizationName stri
 	client := restClient.NewRestClient[Queue](config)
 
 	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/queues", config)
+	request.Headers["Content-Type"] = "application/json"
 
 	request.Body = createQueue
 
@@ -100,6 +101,7 @@ func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName stri
 	client := restClient.NewRestClient[Queue](config)
 
 	request := httptransport.NewRequest(ctx, "PATCH", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}", config)
+	request.Headers["Content-Type"] = "application/merge-patch+json"
 
 	request.Body = updateQueue
 
@@ -164,6 +166,7 @@ func (api *QueuesService) CreateQueueJob(ctx context.Context, organizationName s
 	client := restClient.NewRestClient[QueueJob](config)
 
 	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs", config)
+	request.Headers["Content-Type"] = "application/json"
 
 	request.Body = createQueueJob
 

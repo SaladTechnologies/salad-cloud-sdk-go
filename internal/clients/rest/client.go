@@ -12,7 +12,6 @@ type RestClient[T any] struct {
 }
 
 func NewRestClient[T any](config saladcloudsdkconfig.Config) *RestClient[T] {
-	defaultHeadersHandler := handlers.NewDefaultHeadersHandler[T]()
 	retryHandler := handlers.NewRetryHandler[T]()
 	apiKeyHandler := handlers.NewApiKeyHandler[T]()
 	responseValidationHandler := handlers.NewResponseValidationHandler[T]()
@@ -22,7 +21,6 @@ func NewRestClient[T any](config saladcloudsdkconfig.Config) *RestClient[T] {
 	terminatingHandler := handlers.NewTerminatingHandler[T]()
 
 	handlers := handlers.BuildHandlerChain[T]().
-		AddHandler(defaultHeadersHandler).
 		AddHandler(retryHandler).
 		AddHandler(apiKeyHandler).
 		AddHandler(responseValidationHandler).

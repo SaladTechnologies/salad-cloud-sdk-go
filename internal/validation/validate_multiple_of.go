@@ -11,7 +11,7 @@ import (
 
 func validateMultipleOf(field reflect.StructField, value reflect.Value) error {
 	multipleOfValue, found := field.Tag.Lookup("multipleOf")
-	if !found || multipleOfValue == "" {
+	if !found || multipleOfValue == "" || value.IsNil() {
 		return nil
 	}
 

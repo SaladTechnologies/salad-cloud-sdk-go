@@ -100,6 +100,7 @@ func (api *InferenceEndpointsService) CreateInferenceEndpointJob(ctx context.Con
 	client := restClient.NewRestClient[InferenceEndpointJob](config)
 
 	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs", config)
+	request.Headers["Content-Type"] = "application/json"
 
 	request.Body = createInferenceEndpointJob
 

@@ -2,6 +2,6 @@
 
 **Properties**
 
-| Name | Type  | Required | Description |
-| :--- | :---- | :------- | :---------- |
-| Port | int64 | ✅       |             |
+| Name | Type    | Required | Description |
+| :--- | :------ | :------- | :---------- |
+| Port | `int64` | ✅       |             |

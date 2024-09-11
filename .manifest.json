@@ -1,6 +1,6 @@
 {
-  "liblabVersion": "2.1.30",
-  "date": "2024-09-01T16:26:44.380Z",
+  "liblabVersion": "2.2.0",
+  "date": "2024-09-11T03:56:12.322Z",
   "config": {
     "language": "go",
     "apiId": 1094,
@@ -313,7 +313,6 @@
     "pkg/inferenceendpoints/request_params.go",
     "internal/clients/rest/hooks/hook.go",
     "internal/clients/rest/hooks/default_hook.go",
-    "internal/clients/rest/handlers/default_headers_handler.go",
     "internal/clients/rest/handlers/api_key_handler.go",
     "internal/clients/rest/handlers/retry_handler.go",
     "internal/clients/rest/handlers/request_validation_handler.go",

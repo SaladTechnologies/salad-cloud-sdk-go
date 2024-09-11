@@ -19,6 +19,7 @@ The SaladCloud REST API. Please refer to the [SaladCloud API Documentation](http
 - [Authentication](#authentication)
   - [API Key Authentication](#api-key-authentication)
 - [Services](#services)
+  - [Response Wrappers](#response-wrappers)
 - [Models](#models)
 - [License](#license)
 
@@ -80,6 +81,45 @@ The SDK provides various services to interact with the API.
 | [InferenceEndpointsService](documentation/services/inference_endpoints_service.md) |
 | [OrganizationDataService](documentation/services/organization_data_service.md)     |
 | [WebhookSecretKeyService](documentation/services/webhook_secret_key_service.md)    |
+
+</details>
+
+### Response Wrappers
+
+All services use response wrappers to provide a consistent interface to return the responses from the API.
+
+The response wrapper itself is a generic struct that contains the response data and metadata.
+
+<details>
+<summary>Below are the response wrappers used in the SDK:</summary>
+
+#### `SaladCloudSdkResponse[T]`
+
+This response wrapper is used to return the response data from the API. It contains the following fields:
+
+| Name     | Type                            | Description                                 |
+| :------- | :------------------------------ | :------------------------------------------ |
+| Data     | `T`                             | The body of the API response                |
+| Metadata | `SaladCloudSdkResponseMetadata` | Status code and headers returned by the API |
+
+#### `SaladCloudSdkError`
+
+This response wrapper is used to return an error. It contains the following fields:
+
+| Name     | Type                            | Description                                 |
+| :------- | :------------------------------ | :------------------------------------------ |
+| Err      | `error`                         | The error that occurred                     |
+| Body     | `T`                             | The body of the API response                |
+| Metadata | `SaladCloudSdkResponseMetadata` | Status code and headers returned by the API |
+
+#### `SaladCloudSdkResponseMetadata`
+
+This struct is shared by both response wrappers and contains the following fields:
+
+| Name       | Type                | Description                                      |
+| :--------- | :------------------ | :----------------------------------------------- |
+| Headers    | `map[string]string` | A map containing the headers returned by the API |
+| StatusCode | `int`               | The status code returned by the API              |
 
 </details>
 
