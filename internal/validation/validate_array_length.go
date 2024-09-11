@@ -9,6 +9,10 @@ import (
 )
 
 func validateArrayLength(field reflect.StructField, value reflect.Value) error {
+	if value.IsNil() {
+		return nil
+	}
+
 	kind := utils.GetReflectKind(value.Type())
 	if kind != reflect.Array && kind != reflect.Slice {
 		return nil
@@ -28,6 +32,10 @@ func validateArrayLength(field reflect.StructField, value reflect.Value) error {
 }
 
 func validateMinLength(field reflect.StructField, value reflect.Value) error {
+	if value.IsNil() {
+		return nil
+	}
+
 	minLength, found := field.Tag.Lookup("minLength")
 	if !found {
 		return nil
@@ -47,6 +55,10 @@ func validateMinLength(field reflect.StructField, value reflect.Value) error {
 }
 
 func validateMaxLength(field reflect.StructField, value reflect.Value) error {
+	if value.IsNil() {
+		return nil
+	}
+
 	maxLength, found := field.Tag.Lookup("maxLength")
 	if !found {
 		return nil

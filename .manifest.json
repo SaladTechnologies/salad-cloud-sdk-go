@@ -1,11 +1,11 @@
 {
-  "liblabVersion": "2.1.30",
-  "date": "2024-09-01T16:26:44.380Z",
+  "liblabVersion": "2.2.0",
+  "date": "2024-09-11T04:10:26.923Z",
   "config": {
     "language": "go",
-    "apiId": 1094,
+    "apiId": 1143,
     "sdkName": "salad-cloud-sdk",
-    "sdkVersion": "0.9.0-alpha.1",
+    "sdkVersion": "0.9.0-alpha.2",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["go"],
@@ -25,17 +25,17 @@
         ],
         "githubRepoName": "salad-cloud-sdk-dotnet",
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-dotnet",
-        "ignoreFiles": [".gitignore", "LICENSE"],
+        "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.1",
+        "sdkVersion": "0.9.0-alpha.2",
         "targetBranch": "main"
       },
       "go": {
         "goModuleName": "github.com/saladtechnologies/salad-cloud-sdk-go",
         "githubRepoName": "salad-cloud-sdk-go",
-        "ignoreFiles": [".gitignore", "LICENSE"],
+        "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.1",
+        "sdkVersion": "0.9.0-alpha.2",
         "targetBranch": "main"
       },
       "java": {
@@ -57,9 +57,9 @@
         ],
         "githubRepoName": "salad-cloud-sdk-java",
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-java",
-        "ignoreFiles": [".gitignore", "LICENSE"],
+        "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.1",
+        "sdkVersion": "0.9.0-alpha.2",
         "targetBranch": "main"
       },
       "python": {
@@ -100,9 +100,9 @@
           }
         ],
         "githubRepoName": "salad-cloud-sdk-python",
-        "ignoreFiles": [".gitignore", "LICENSE"],
+        "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.1",
+        "sdkVersion": "0.9.0-alpha.2",
         "targetBranch": "main"
       },
       "terraform": {
@@ -113,9 +113,9 @@
         "providerSchemaConfig": {
           "authTokenKey": "api_key"
         },
-        "providerVersion": "0.9.0-alpha.1",
+        "providerVersion": "0.9.0-alpha.2",
         "githubRepoName": "terraform-provider-salad-cloud",
-        "ignoreFiles": [".gitignore", "LICENSE"],
+        "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
         "targetBranch": "main"
       },
@@ -137,9 +137,9 @@
         ],
         "githubRepoName": "salad-cloud-sdk-javascript",
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-javascript",
-        "ignoreFiles": [".gitignore", "LICENSE"],
+        "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.1",
+        "sdkVersion": "0.9.0-alpha.2",
         "targetBranch": "main"
       }
     },
@@ -233,7 +233,7 @@
       }
     ],
     "apiName": "SaladCloud API",
-    "apiVersion": "0.9.0-alpha.1",
+    "apiVersion": "0.9.0-alpha.2",
     "authentication": {
       "apiKey": {
         "header": "Salad-Api-Key"
@@ -264,7 +264,7 @@
     "includeWatermark": false,
     "goModuleName": "github.com/saladtechnologies/salad-cloud-sdk-go",
     "githubRepoName": "salad-cloud-sdk-go",
-    "ignoreFiles": [".gitignore", "LICENSE"],
+    "ignoreFiles": [".gitignore", "./LICENSE"],
     "targetBranch": "main",
     "deliveryMethod": "zip",
     "hooks": {
@@ -313,7 +313,6 @@
     "pkg/inferenceendpoints/request_params.go",
     "internal/clients/rest/hooks/hook.go",
     "internal/clients/rest/hooks/default_hook.go",
-    "internal/clients/rest/handlers/default_headers_handler.go",
     "internal/clients/rest/handlers/api_key_handler.go",
     "internal/clients/rest/handlers/retry_handler.go",
     "internal/clients/rest/handlers/request_validation_handler.go",
@@ -330,7 +329,6 @@
     "pkg/shared/salad_cloud_sdk_response.go",
     "pkg/shared/salad_cloud_sdk_error.go",
     "pkg/saladcloudsdkconfig/environments.go",
-    "./LICENSE",
     ".env.example",
     "documentation/snippets/organizations-{organization_name}-projects-{project_name}-containers-get.md",
     "documentation/snippets/organizations-{organization_name}-projects-{project_name}-containers-post.md",
@@ -391,6 +389,7 @@
     "documentation/models/container_group_readiness_probe.md",
     "documentation/models/container_group_startup_probe.md",
     "documentation/models/container_group_queue_connection.md",
+    "documentation/models/queue_autoscaler.md",
     "documentation/models/container_resource_requirements.md",
     "documentation/models/container_group_priority.md",
     "documentation/models/container_group_status.md",
@@ -446,6 +445,7 @@
     "pkg/shared/container_group_readiness_probe.go",
     "pkg/shared/container_group_startup_probe.go",
     "pkg/shared/container_group_queue_connection.go",
+    "pkg/shared/queue_autoscaler.go",
     "pkg/shared/container_resource_requirements.go",
     "pkg/shared/container_group_instance_status_count.go",
     "pkg/shared/container_group_probe_tcp.go",

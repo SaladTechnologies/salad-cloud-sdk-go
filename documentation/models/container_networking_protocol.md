@@ -2,6 +2,6 @@
 
 **Properties**
 
-| Name | Type   | Required | Description |
-| :--- | :----- | :------- | :---------- |
-| http | string | ✅       | "http"      |
+| Name | Type     | Required | Description |
+| :--- | :------- | :------- | :---------- |
+| http | `string` | ✅       | "http"      |

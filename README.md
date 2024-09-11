@@ -1,11 +1,11 @@
-# SaladCloudSdk Go SDK 0.9.0-alpha.1
+# SaladCloudSdk Go SDK 0.9.0-alpha.2
 
 Welcome to the SaladCloudSdk SDK documentation. This guide will help you get started with integrating and using the SaladCloudSdk SDK in your project.
 
 ## Versions
 
-- API version: `0.9.0-alpha.1`
-- SDK version: `0.9.0-alpha.1`
+- API version: `0.9.0-alpha.2`
+- SDK version: `0.9.0-alpha.2`
 
 ## About the API
 
@@ -19,6 +19,7 @@ The SaladCloud REST API. Please refer to the [SaladCloud API Documentation](http
 - [Authentication](#authentication)
   - [API Key Authentication](#api-key-authentication)
 - [Services](#services)
+  - [Response Wrappers](#response-wrappers)
 - [Models](#models)
 - [License](#license)
 
@@ -83,6 +84,45 @@ The SDK provides various services to interact with the API.
 
 </details>
 
+### Response Wrappers
+
+All services use response wrappers to provide a consistent interface to return the responses from the API.
+
+The response wrapper itself is a generic struct that contains the response data and metadata.
+
+<details>
+<summary>Below are the response wrappers used in the SDK:</summary>
+
+#### `SaladCloudSdkResponse[T]`
+
+This response wrapper is used to return the response data from the API. It contains the following fields:
+
+| Name     | Type                            | Description                                 |
+| :------- | :------------------------------ | :------------------------------------------ |
+| Data     | `T`                             | The body of the API response                |
+| Metadata | `SaladCloudSdkResponseMetadata` | Status code and headers returned by the API |
+
+#### `SaladCloudSdkError`
+
+This response wrapper is used to return an error. It contains the following fields:
+
+| Name     | Type                            | Description                                 |
+| :------- | :------------------------------ | :------------------------------------------ |
+| Err      | `error`                         | The error that occurred                     |
+| Body     | `T`                             | The body of the API response                |
+| Metadata | `SaladCloudSdkResponseMetadata` | Status code and headers returned by the API |
+
+#### `SaladCloudSdkResponseMetadata`
+
+This struct is shared by both response wrappers and contains the following fields:
+
+| Name       | Type                | Description                                      |
+| :--------- | :------------------ | :----------------------------------------------- |
+| Headers    | `map[string]string` | A map containing the headers returned by the API |
+| StatusCode | `int`               | The status code returned by the API              |
+
+</details>
+
 ## Models
 
 The SDK includes several models that represent the data structures used in API requests and responses. These models help in organizing and managing the data efficiently.
@@ -123,6 +163,7 @@ The SDK includes several models that represent the data structures used in API r
 | [ContainerGroupReadinessProbe](documentation/models/container_group_readiness_probe.md)            | Represents the container group readiness probe                           |
 | [ContainerGroupStartupProbe](documentation/models/container_group_startup_probe.md)                | Represents the container group startup probe                             |
 | [ContainerGroupQueueConnection](documentation/models/container_group_queue_connection.md)          | Represents container group queue connection                              |
+| [QueueAutoscaler](documentation/models/queue_autoscaler.md)                                        | Represents the autoscaling rules for a queue                             |
 | [ContainerResourceRequirements](documentation/models/container_resource_requirements.md)           | Represents a container resource requirements                             |
 | [ContainerGroupPriority](documentation/models/container_group_priority.md)                         |                                                                          |
 | [ContainerGroupStatus](documentation/models/container_group_status.md)                             |                                                                          |

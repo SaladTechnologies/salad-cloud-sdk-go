@@ -10,17 +10,13 @@ import (
 
 func validateMin(field reflect.StructField, value reflect.Value) error {
 	minValue, found := field.Tag.Lookup("min")
-	if !found || minValue == "" {
+	if !found || minValue == "" || value.IsNil() {
 		return nil
 	}
 
 	min, err := strconv.Atoi(minValue)
 	if err != nil {
 		return err
-	}
-
-	if value.IsNil() {
-		return fmt.Errorf("field %s is required", field.Name)
 	}
 
 	val := utils.GetReflectValue(value)
