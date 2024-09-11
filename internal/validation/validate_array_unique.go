@@ -7,7 +7,7 @@ import (
 
 func validateArrayIsUnique(field reflect.StructField, value reflect.Value) error {
 	unique, found := field.Tag.Lookup("uniqueItems")
-	if !found || unique != "true" {
+	if !found || unique != "true" || value.IsNil() {
 		return nil
 	}
 

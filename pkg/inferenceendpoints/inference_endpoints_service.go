@@ -33,7 +33,7 @@ func (api *InferenceEndpointsService) SetApiKey(apiKey string) {
 	config.SetApiKey(apiKey)
 }
 
-// Gets the list of all inference endpoints
+// Gets the list of inference endpoints
 func (api *InferenceEndpointsService) ListInferenceEndpoints(ctx context.Context, organizationName string, params ListInferenceEndpointsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointsList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -100,6 +100,7 @@ func (api *InferenceEndpointsService) CreateInferenceEndpointJob(ctx context.Con
 	client := restClient.NewRestClient[InferenceEndpointJob](config)
 
 	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs", config)
+	request.Headers["Content-Type"] = "application/json"
 
 	request.Body = createInferenceEndpointJob
 

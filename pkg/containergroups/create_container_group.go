@@ -25,6 +25,8 @@ type CreateContainerGroup struct {
 	StartupProbe *shared.ContainerGroupStartupProbe `json:"startup_probe,omitempty"`
 	// Represents container group queue connection
 	QueueConnection *shared.ContainerGroupQueueConnection `json:"queue_connection,omitempty"`
+	// Represents the autoscaling rules for a queue
+	QueueAutoscaler *shared.QueueAutoscaler `json:"queue_autoscaler,omitempty"`
 }
 
 func (c *CreateContainerGroup) SetName(name string) {
@@ -157,4 +159,15 @@ func (c *CreateContainerGroup) GetQueueConnection() *shared.ContainerGroupQueueC
 		return nil
 	}
 	return c.QueueConnection
+}
+
+func (c *CreateContainerGroup) SetQueueAutoscaler(queueAutoscaler shared.QueueAutoscaler) {
+	c.QueueAutoscaler = &queueAutoscaler
+}
+
+func (c *CreateContainerGroup) GetQueueAutoscaler() *shared.QueueAutoscaler {
+	if c == nil {
+		return nil
+	}
+	return c.QueueAutoscaler
 }

@@ -2,20 +2,20 @@
 
 A list of all methods in the `ContainerGroupsService` service. Click on the method name to view detailed information about that method.
 
-| Methods                                                               | Description                                                                                                              |
-| :-------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
-| [ListContainerGroups](#listcontainergroups)                           | Gets the list of container groups                                                                                        |
-| [CreateContainerGroup](#createcontainergroup)                         | Creates a new container group                                                                                            |
-| [GetContainerGroup](#getcontainergroup)                               | Gets a container group                                                                                                   |
-| [UpdateContainerGroup](#updatecontainergroup)                         | Updates a container group                                                                                                |
-| [DeleteContainerGroup](#deletecontainergroup)                         | Deletes a container group                                                                                                |
-| [StartContainerGroup](#startcontainergroup)                           | Starts a container group                                                                                                 |
-| [StopContainerGroup](#stopcontainergroup)                             | Stops a container group                                                                                                  |
-| [ListContainerGroupInstances](#listcontainergroupinstances)           | Retrieves a list of container group instances                                                                            |
-| [GetContainerGroupInstance](#getcontainergroupinstance)               | Retrieves the details of a single instance within a container group by instance ID                                       |
-| [ReallocateContainerGroupInstance](#reallocatecontainergroupinstance) | Remove a node from a workload and reallocate the workload to a different node                                            |
-| [RecreateContainerGroupInstance](#recreatecontainergroupinstance)     | Stops a container, destroys it, creates a new one without requiring the image to be downloaded again on a different node |
-| [RestartContainerGroupInstance](#restartcontainergroupinstance)       | Restarts a workload on a node without reallocating it                                                                    |
+| Methods                                                               | Description                                                                                                                 |
+| :-------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| [ListContainerGroups](#listcontainergroups)                           | Gets the list of container groups                                                                                           |
+| [CreateContainerGroup](#createcontainergroup)                         | Creates a new container group                                                                                               |
+| [GetContainerGroup](#getcontainergroup)                               | Gets a container group                                                                                                      |
+| [UpdateContainerGroup](#updatecontainergroup)                         | Updates a container group                                                                                                   |
+| [DeleteContainerGroup](#deletecontainergroup)                         | Deletes a container group                                                                                                   |
+| [StartContainerGroup](#startcontainergroup)                           | Starts a container group                                                                                                    |
+| [StopContainerGroup](#stopcontainergroup)                             | Stops a container group                                                                                                     |
+| [ListContainerGroupInstances](#listcontainergroupinstances)           | Gets the list of container group instances                                                                                  |
+| [GetContainerGroupInstance](#getcontainergroupinstance)               | Gets a container group instance                                                                                             |
+| [ReallocateContainerGroupInstance](#reallocatecontainergroupinstance) | Reallocates a container group instance to run on a different Salad Node                                                     |
+| [RecreateContainerGroupInstance](#recreatecontainergroupinstance)     | Stops a container, destroys it, and starts a new one without requiring the image to be downloaded again on a new Salad Node |
+| [RestartContainerGroupInstance](#restartcontainergroupinstance)       | Stops a container and restarts it on the same Salad Node                                                                    |
 
 ## ListContainerGroups
 
@@ -26,11 +26,11 @@ Gets the list of container groups
 
 **Parameters**
 
-| Name             | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :--------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx              | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName      | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| Name             | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :--------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx              | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName      | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
 
 **Return Type**
 
@@ -66,12 +66,12 @@ Creates a new container group
 
 **Parameters**
 
-| Name                 | Type                 | Required | Description                                                                                                                                                                                                                                         |
-| :------------------- | :------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                  | Context              | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName     | string               | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName          | string               | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| createContainerGroup | CreateContainerGroup | ✅       |                                                                                                                                                                                                                                                     |
+| Name                 | Type                   | Required | Description                                                                                                                                                                                                                                         |
+| :------------------- | :--------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                  | `Context`              | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName     | `string`               | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName          | `string`               | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| createContainerGroup | `CreateContainerGroup` | ✅       |                                                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -127,12 +127,12 @@ Gets a container group
 
 **Parameters**
 
-| Name               | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName   | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName        | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| Name               | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName   | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName        | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -168,13 +168,13 @@ Updates a container group
 
 **Parameters**
 
-| Name                 | Type                 | Required | Description                                                                                                                                                                                                                                         |
-| :------------------- | :------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                  | Context              | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName     | string               | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName          | string               | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName   | string               | ✅       | The unique container group name                                                                                                                                                                                                                     |
-| updateContainerGroup | UpdateContainerGroup | ✅       |                                                                                                                                                                                                                                                     |
+| Name                 | Type                   | Required | Description                                                                                                                                                                                                                                         |
+| :------------------- | :--------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                  | `Context`              | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName     | `string`               | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName          | `string`               | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName   | `string`               | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| updateContainerGroup | `UpdateContainerGroup` | ✅       |                                                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -214,12 +214,12 @@ Deletes a container group
 
 **Parameters**
 
-| Name               | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName   | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName        | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| Name               | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName   | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName        | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -255,12 +255,12 @@ Starts a container group
 
 **Parameters**
 
-| Name               | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName   | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName        | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| Name               | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName   | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName        | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -296,12 +296,12 @@ Stops a container group
 
 **Parameters**
 
-| Name               | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName   | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName        | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| Name               | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName   | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName        | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -330,19 +330,19 @@ fmt.Print(response)
 
 ## ListContainerGroupInstances
 
-Retrieves a list of container group instances
+Gets the list of container group instances
 
 - HTTP Method: `GET`
 - Endpoint: `/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances`
 
 **Parameters**
 
-| Name               | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName   | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName        | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| Name               | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName   | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName        | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -371,20 +371,20 @@ fmt.Print(response)
 
 ## GetContainerGroupInstance
 
-Retrieves the details of a single instance within a container group by instance ID
+Gets a container group instance
 
 - HTTP Method: `GET`
 - Endpoint: `/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}`
 
 **Parameters**
 
-| Name                     | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                      | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName         | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName              | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName       | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
-| containerGroupInstanceId | string  | ✅       | The unique instance identifier                                                                                                                                                                                                                      |
+| Name                     | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                      | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName         | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName              | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName       | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| containerGroupInstanceId | `string`  | ✅       | The unique instance identifier                                                                                                                                                                                                                      |
 
 **Return Type**
 
@@ -413,20 +413,20 @@ fmt.Print(response)
 
 ## ReallocateContainerGroupInstance
 
-Remove a node from a workload and reallocate the workload to a different node
+Reallocates a container group instance to run on a different Salad Node
 
 - HTTP Method: `POST`
 - Endpoint: `/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/reallocate`
 
 **Parameters**
 
-| Name                     | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                      | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName         | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName              | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName       | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
-| containerGroupInstanceId | string  | ✅       | The unique instance identifier                                                                                                                                                                                                                      |
+| Name                     | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                      | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName         | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName              | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName       | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| containerGroupInstanceId | `string`  | ✅       | The unique instance identifier                                                                                                                                                                                                                      |
 
 **Return Type**
 
@@ -455,20 +455,20 @@ fmt.Print(response)
 
 ## RecreateContainerGroupInstance
 
-Stops a container, destroys it, creates a new one without requiring the image to be downloaded again on a different node
+Stops a container, destroys it, and starts a new one without requiring the image to be downloaded again on a new Salad Node
 
 - HTTP Method: `POST`
 - Endpoint: `/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/recreate`
 
 **Parameters**
 
-| Name                     | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                      | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName         | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName              | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName       | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
-| containerGroupInstanceId | string  | ✅       | The unique instance identifier                                                                                                                                                                                                                      |
+| Name                     | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                      | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName         | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName              | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName       | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| containerGroupInstanceId | `string`  | ✅       | The unique instance identifier                                                                                                                                                                                                                      |
 
 **Return Type**
 
@@ -497,20 +497,20 @@ fmt.Print(response)
 
 ## RestartContainerGroupInstance
 
-Restarts a workload on a node without reallocating it
+Stops a container and restarts it on the same Salad Node
 
 - HTTP Method: `POST`
 - Endpoint: `/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/restart`
 
 **Parameters**
 
-| Name                     | Type    | Required | Description                                                                                                                                                                                                                                         |
-| :----------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                      | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName         | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName              | string  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| containerGroupName       | string  | ✅       | The unique container group name                                                                                                                                                                                                                     |
-| containerGroupInstanceId | string  | ✅       | The unique instance identifier                                                                                                                                                                                                                      |
+| Name                     | Type      | Required | Description                                                                                                                                                                                                                                         |
+| :----------------------- | :-------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                      | `Context` | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName         | `string`  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName              | `string`  | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| containerGroupName       | `string`  | ✅       | The unique container group name                                                                                                                                                                                                                     |
+| containerGroupInstanceId | `string`  | ✅       | The unique instance identifier                                                                                                                                                                                                                      |
 
 **Return Type**
 

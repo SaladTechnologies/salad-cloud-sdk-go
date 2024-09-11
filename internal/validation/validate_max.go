@@ -10,7 +10,7 @@ import (
 
 func validateMax(field reflect.StructField, value reflect.Value) error {
 	maxValue, found := field.Tag.Lookup("max")
-	if !found || maxValue == "" {
+	if !found || maxValue == "" || value.IsNil() {
 		return nil
 	}
 

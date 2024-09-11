@@ -59,6 +59,7 @@ func (api *ContainerGroupsService) CreateContainerGroup(ctx context.Context, org
 	client := restClient.NewRestClient[shared.ContainerGroup](config)
 
 	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/containers", config)
+	request.Headers["Content-Type"] = "application/json"
 
 	request.Body = createContainerGroup
 
@@ -100,6 +101,7 @@ func (api *ContainerGroupsService) UpdateContainerGroup(ctx context.Context, org
 	client := restClient.NewRestClient[shared.ContainerGroup](config)
 
 	request := httptransport.NewRequest(ctx, "PATCH", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}", config)
+	request.Headers["Content-Type"] = "application/merge-patch+json"
 
 	request.Body = updateContainerGroup
 
@@ -175,7 +177,7 @@ func (api *ContainerGroupsService) StopContainerGroup(ctx context.Context, organ
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
-// Retrieves a list of container group instances
+// Gets the list of container group instances
 func (api *ContainerGroupsService) ListContainerGroupInstances(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[ContainerGroupInstances], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -195,7 +197,7 @@ func (api *ContainerGroupsService) ListContainerGroupInstances(ctx context.Conte
 	return shared.NewSaladCloudSdkResponse[ContainerGroupInstances](resp), nil
 }
 
-// Retrieves the details of a single instance within a container group by instance ID
+// Gets a container group instance
 func (api *ContainerGroupsService) GetContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[ContainerGroupInstance], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -216,7 +218,7 @@ func (api *ContainerGroupsService) GetContainerGroupInstance(ctx context.Context
 	return shared.NewSaladCloudSdkResponse[ContainerGroupInstance](resp), nil
 }
 
-// Remove a node from a workload and reallocate the workload to a different node
+// Reallocates a container group instance to run on a different Salad Node
 func (api *ContainerGroupsService) ReallocateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -237,7 +239,7 @@ func (api *ContainerGroupsService) ReallocateContainerGroupInstance(ctx context.
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
-// Stops a container, destroys it, creates a new one without requiring the image to be downloaded again on a different node
+// Stops a container, destroys it, and starts a new one without requiring the image to be downloaded again on a new Salad Node
 func (api *ContainerGroupsService) RecreateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -258,7 +260,7 @@ func (api *ContainerGroupsService) RecreateContainerGroupInstance(ctx context.Co
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
-// Restarts a workload on a node without reallocating it
+// Stops a container and restarts it on the same Salad Node
 func (api *ContainerGroupsService) RestartContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 

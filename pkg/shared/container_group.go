@@ -28,6 +28,8 @@ type ContainerGroup struct {
 	UpdateTime      *string                        `json:"update_time,omitempty" required:"true"`
 	PendingChange   *bool                          `json:"pending_change,omitempty" required:"true"`
 	Version         *int64                         `json:"version,omitempty" required:"true" min:"1"`
+	// Represents the autoscaling rules for a queue
+	QueueAutoscaler *QueueAutoscaler `json:"queue_autoscaler,omitempty"`
 }
 
 func (c *ContainerGroup) SetId(id string) {
@@ -226,4 +228,15 @@ func (c *ContainerGroup) GetVersion() *int64 {
 		return nil
 	}
 	return c.Version
+}
+
+func (c *ContainerGroup) SetQueueAutoscaler(queueAutoscaler QueueAutoscaler) {
+	c.QueueAutoscaler = &queueAutoscaler
+}
+
+func (c *ContainerGroup) GetQueueAutoscaler() *QueueAutoscaler {
+	if c == nil {
+		return nil
+	}
+	return c.QueueAutoscaler
 }

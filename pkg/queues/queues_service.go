@@ -59,6 +59,7 @@ func (api *QueuesService) CreateQueue(ctx context.Context, organizationName stri
 	client := restClient.NewRestClient[Queue](config)
 
 	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/queues", config)
+	request.Headers["Content-Type"] = "application/json"
 
 	request.Body = createQueue
 
@@ -100,6 +101,7 @@ func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName stri
 	client := restClient.NewRestClient[Queue](config)
 
 	request := httptransport.NewRequest(ctx, "PATCH", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}", config)
+	request.Headers["Content-Type"] = "application/merge-patch+json"
 
 	request.Body = updateQueue
 
@@ -135,7 +137,7 @@ func (api *QueuesService) DeleteQueue(ctx context.Context, organizationName stri
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
-// Retrieves a list of queue jobs
+// Gets the list of jobs in a queue
 func (api *QueuesService) ListQueueJobs(ctx context.Context, organizationName string, projectName string, queueName string, params ListQueueJobsRequestParams) (*shared.SaladCloudSdkResponse[QueueJobList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -164,6 +166,7 @@ func (api *QueuesService) CreateQueueJob(ctx context.Context, organizationName s
 	client := restClient.NewRestClient[QueueJob](config)
 
 	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs", config)
+	request.Headers["Content-Type"] = "application/json"
 
 	request.Body = createQueueJob
 
@@ -179,7 +182,7 @@ func (api *QueuesService) CreateQueueJob(ctx context.Context, organizationName s
 	return shared.NewSaladCloudSdkResponse[QueueJob](resp), nil
 }
 
-// Retrieves a job in a queue
+// Gets a job in a queue
 func (api *QueuesService) GetQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobId string) (*shared.SaladCloudSdkResponse[QueueJob], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
@@ -200,7 +203,7 @@ func (api *QueuesService) GetQueueJob(ctx context.Context, organizationName stri
 	return shared.NewSaladCloudSdkResponse[QueueJob](resp), nil
 }
 
-// Deletes a queue job
+// Cancels a job in a queue
 func (api *QueuesService) DeleteQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
