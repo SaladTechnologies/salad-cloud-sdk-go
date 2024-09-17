@@ -3,7 +3,7 @@ package shared
 // Represents the autoscaling rules for a queue
 type QueueAutoscaler struct {
 	MinReplicas           *int64 `json:"min_replicas,omitempty" required:"true" min:"0" max:"100"`
-	MaxReplicas           *int64 `json:"max_replicas,omitempty" required:"true" min:"1" max:"100"`
+	MaxReplicas           *int64 `json:"max_replicas,omitempty" required:"true" min:"1" max:"250"`
 	DesiredQueueLength    *int64 `json:"desired_queue_length,omitempty" required:"true" min:"1" max:"100"`
 	PollingPeriod         *int64 `json:"polling_period,omitempty" min:"15" max:"1800"`
 	MaxUpscalePerMinute   *int64 `json:"max_upscale_per_minute,omitempty" min:"1" max:"100"`
