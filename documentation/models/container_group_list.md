@@ -4,6 +4,6 @@ Represents a list of container groups
 
 **Properties**
 
-| Name  | Type                      | Required | Description |
-| :---- | :------------------------ | :------- | :---------- |
-| Items | `[]shared.ContainerGroup` | ✅       |             |
+| Name  | Type                    | Required | Description |
+| :---- | :---------------------- | :------- | :---------- |
+| Items | []shared.ContainerGroup | ✅       |             |
