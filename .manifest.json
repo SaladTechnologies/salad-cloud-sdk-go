@@ -1,6 +1,6 @@
 {
-  "liblabVersion": "2.4.0",
-  "date": "2024-09-17T04:02:37.756Z",
+  "liblabVersion": "2.4.1",
+  "date": "2024-09-25T03:53:33.841Z",
   "config": {
     "language": "go",
     "apiId": 1172,
@@ -59,7 +59,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-java",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.3",
+        "sdkVersion": "0.9.0-alpha.4",
         "targetBranch": "main"
       },
       "python": {
@@ -139,8 +139,9 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-javascript",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.3",
-        "targetBranch": "main"
+        "sdkVersion": "0.9.0-alpha.4",
+        "targetBranch": "main",
+        "generateEnumAs": "enum"
       }
     },
     "publishing": {
