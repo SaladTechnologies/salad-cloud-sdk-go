@@ -3,7 +3,7 @@ package shared
 // Represents a container resource requirements
 type ContainerResourceRequirements struct {
 	Cpu           *int64   `json:"cpu,omitempty" required:"true" min:"1" max:"16"`
-	Memory        *int64   `json:"memory,omitempty" required:"true" min:"1024" max:"30720"`
+	Memory        *int64   `json:"memory,omitempty" required:"true" min:"1024" max:"61440"`
 	GpuClasses    []string `json:"gpu_classes,omitempty"`
 	StorageAmount *int64   `json:"storage_amount,omitempty" min:"1073741824" max:"53687091200"`
 }
