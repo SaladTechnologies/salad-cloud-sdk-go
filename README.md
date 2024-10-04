@@ -1,11 +1,11 @@
-# SaladCloudSdk Go SDK 0.9.0-alpha.4
+# SaladCloudSdk Go SDK 0.9.0-alpha.5
 
 Welcome to the SaladCloudSdk SDK documentation. This guide will help you get started with integrating and using the SaladCloudSdk SDK in your project.
 
 ## Versions
 
-- API version: `0.9.0-alpha.4`
-- SDK version: `0.9.0-alpha.4`
+- API version: `0.9.0-alpha.5`
+- SDK version: `0.9.0-alpha.5`
 
 ## About the API
 

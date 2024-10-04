@@ -1,11 +1,11 @@
 {
-  "liblabVersion": "2.5.0",
-  "date": "2024-10-01T05:13:59.417Z",
+  "liblabVersion": "2.5.1",
+  "date": "2024-10-04T04:24:19.790Z",
   "config": {
     "language": "go",
-    "apiId": 1228,
+    "apiId": 1252,
     "sdkName": "salad-cloud-sdk",
-    "sdkVersion": "0.9.0-alpha.4",
+    "sdkVersion": "0.9.0-alpha.5",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["go"],
@@ -27,7 +27,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-dotnet",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.4",
+        "sdkVersion": "0.9.0-alpha.5",
         "targetBranch": "main"
       },
       "go": {
@@ -35,7 +35,7 @@
         "githubRepoName": "salad-cloud-sdk-go",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.4",
+        "sdkVersion": "0.9.0-alpha.5",
         "targetBranch": "main"
       },
       "java": {
@@ -59,7 +59,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-java",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.5",
+        "sdkVersion": "0.9.0-alpha.6",
         "targetBranch": "main"
       },
       "python": {
@@ -102,7 +102,7 @@
         "githubRepoName": "salad-cloud-sdk-python",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.4",
+        "sdkVersion": "0.9.0-alpha.5",
         "targetBranch": "main"
       },
       "terraform": {
@@ -139,7 +139,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-javascript",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.5",
+        "sdkVersion": "0.9.0-alpha.6",
         "targetBranch": "main",
         "generateEnumAs": "enum"
       }
@@ -234,7 +234,7 @@
       }
     ],
     "apiName": "SaladCloud API",
-    "apiVersion": "0.9.0-alpha.4",
+    "apiVersion": "0.9.0-alpha.5",
     "authentication": {
       "apiKey": {
         "header": "Salad-Api-Key"
@@ -385,7 +385,6 @@
     "documentation/models/container_restart_policy.md",
     "documentation/models/container_group_state.md",
     "documentation/models/country_code.md",
-    "documentation/models/container_group_networking.md",
     "documentation/models/container_group_liveness_probe.md",
     "documentation/models/container_group_readiness_probe.md",
     "documentation/models/container_group_startup_probe.md",
@@ -402,7 +401,6 @@
     "documentation/models/container_group_probe_exec.md",
     "documentation/models/container_probe_http_scheme.md",
     "documentation/models/container_group_probe_http_headers_2.md",
-    "documentation/models/create_container_group_networking.md",
     "documentation/models/update_container_group_networking.md",
     "documentation/models/workload_error.md",
     "documentation/models/container_groups_quotas.md",
@@ -418,6 +416,8 @@
     "documentation/models/container_group_instance.md",
     "documentation/models/queue_job.md",
     "documentation/models/inference_endpoint_job.md",
+    "documentation/models/container_group_networking.md",
+    "documentation/models/create_container_group_networking.md",
     "documentation/models/queue_job_event.md",
     "documentation/models/inference_endpoint_job_event.md",
     "pkg/containergroups/container_group_list.go",
@@ -440,7 +440,6 @@
     "pkg/organizationdata/gpu_classes_list.go",
     "pkg/webhooksecretkey/webhook_secret_key.go",
     "pkg/shared/container_group_state.go",
-    "pkg/shared/container_group_networking.go",
     "pkg/shared/container_group_liveness_probe.go",
     "pkg/shared/container_group_readiness_probe.go",
     "pkg/shared/container_group_startup_probe.go",
@@ -453,7 +452,6 @@
     "pkg/shared/container_group_probe_grpc.go",
     "pkg/shared/container_group_probe_exec.go",
     "pkg/shared/container_group_probe_http_headers_2.go",
-    "pkg/containergroups/create_container_group_networking.go",
     "pkg/containergroups/update_container_group_networking.go",
     "pkg/workloaderrors/workload_error.go",
     "pkg/quotas/container_groups_quotas.go",
@@ -466,6 +464,8 @@
     "pkg/containergroups/container_group_instance.go",
     "pkg/queues/queue_job.go",
     "pkg/inferenceendpoints/inference_endpoint_job.go",
+    "pkg/shared/container_group_networking.go",
+    "pkg/containergroups/create_container_group_networking.go",
     "pkg/queues/queue_job_event.go",
     "pkg/inferenceendpoints/inference_endpoint_job_event.go",
     "pkg/inferenceendpoints/inference_endpoints_service.go",

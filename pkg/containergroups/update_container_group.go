@@ -20,6 +20,8 @@ type UpdateContainerGroup struct {
 	ReadinessProbe *shared.ContainerGroupReadinessProbe `json:"readiness_probe,omitempty"`
 	// Represents the container group startup probe
 	StartupProbe *shared.ContainerGroupStartupProbe `json:"startup_probe,omitempty"`
+	// Represents the autoscaling rules for a queue
+	QueueAutoscaler *shared.QueueAutoscaler `json:"queue_autoscaler,omitempty"`
 }
 
 func (u *UpdateContainerGroup) SetDisplayName(displayName string) {
@@ -108,4 +110,15 @@ func (u *UpdateContainerGroup) GetStartupProbe() *shared.ContainerGroupStartupPr
 		return nil
 	}
 	return u.StartupProbe
+}
+
+func (u *UpdateContainerGroup) SetQueueAutoscaler(queueAutoscaler shared.QueueAutoscaler) {
+	u.QueueAutoscaler = &queueAutoscaler
+}
+
+func (u *UpdateContainerGroup) GetQueueAutoscaler() *shared.QueueAutoscaler {
+	if u == nil {
+		return nil
+	}
+	return u.QueueAutoscaler
 }
