@@ -7,16 +7,22 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
+	"time"
 )
 
 type WebhookSecretKeyService struct {
 	manager *configmanager.ConfigManager
 }
 
-func NewWebhookSecretKeyService(manager *configmanager.ConfigManager) *WebhookSecretKeyService {
+func NewWebhookSecretKeyService() *WebhookSecretKeyService {
 	return &WebhookSecretKeyService{
-		manager: manager,
+		manager: configmanager.NewConfigManager(saladcloudsdkconfig.Config{}),
 	}
+}
+
+func (api *WebhookSecretKeyService) WithConfigManager(manager *configmanager.ConfigManager) *WebhookSecretKeyService {
+	api.manager = manager
+	return api
 }
 
 func (api *WebhookSecretKeyService) getConfig() *saladcloudsdkconfig.Config {
@@ -28,6 +34,11 @@ func (api *WebhookSecretKeyService) SetBaseUrl(baseUrl string) {
 	config.SetBaseUrl(baseUrl)
 }
 
+func (api *WebhookSecretKeyService) SetTimeout(timeout time.Duration) {
+	config := api.getConfig()
+	config.SetTimeout(timeout)
+}
+
 func (api *WebhookSecretKeyService) SetApiKey(apiKey string) {
 	config := api.getConfig()
 	config.SetApiKey(apiKey)
@@ -37,13 +48,17 @@ func (api *WebhookSecretKeyService) SetApiKey(apiKey string) {
 func (api *WebhookSecretKeyService) GetWebhookSecretKey(ctx context.Context, organizationName string) (*shared.SaladCloudSdkResponse[WebhookSecretKey], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/webhook-secret-key").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[WebhookSecretKey](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/webhook-secret-key", config)
-
-	request.SetPathParam("organization_name", organizationName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[WebhookSecretKey](err)
 	}
@@ -55,13 +70,17 @@ func (api *WebhookSecretKeyService) GetWebhookSecretKey(ctx context.Context, org
 func (api *WebhookSecretKeyService) UpdateWebhookSecretKey(ctx context.Context, organizationName string) (*shared.SaladCloudSdkResponse[WebhookSecretKey], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/webhook-secret-key").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[WebhookSecretKey](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/webhook-secret-key", config)
-
-	request.SetPathParam("organization_name", organizationName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[WebhookSecretKey](err)
 	}

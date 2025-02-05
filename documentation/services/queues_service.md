@@ -51,7 +51,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## CreateQueue
@@ -91,13 +91,15 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 request := queues.CreateQueue{}
 request.SetName("Name")
+request.SetDisplayName("DisplayName")
+request.SetDescription("Description")
 
 response, err := client.Queues.CreateQueue(context.Background(), "organizationName", "projectName", request)
 if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## GetQueue
@@ -138,7 +140,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## UpdateQueue
@@ -178,13 +180,15 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.UpdateQueue{}
+request.SetDisplayName("DisplayName")
+request.SetDescription("Description")
 
 response, err := client.Queues.UpdateQueue(context.Background(), "organizationName", "projectName", "queueName", request)
 if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## DeleteQueue
@@ -225,7 +229,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## ListQueueJobs
@@ -272,7 +276,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## CreateQueueJob
@@ -312,14 +316,16 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.CreateQueueJob{}
-request.SetInput(any)
+request.SetInput("")
+request.SetMetadata("string")
+request.SetWebhook("Webhook")
 
 response, err := client.Queues.CreateQueueJob(context.Background(), "organizationName", "projectName", "queueName", request)
 if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## GetQueueJob
@@ -361,7 +367,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## DeleteQueueJob
@@ -403,5 +409,5 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```

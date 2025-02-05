@@ -1,5 +1,9 @@
 package containergroups
 
+import (
+	"encoding/json"
+)
+
 // Represents the details of a single container group instance
 type ContainerGroupInstance struct {
 	// The unique instance ID
@@ -16,10 +20,7 @@ type ContainerGroupInstance struct {
 	Ready *bool `json:"ready,omitempty"`
 	// Specifies whether the container group instance passed its startup probe. Is always true when no startup probe is defined.
 	Started *bool `json:"started,omitempty"`
-}
-
-func (c *ContainerGroupInstance) SetInstanceId(instanceId string) {
-	c.InstanceId = &instanceId
+	touched map[string]bool
 }
 
 func (c *ContainerGroupInstance) GetInstanceId() *string {
@@ -29,8 +30,20 @@ func (c *ContainerGroupInstance) GetInstanceId() *string {
 	return c.InstanceId
 }
 
-func (c *ContainerGroupInstance) SetMachineId(machineId string) {
-	c.MachineId = &machineId
+func (c *ContainerGroupInstance) SetInstanceId(instanceId string) {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["InstanceId"] = true
+	c.InstanceId = &instanceId
+}
+
+func (c *ContainerGroupInstance) SetInstanceIdNil() {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["InstanceId"] = true
+	c.InstanceId = nil
 }
 
 func (c *ContainerGroupInstance) GetMachineId() *string {
@@ -40,8 +53,20 @@ func (c *ContainerGroupInstance) GetMachineId() *string {
 	return c.MachineId
 }
 
-func (c *ContainerGroupInstance) SetState(state State) {
-	c.State = &state
+func (c *ContainerGroupInstance) SetMachineId(machineId string) {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["MachineId"] = true
+	c.MachineId = &machineId
+}
+
+func (c *ContainerGroupInstance) SetMachineIdNil() {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["MachineId"] = true
+	c.MachineId = nil
 }
 
 func (c *ContainerGroupInstance) GetState() *State {
@@ -51,8 +76,20 @@ func (c *ContainerGroupInstance) GetState() *State {
 	return c.State
 }
 
-func (c *ContainerGroupInstance) SetUpdateTime(updateTime string) {
-	c.UpdateTime = &updateTime
+func (c *ContainerGroupInstance) SetState(state State) {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["State"] = true
+	c.State = &state
+}
+
+func (c *ContainerGroupInstance) SetStateNil() {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["State"] = true
+	c.State = nil
 }
 
 func (c *ContainerGroupInstance) GetUpdateTime() *string {
@@ -62,8 +99,20 @@ func (c *ContainerGroupInstance) GetUpdateTime() *string {
 	return c.UpdateTime
 }
 
-func (c *ContainerGroupInstance) SetVersion(version int64) {
-	c.Version = &version
+func (c *ContainerGroupInstance) SetUpdateTime(updateTime string) {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["UpdateTime"] = true
+	c.UpdateTime = &updateTime
+}
+
+func (c *ContainerGroupInstance) SetUpdateTimeNil() {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["UpdateTime"] = true
+	c.UpdateTime = nil
 }
 
 func (c *ContainerGroupInstance) GetVersion() *int64 {
@@ -73,8 +122,20 @@ func (c *ContainerGroupInstance) GetVersion() *int64 {
 	return c.Version
 }
 
-func (c *ContainerGroupInstance) SetReady(ready bool) {
-	c.Ready = &ready
+func (c *ContainerGroupInstance) SetVersion(version int64) {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["Version"] = true
+	c.Version = &version
+}
+
+func (c *ContainerGroupInstance) SetVersionNil() {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["Version"] = true
+	c.Version = nil
 }
 
 func (c *ContainerGroupInstance) GetReady() *bool {
@@ -84,8 +145,20 @@ func (c *ContainerGroupInstance) GetReady() *bool {
 	return c.Ready
 }
 
-func (c *ContainerGroupInstance) SetStarted(started bool) {
-	c.Started = &started
+func (c *ContainerGroupInstance) SetReady(ready bool) {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["Ready"] = true
+	c.Ready = &ready
+}
+
+func (c *ContainerGroupInstance) SetReadyNil() {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["Ready"] = true
+	c.Ready = nil
 }
 
 func (c *ContainerGroupInstance) GetStarted() *bool {
@@ -93,6 +166,78 @@ func (c *ContainerGroupInstance) GetStarted() *bool {
 		return nil
 	}
 	return c.Started
+}
+
+func (c *ContainerGroupInstance) SetStarted(started bool) {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["Started"] = true
+	c.Started = &started
+}
+
+func (c *ContainerGroupInstance) SetStartedNil() {
+	if c.touched == nil {
+		c.touched = map[string]bool{}
+	}
+	c.touched["Started"] = true
+	c.Started = nil
+}
+
+func (c ContainerGroupInstance) MarshalJSON() ([]byte, error) {
+	data := make(map[string]any)
+
+	if c.touched["InstanceId"] && c.InstanceId == nil {
+		data["instance_id"] = nil
+	} else if c.InstanceId != nil {
+		data["instance_id"] = c.InstanceId
+	}
+
+	if c.touched["MachineId"] && c.MachineId == nil {
+		data["machine_id"] = nil
+	} else if c.MachineId != nil {
+		data["machine_id"] = c.MachineId
+	}
+
+	if c.touched["State"] && c.State == nil {
+		data["state"] = nil
+	} else if c.State != nil {
+		data["state"] = c.State
+	}
+
+	if c.touched["UpdateTime"] && c.UpdateTime == nil {
+		data["update_time"] = nil
+	} else if c.UpdateTime != nil {
+		data["update_time"] = c.UpdateTime
+	}
+
+	if c.touched["Version"] && c.Version == nil {
+		data["version"] = nil
+	} else if c.Version != nil {
+		data["version"] = c.Version
+	}
+
+	if c.touched["Ready"] && c.Ready == nil {
+		data["ready"] = nil
+	} else if c.Ready != nil {
+		data["ready"] = c.Ready
+	}
+
+	if c.touched["Started"] && c.Started == nil {
+		data["started"] = nil
+	} else if c.Started != nil {
+		data["started"] = c.Started
+	}
+
+	return json.Marshal(data)
+}
+
+func (c ContainerGroupInstance) String() string {
+	jsonData, err := json.MarshalIndent(c, "", "  ")
+	if err != nil {
+		return "error converting struct: ContainerGroupInstance to string"
+	}
+	return string(jsonData)
 }
 
 // The state of the container group instance

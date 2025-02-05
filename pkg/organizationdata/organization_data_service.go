@@ -7,16 +7,22 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
+	"time"
 )
 
 type OrganizationDataService struct {
 	manager *configmanager.ConfigManager
 }
 
-func NewOrganizationDataService(manager *configmanager.ConfigManager) *OrganizationDataService {
+func NewOrganizationDataService() *OrganizationDataService {
 	return &OrganizationDataService{
-		manager: manager,
+		manager: configmanager.NewConfigManager(saladcloudsdkconfig.Config{}),
 	}
+}
+
+func (api *OrganizationDataService) WithConfigManager(manager *configmanager.ConfigManager) *OrganizationDataService {
+	api.manager = manager
+	return api
 }
 
 func (api *OrganizationDataService) getConfig() *saladcloudsdkconfig.Config {
@@ -28,6 +34,11 @@ func (api *OrganizationDataService) SetBaseUrl(baseUrl string) {
 	config.SetBaseUrl(baseUrl)
 }
 
+func (api *OrganizationDataService) SetTimeout(timeout time.Duration) {
+	config := api.getConfig()
+	config.SetTimeout(timeout)
+}
+
 func (api *OrganizationDataService) SetApiKey(apiKey string) {
 	config := api.getConfig()
 	config.SetApiKey(apiKey)
@@ -37,13 +48,17 @@ func (api *OrganizationDataService) SetApiKey(apiKey string) {
 func (api *OrganizationDataService) ListGpuClasses(ctx context.Context, organizationName string) (*shared.SaladCloudSdkResponse[GpuClassesList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/gpu-classes").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[GpuClassesList](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/gpu-classes", config)
-
-	request.SetPathParam("organization_name", organizationName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[GpuClassesList](err)
 	}

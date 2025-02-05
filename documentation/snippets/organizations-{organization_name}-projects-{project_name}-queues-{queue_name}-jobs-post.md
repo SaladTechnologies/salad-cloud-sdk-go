@@ -12,13 +12,15 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.CreateQueueJob{}
-request.SetInput(any)
+request.SetInput("")
+request.SetMetadata("string")
+request.SetWebhook("Webhook")
 
 response, err := client.Queues.CreateQueueJob(context.Background(), "organizationName", "projectName", "queueName", request)
 if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 
 ```

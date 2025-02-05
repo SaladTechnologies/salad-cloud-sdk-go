@@ -3,13 +3,14 @@ package httptransport
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"reflect"
 	"strings"
 
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/contenttypes"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/serialization"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 )
@@ -20,26 +21,30 @@ type paramMap struct {
 }
 
 type Request struct {
-	Context     context.Context
-	Method      string
-	Path        string
-	Headers     map[string]string
-	QueryParams map[string]string
-	PathParams  map[string]string
-	Options     any
-	Body        any
-	Config      saladcloudsdkconfig.Config
+	Context             context.Context
+	Method              string
+	Path                string
+	Headers             map[string]string
+	QueryParams         map[string]string
+	PathParams          map[string]string
+	Options             any
+	Body                any
+	Config              saladcloudsdkconfig.Config
+	ContentType         ContentType
+	ResponseContentType ContentType
 }
 
 func NewRequest(ctx context.Context, method string, path string, config saladcloudsdkconfig.Config) Request {
 	return Request{
-		Context:     ctx,
-		Method:      method,
-		Path:        path,
-		Headers:     make(map[string]string),
-		QueryParams: make(map[string]string),
-		PathParams:  make(map[string]string),
-		Config:      config,
+		Context:             ctx,
+		Method:              method,
+		Path:                path,
+		Headers:             make(map[string]string),
+		QueryParams:         make(map[string]string),
+		PathParams:          make(map[string]string),
+		Config:              config,
+		ContentType:         ContentTypeJson,
+		ResponseContentType: ContentTypeJson,
 	}
 }
 
@@ -132,6 +137,10 @@ func (r *Request) SetContext(ctx context.Context) {
 	r.Context = ctx
 }
 
+func (r *Request) SetResponseContentType(contentType ContentType) {
+	r.ResponseContentType = contentType
+}
+
 func (r *Request) CreateHttpRequest() (*http.Request, error) {
 	requestUrl := r.getRequestUrl()
 
@@ -173,13 +182,26 @@ func (r *Request) bodyToBytesReader() (*bytes.Reader, error) {
 		return nil, nil
 	}
 
-	marshalledBody, err := json.Marshal(r.Body)
-	if err != nil {
-		return nil, err
-	}
-	reqBody := bytes.NewReader(marshalledBody)
+	if r.ContentType == ContentTypeJson {
+		return contenttypes.ToJson(r.Body)
+	} else if r.ContentType == ContentTypeMultipartFormData {
+		bytesReader, contentTypeHeader, err := contenttypes.ToFormData(r.Body)
+		if err != nil {
+			return bytesReader, err
+		}
 
-	return reqBody, nil
+		r.Headers["Content-Type"] = contentTypeHeader
+
+		return bytesReader, err
+	} else if r.ContentType == ContentTypeFormUrlEncoded {
+		return contenttypes.ToFormUrlEncoded(r.Body)
+	} else if r.ContentType == ContentTypeText {
+		return contenttypes.ToText(r.Body)
+	} else if r.ContentType == ContentTypeBinary || r.ContentType == ContentTypeImage {
+		return contenttypes.ToBinary(r.Body)
+	}
+
+	return nil, fmt.Errorf("CreateRequestError: cannot parse request body. Content type not supported. ContentType: %v.", r.ContentType)
 }
 
 func (r *Request) getRequestQueryParams() url.Values {
@@ -188,7 +210,7 @@ func (r *Request) getRequestQueryParams() url.Values {
 		params.Add(key, value)
 	}
 
-	for _, p := range tagsToMap("queryParam", r.Options) {
+	for _, p := range serializeQueryParams(r.Options) {
 		params.Add(p.Key, p.Value)
 	}
 
@@ -201,40 +223,123 @@ func (r *Request) getRequestHeaders() http.Header {
 		headers.Add(key, value)
 	}
 
-	for _, p := range tagsToMap("headerParam", r.Options) {
-		headers.Add(p.Key, p.Value)
-	}
+	serializeHeaderParams(headers, r.Options)
 
 	return headers
 }
 
-func tagsToMap(tag string, obj any) []paramMap {
-	tagMap := make([]paramMap, 0)
-
+func serializeHeaderParams(headers http.Header, obj any) {
 	if obj == nil {
-		return tagMap
+		return
 	}
 
 	values := utils.GetReflectValue(reflect.ValueOf(obj))
 	for i := 0; i < values.NumField(); i++ {
-		key, found := values.Type().Field(i).Tag.Lookup(tag)
-		if !found || values.Field(i).Type().Kind() == reflect.Pointer && values.Field(i).IsNil() {
+		key, found := values.Type().Field(i).Tag.Lookup("headerParam")
+		if shouldSkipField(found, values.Field(i)) {
+			continue
+		}
+
+		field := values.Field(i)
+		fieldValue := utils.GetReflectValue(field)
+		fieldKind := utils.GetReflectKind(fieldValue.Type())
+		switch fieldKind {
+		case reflect.Array, reflect.Slice:
+			for i := 0; i < field.Len(); i++ {
+				headers.Add(key, fmt.Sprint(field.Index(i)))
+			}
+		case reflect.Struct:
+			var serializedValue []string
+			subValues := utils.GetReflectValue(fieldValue)
+			for j := 0; j < subValues.NumField(); j++ {
+				subKey, found := subValues.Type().Field(j).Tag.Lookup("headerParam")
+				if !found {
+					continue
+				}
+				if subKey == "" {
+					subKey = subValues.Type().Field(j).Name // Default to field name if no tag
+				}
+				subField := subValues.Field(j)
+				subFieldValue := utils.GetReflectValue(subField)
+				serializedValue = append(serializedValue, subKey, fmt.Sprint(subFieldValue))
+			}
+			headers.Add(key, strings.Join(serializedValue, ","))
+		default:
+			headers.Add(key, fmt.Sprint(fieldValue))
+		}
+	}
+}
+
+func serializeQueryParams(obj any) []paramMap {
+	queryParams := []paramMap{}
+
+	if obj == nil {
+		return queryParams
+	}
+
+	values := utils.GetReflectValue(reflect.ValueOf(obj))
+	for i := 0; i < values.NumField(); i++ {
+		key, found := values.Type().Field(i).Tag.Lookup("queryParam")
+		if shouldSkipField(found, values.Field(i)) {
 			continue
 		}
 
 		field := utils.GetReflectValue(values.Field(i))
-
 		fieldKind := utils.GetReflectKind(field.Type())
 		if fieldKind == reflect.Array || fieldKind == reflect.Slice {
-			for j := 0; j < field.Len(); j++ {
-				p := paramMap{Key: key, Value: fmt.Sprint(field.Index(j))}
-				tagMap = append(tagMap, p)
+			queryParams = append(queryParams, serializeArrayFieldToQueryParams(key, field, values.Type().Field(i))...)
+		} else if fieldKind == reflect.Struct {
+			objectParams := serialization.SerializeObject(key, field.Interface())
+			for _, p := range objectParams {
+				queryParams = append(queryParams, paramMap{Key: p.Key, Value: p.Value})
 			}
 		} else {
-			p := paramMap{Key: key, Value: fmt.Sprint(field)}
-			tagMap = append(tagMap, p)
+			queryParams = append(queryParams, paramMap{Key: key, Value: fmt.Sprint(field)})
 		}
 	}
 
-	return tagMap
+	return queryParams
+}
+
+func serializeArrayFieldToQueryParams(key string, field reflect.Value, fieldInfo reflect.StructField) []paramMap {
+	serializedParams := []paramMap{}
+	serializedValues := []string{}
+	for i := 0; i < field.Len(); i++ {
+		serializedValues = append(serializedValues, fmt.Sprint(field.Index(i)))
+	}
+
+	if len(serializedValues) == 0 {
+		return serializedParams
+	}
+
+	explode, found := fieldInfo.Tag.Lookup("explode")
+	if !found || explode == "true" {
+		for _, value := range serializedValues {
+			serializedParams = append(serializedParams, paramMap{Key: key, Value: value})
+		}
+	} else {
+		serializationStyle, _ := fieldInfo.Tag.Lookup("serializationStyle")
+		delimiter := getDelimiterFromSerializationStyle(serializationStyle)
+		joinedValues := strings.Join(serializedValues, delimiter)
+		serializedParams = append(serializedParams, paramMap{Key: key, Value: joinedValues})
+	}
+
+	return serializedParams
+}
+
+func getDelimiterFromSerializationStyle(style string) string {
+	delimiter := ","
+	switch {
+	case style == "form":
+		delimiter = ","
+	case style == "spaceDelimited":
+		delimiter = " "
+	case style == "pipeDelimited":
+		delimiter = "|"
+	}
+	return delimiter
+}
+
+func shouldSkipField(found bool, field reflect.Value) bool {
+	return !found || field.Type().Kind() == reflect.Pointer && field.IsNil()
 }

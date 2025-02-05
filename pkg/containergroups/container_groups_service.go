@@ -7,16 +7,22 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
+	"time"
 )
 
 type ContainerGroupsService struct {
 	manager *configmanager.ConfigManager
 }
 
-func NewContainerGroupsService(manager *configmanager.ConfigManager) *ContainerGroupsService {
+func NewContainerGroupsService() *ContainerGroupsService {
 	return &ContainerGroupsService{
-		manager: manager,
+		manager: configmanager.NewConfigManager(saladcloudsdkconfig.Config{}),
 	}
+}
+
+func (api *ContainerGroupsService) WithConfigManager(manager *configmanager.ConfigManager) *ContainerGroupsService {
+	api.manager = manager
+	return api
 }
 
 func (api *ContainerGroupsService) getConfig() *saladcloudsdkconfig.Config {
@@ -28,6 +34,11 @@ func (api *ContainerGroupsService) SetBaseUrl(baseUrl string) {
 	config.SetBaseUrl(baseUrl)
 }
 
+func (api *ContainerGroupsService) SetTimeout(timeout time.Duration) {
+	config := api.getConfig()
+	config.SetTimeout(timeout)
+}
+
 func (api *ContainerGroupsService) SetApiKey(apiKey string) {
 	config := api.getConfig()
 	config.SetApiKey(apiKey)
@@ -37,14 +48,18 @@ func (api *ContainerGroupsService) SetApiKey(apiKey string) {
 func (api *ContainerGroupsService) ListContainerGroups(ctx context.Context, organizationName string, projectName string) (*shared.SaladCloudSdkResponse[ContainerGroupList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[ContainerGroupList](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/projects/{project_name}/containers", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[ContainerGroupList](err)
 	}
@@ -56,17 +71,20 @@ func (api *ContainerGroupsService) ListContainerGroups(ctx context.Context, orga
 func (api *ContainerGroupsService) CreateContainerGroup(ctx context.Context, organizationName string, projectName string, createContainerGroup CreateContainerGroup) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers").
+		WithConfig(config).
+		WithBody(createContainerGroup).
+		AddHeader("CONTENT-TYPE", "application/json").
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[shared.ContainerGroup](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/containers", config)
-	request.Headers["Content-Type"] = "application/json"
-
-	request.Body = createContainerGroup
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[shared.ContainerGroup](err)
 	}
@@ -78,15 +96,19 @@ func (api *ContainerGroupsService) CreateContainerGroup(ctx context.Context, org
 func (api *ContainerGroupsService) GetContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[shared.ContainerGroup](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[shared.ContainerGroup](err)
 	}
@@ -98,18 +120,21 @@ func (api *ContainerGroupsService) GetContainerGroup(ctx context.Context, organi
 func (api *ContainerGroupsService) UpdateContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string, updateContainerGroup UpdateContainerGroup) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("PATCH").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}").
+		WithConfig(config).
+		WithBody(updateContainerGroup).
+		AddHeader("CONTENT-TYPE", "application/merge-patch+json").
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[shared.ContainerGroup](config)
-
-	request := httptransport.NewRequest(ctx, "PATCH", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}", config)
-	request.Headers["Content-Type"] = "application/merge-patch+json"
-
-	request.Body = updateContainerGroup
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[shared.ContainerGroup](err)
 	}
@@ -121,15 +146,19 @@ func (api *ContainerGroupsService) UpdateContainerGroup(ctx context.Context, org
 func (api *ContainerGroupsService) DeleteContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "DELETE", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}
@@ -141,15 +170,19 @@ func (api *ContainerGroupsService) DeleteContainerGroup(ctx context.Context, org
 func (api *ContainerGroupsService) StartContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/start").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/start", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}
@@ -161,15 +194,19 @@ func (api *ContainerGroupsService) StartContainerGroup(ctx context.Context, orga
 func (api *ContainerGroupsService) StopContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/stop").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/stop", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}
@@ -181,15 +218,19 @@ func (api *ContainerGroupsService) StopContainerGroup(ctx context.Context, organ
 func (api *ContainerGroupsService) ListContainerGroupInstances(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[ContainerGroupInstances], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[ContainerGroupInstances](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[ContainerGroupInstances](err)
 	}
@@ -201,16 +242,20 @@ func (api *ContainerGroupsService) ListContainerGroupInstances(ctx context.Conte
 func (api *ContainerGroupsService) GetContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[ContainerGroupInstance], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		AddPathParam("container_group_instance_id", containerGroupInstanceId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[ContainerGroupInstance](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-	request.SetPathParam("container_group_instance_id", containerGroupInstanceId)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[ContainerGroupInstance](err)
 	}
@@ -222,16 +267,20 @@ func (api *ContainerGroupsService) GetContainerGroupInstance(ctx context.Context
 func (api *ContainerGroupsService) ReallocateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/reallocate").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		AddPathParam("container_group_instance_id", containerGroupInstanceId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/reallocate", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-	request.SetPathParam("container_group_instance_id", containerGroupInstanceId)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}
@@ -243,16 +292,20 @@ func (api *ContainerGroupsService) ReallocateContainerGroupInstance(ctx context.
 func (api *ContainerGroupsService) RecreateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/recreate").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		AddPathParam("container_group_instance_id", containerGroupInstanceId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/recreate", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-	request.SetPathParam("container_group_instance_id", containerGroupInstanceId)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}
@@ -264,16 +317,20 @@ func (api *ContainerGroupsService) RecreateContainerGroupInstance(ctx context.Co
 func (api *ContainerGroupsService) RestartContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/restart").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("container_group_name", containerGroupName).
+		AddPathParam("container_group_instance_id", containerGroupInstanceId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/containers/{container_group_name}/instances/{container_group_instance_id}/restart", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("container_group_name", containerGroupName)
-	request.SetPathParam("container_group_instance_id", containerGroupInstanceId)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}

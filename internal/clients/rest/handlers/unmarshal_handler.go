@@ -2,10 +2,9 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
-	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/contenttypes"
 )
 
 type UnmarshalHandler[T any] struct {
@@ -30,10 +29,36 @@ func (h *UnmarshalHandler[T]) Handle(request httptransport.Request) (*httptransp
 	}
 
 	target := new(T)
-	err := unmarshal.Unmarshal(resp.Body, target)
-	if err != nil {
-		err := fmt.Errorf("failed to unmarshal response body into struct: %v", err)
-		return nil, httptransport.NewErrorResponse[T](err, nil)
+	if request.ResponseContentType == httptransport.ContentTypeJson {
+		err := contenttypes.FromJson(resp.Body, target)
+		if err != nil {
+			return nil, httptransport.NewErrorResponse[T](err, resp)
+		}
+	} else if request.ResponseContentType == httptransport.ContentTypeFormUrlEncoded {
+		err := contenttypes.FromFormUrlEncoded(resp.Body, target)
+		if err != nil {
+			return nil, httptransport.NewErrorResponse[T](err, resp)
+		}
+	} else if request.ResponseContentType == httptransport.ContentTypeMultipartFormData {
+		err := contenttypes.FromFormData(resp.Body, target)
+		if err != nil {
+			return nil, httptransport.NewErrorResponse[T](err, resp)
+		}
+	} else if request.ResponseContentType == httptransport.ContentTypeText {
+		err := contenttypes.FromText[T](resp.Body, target)
+		if err != nil {
+			return nil, httptransport.NewErrorResponse[T](err, resp)
+		}
+	} else if request.ResponseContentType == httptransport.ContentTypeBinary {
+		err := contenttypes.FromBinary(resp.Body, target)
+		if err != nil {
+			return nil, httptransport.NewErrorResponse[T](err, resp)
+		}
+	} else {
+		err := contenttypes.FromBinary(resp.Body, target)
+		if err != nil {
+			return nil, httptransport.NewErrorResponse[T](err, resp)
+		}
 	}
 
 	resp.Data = *target

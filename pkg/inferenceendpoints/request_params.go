@@ -1,8 +1,8 @@
 package inferenceendpoints
 
 type ListInferenceEndpointsRequestParams struct {
-	Page     *int64 `min:"1" max:"2147483647" queryParam:"page"`
-	PageSize *int64 `min:"1" max:"100" queryParam:"page_size"`
+	Page     *int64 `explode:"true" serializationStyle:"form" min:"1" max:"2147483647" queryParam:"page"`
+	PageSize *int64 `explode:"true" serializationStyle:"form" min:"1" max:"100" queryParam:"page_size"`
 }
 
 func (params *ListInferenceEndpointsRequestParams) SetPage(page int64) {
@@ -13,8 +13,8 @@ func (params *ListInferenceEndpointsRequestParams) SetPageSize(pageSize int64) {
 }
 
 type GetInferenceEndpointJobsRequestParams struct {
-	Page     *int64 `min:"1" max:"2147483647" queryParam:"page"`
-	PageSize *int64 `min:"1" max:"100" queryParam:"page_size"`
+	Page     *int64 `explode:"true" serializationStyle:"form" min:"1" max:"2147483647" queryParam:"page"`
+	PageSize *int64 `explode:"true" serializationStyle:"form" min:"1" max:"100" queryParam:"page_size"`
 }
 
 func (params *GetInferenceEndpointJobsRequestParams) SetPage(page int64) {

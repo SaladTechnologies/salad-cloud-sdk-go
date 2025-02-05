@@ -1,11 +1,11 @@
-# SaladCloudSdk Go SDK 0.9.0-alpha.5
+# SaladCloudSdk Go SDK 0.9.0-alpha.6
 
 Welcome to the SaladCloudSdk SDK documentation. This guide will help you get started with integrating and using the SaladCloudSdk SDK in your project.
 
 ## Versions
 
-- API version: `0.9.0-alpha.5`
-- SDK version: `0.9.0-alpha.5`
+- API version: `0.9.0-alpha.6`
+- SDK version: `0.9.0-alpha.6`
 
 ## About the API
 
@@ -69,13 +69,14 @@ sdk.SetApiKey("YOUR-TOKEN")
 
 The SDK provides various services to interact with the API.
 
-<details> 
+<details>
 <summary>Below is a list of all available services with links to their detailed documentation:</summary>
 
 | Name                                                                               |
 | :--------------------------------------------------------------------------------- |
 | [ContainerGroupsService](documentation/services/container_groups_service.md)       |
 | [WorkloadErrorsService](documentation/services/workload_errors_service.md)         |
+| [SystemLogsService](documentation/services/system_logs_service.md)                 |
 | [QueuesService](documentation/services/queues_service.md)                          |
 | [QuotasService](documentation/services/quotas_service.md)                          |
 | [InferenceEndpointsService](documentation/services/inference_endpoints_service.md) |
@@ -127,7 +128,7 @@ This struct is shared by both response wrappers and contains the following field
 
 The SDK includes several models that represent the data structures used in API requests and responses. These models help in organizing and managing the data efficiently.
 
-<details> 
+<details>
 <summary>Below is a list of all available models with links to their detailed documentation:</summary>
 
 | Name                                                                                               | Description                                                              |
@@ -139,6 +140,7 @@ The SDK includes several models that represent the data structures used in API r
 | [ContainerGroupInstances](documentation/models/container_group_instances.md)                       | Represents a list of container group instances                           |
 | [ContainerGroupInstance](documentation/models/container_group_instance.md)                         | Represents the details of a single container group instance              |
 | [WorkloadErrorList](documentation/models/workload_error_list.md)                                   | Represents a list of workload errors                                     |
+| [SystemLogList](documentation/models/system_log_list.md)                                           | Represents a list of system logs                                         |
 | [QueueList](documentation/models/queue_list.md)                                                    | Represents a list of queues                                              |
 | [CreateQueue](documentation/models/create_queue.md)                                                | Represents a request to create a new queue.                              |
 | [Queue](documentation/models/queue.md)                                                             | Represents a queue.                                                      |
@@ -180,6 +182,7 @@ The SDK includes several models that represent the data structures used in API r
 | [UpdateContainer](documentation/models/update_container.md)                                        | Represents an update container object                                    |
 | [UpdateContainerGroupNetworking](documentation/models/update_container_group_networking.md)        | Represents update container group networking parameters                  |
 | [WorkloadError](documentation/models/workload_error.md)                                            | Represents a workload error                                              |
+| [SystemLog](documentation/models/system_log.md)                                                    | Represents a system log                                                  |
 | [QueueJobEvent](documentation/models/queue_job_event.md)                                           | Represents an event for queue job                                        |
 | [ContainerGroupsQuotas](documentation/models/container_groups_quotas.md)                           |                                                                          |
 | [InferenceEndpointJobEvent](documentation/models/inference_endpoint_job_event.md)                  | Represents an event for inference endpoint job                           |

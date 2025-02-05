@@ -7,16 +7,22 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
+	"time"
 )
 
 type InferenceEndpointsService struct {
 	manager *configmanager.ConfigManager
 }
 
-func NewInferenceEndpointsService(manager *configmanager.ConfigManager) *InferenceEndpointsService {
+func NewInferenceEndpointsService() *InferenceEndpointsService {
 	return &InferenceEndpointsService{
-		manager: manager,
+		manager: configmanager.NewConfigManager(saladcloudsdkconfig.Config{}),
 	}
+}
+
+func (api *InferenceEndpointsService) WithConfigManager(manager *configmanager.ConfigManager) *InferenceEndpointsService {
+	api.manager = manager
+	return api
 }
 
 func (api *InferenceEndpointsService) getConfig() *saladcloudsdkconfig.Config {
@@ -28,6 +34,11 @@ func (api *InferenceEndpointsService) SetBaseUrl(baseUrl string) {
 	config.SetBaseUrl(baseUrl)
 }
 
+func (api *InferenceEndpointsService) SetTimeout(timeout time.Duration) {
+	config := api.getConfig()
+	config.SetTimeout(timeout)
+}
+
 func (api *InferenceEndpointsService) SetApiKey(apiKey string) {
 	config := api.getConfig()
 	config.SetApiKey(apiKey)
@@ -37,15 +48,18 @@ func (api *InferenceEndpointsService) SetApiKey(apiKey string) {
 func (api *InferenceEndpointsService) ListInferenceEndpoints(ctx context.Context, organizationName string, params ListInferenceEndpointsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointsList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/inference-endpoints").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[InferenceEndpointsList](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/inference-endpoints", config)
-
-	request.Options = params
-
-	request.SetPathParam("organization_name", organizationName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[InferenceEndpointsList](err)
 	}
@@ -57,14 +71,18 @@ func (api *InferenceEndpointsService) ListInferenceEndpoints(ctx context.Context
 func (api *InferenceEndpointsService) GetInferenceEndpoint(ctx context.Context, organizationName string, inferenceEndpointName string) (*shared.SaladCloudSdkResponse[InferenceEndpoint], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("inference_endpoint_name", inferenceEndpointName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[InferenceEndpoint](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("inference_endpoint_name", inferenceEndpointName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[InferenceEndpoint](err)
 	}
@@ -76,16 +94,19 @@ func (api *InferenceEndpointsService) GetInferenceEndpoint(ctx context.Context, 
 func (api *InferenceEndpointsService) GetInferenceEndpointJobs(ctx context.Context, organizationName string, inferenceEndpointName string, params GetInferenceEndpointJobsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointJobList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("inference_endpoint_name", inferenceEndpointName).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[InferenceEndpointJobList](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs", config)
-
-	request.Options = params
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("inference_endpoint_name", inferenceEndpointName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[InferenceEndpointJobList](err)
 	}
@@ -97,17 +118,20 @@ func (api *InferenceEndpointsService) GetInferenceEndpointJobs(ctx context.Conte
 func (api *InferenceEndpointsService) CreateInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, createInferenceEndpointJob CreateInferenceEndpointJob) (*shared.SaladCloudSdkResponse[InferenceEndpointJob], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs").
+		WithConfig(config).
+		WithBody(createInferenceEndpointJob).
+		AddHeader("CONTENT-TYPE", "application/json").
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("inference_endpoint_name", inferenceEndpointName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[InferenceEndpointJob](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs", config)
-	request.Headers["Content-Type"] = "application/json"
-
-	request.Body = createInferenceEndpointJob
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("inference_endpoint_name", inferenceEndpointName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[InferenceEndpointJob](err)
 	}
@@ -119,15 +143,19 @@ func (api *InferenceEndpointsService) CreateInferenceEndpointJob(ctx context.Con
 func (api *InferenceEndpointsService) GetInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, inferenceEndpointJobId string) (*shared.SaladCloudSdkResponse[InferenceEndpointJob], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs/{inference_endpoint_job_id}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("inference_endpoint_name", inferenceEndpointName).
+		AddPathParam("inference_endpoint_job_id", inferenceEndpointJobId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[InferenceEndpointJob](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs/{inference_endpoint_job_id}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("inference_endpoint_name", inferenceEndpointName)
-	request.SetPathParam("inference_endpoint_job_id", inferenceEndpointJobId)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[InferenceEndpointJob](err)
 	}
@@ -139,15 +167,19 @@ func (api *InferenceEndpointsService) GetInferenceEndpointJob(ctx context.Contex
 func (api *InferenceEndpointsService) DeleteInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, inferenceEndpointJobId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs/{inference_endpoint_job_id}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("inference_endpoint_name", inferenceEndpointName).
+		AddPathParam("inference_endpoint_job_id", inferenceEndpointJobId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "DELETE", "/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs/{inference_endpoint_job_id}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("inference_endpoint_name", inferenceEndpointName)
-	request.SetPathParam("inference_endpoint_job_id", inferenceEndpointJobId)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}

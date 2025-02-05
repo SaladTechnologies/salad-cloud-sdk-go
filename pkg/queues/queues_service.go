@@ -7,16 +7,22 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
+	"time"
 )
 
 type QueuesService struct {
 	manager *configmanager.ConfigManager
 }
 
-func NewQueuesService(manager *configmanager.ConfigManager) *QueuesService {
+func NewQueuesService() *QueuesService {
 	return &QueuesService{
-		manager: manager,
+		manager: configmanager.NewConfigManager(saladcloudsdkconfig.Config{}),
 	}
+}
+
+func (api *QueuesService) WithConfigManager(manager *configmanager.ConfigManager) *QueuesService {
+	api.manager = manager
+	return api
 }
 
 func (api *QueuesService) getConfig() *saladcloudsdkconfig.Config {
@@ -28,6 +34,11 @@ func (api *QueuesService) SetBaseUrl(baseUrl string) {
 	config.SetBaseUrl(baseUrl)
 }
 
+func (api *QueuesService) SetTimeout(timeout time.Duration) {
+	config := api.getConfig()
+	config.SetTimeout(timeout)
+}
+
 func (api *QueuesService) SetApiKey(apiKey string) {
 	config := api.getConfig()
 	config.SetApiKey(apiKey)
@@ -37,14 +48,18 @@ func (api *QueuesService) SetApiKey(apiKey string) {
 func (api *QueuesService) ListQueues(ctx context.Context, organizationName string, projectName string) (*shared.SaladCloudSdkResponse[QueueList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[QueueList](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/projects/{project_name}/queues", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[QueueList](err)
 	}
@@ -56,17 +71,20 @@ func (api *QueuesService) ListQueues(ctx context.Context, organizationName strin
 func (api *QueuesService) CreateQueue(ctx context.Context, organizationName string, projectName string, createQueue CreateQueue) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues").
+		WithConfig(config).
+		WithBody(createQueue).
+		AddHeader("CONTENT-TYPE", "application/json").
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[Queue](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/queues", config)
-	request.Headers["Content-Type"] = "application/json"
-
-	request.Body = createQueue
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[Queue](err)
 	}
@@ -78,15 +96,19 @@ func (api *QueuesService) CreateQueue(ctx context.Context, organizationName stri
 func (api *QueuesService) GetQueue(ctx context.Context, organizationName string, projectName string, queueName string) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("queue_name", queueName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[Queue](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("queue_name", queueName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[Queue](err)
 	}
@@ -98,18 +120,21 @@ func (api *QueuesService) GetQueue(ctx context.Context, organizationName string,
 func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName string, projectName string, queueName string, updateQueue UpdateQueue) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("PATCH").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}").
+		WithConfig(config).
+		WithBody(updateQueue).
+		AddHeader("CONTENT-TYPE", "application/merge-patch+json").
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("queue_name", queueName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[Queue](config)
-
-	request := httptransport.NewRequest(ctx, "PATCH", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}", config)
-	request.Headers["Content-Type"] = "application/merge-patch+json"
-
-	request.Body = updateQueue
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("queue_name", queueName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[Queue](err)
 	}
@@ -121,15 +146,19 @@ func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName stri
 func (api *QueuesService) DeleteQueue(ctx context.Context, organizationName string, projectName string, queueName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("queue_name", queueName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "DELETE", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("queue_name", queueName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}
@@ -141,17 +170,20 @@ func (api *QueuesService) DeleteQueue(ctx context.Context, organizationName stri
 func (api *QueuesService) ListQueueJobs(ctx context.Context, organizationName string, projectName string, queueName string, params ListQueueJobsRequestParams) (*shared.SaladCloudSdkResponse[QueueJobList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("queue_name", queueName).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[QueueJobList](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs", config)
-
-	request.Options = params
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("queue_name", queueName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[QueueJobList](err)
 	}
@@ -163,18 +195,21 @@ func (api *QueuesService) ListQueueJobs(ctx context.Context, organizationName st
 func (api *QueuesService) CreateQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, createQueueJob CreateQueueJob) (*shared.SaladCloudSdkResponse[QueueJob], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs").
+		WithConfig(config).
+		WithBody(createQueueJob).
+		AddHeader("CONTENT-TYPE", "application/json").
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("queue_name", queueName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[QueueJob](config)
-
-	request := httptransport.NewRequest(ctx, "POST", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs", config)
-	request.Headers["Content-Type"] = "application/json"
-
-	request.Body = createQueueJob
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("queue_name", queueName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[QueueJob](err)
 	}
@@ -186,16 +221,20 @@ func (api *QueuesService) CreateQueueJob(ctx context.Context, organizationName s
 func (api *QueuesService) GetQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobId string) (*shared.SaladCloudSdkResponse[QueueJob], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs/{queue_job_id}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("queue_name", queueName).
+		AddPathParam("queue_job_id", queueJobId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[QueueJob](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs/{queue_job_id}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("queue_name", queueName)
-	request.SetPathParam("queue_job_id", queueJobId)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[QueueJob](err)
 	}
@@ -207,16 +246,20 @@ func (api *QueuesService) GetQueueJob(ctx context.Context, organizationName stri
 func (api *QueuesService) DeleteQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs/{queue_job_id}").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		AddPathParam("project_name", projectName).
+		AddPathParam("queue_name", queueName).
+		AddPathParam("queue_job_id", queueJobId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[any](config)
-
-	request := httptransport.NewRequest(ctx, "DELETE", "/organizations/{organization_name}/projects/{project_name}/queues/{queue_name}/jobs/{queue_job_id}", config)
-
-	request.SetPathParam("organization_name", organizationName)
-	request.SetPathParam("project_name", projectName)
-	request.SetPathParam("queue_name", queueName)
-	request.SetPathParam("queue_job_id", queueJobId)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[any](err)
 	}

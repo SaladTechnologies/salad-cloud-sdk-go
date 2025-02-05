@@ -53,7 +53,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## GetInferenceEndpoint
@@ -93,7 +93,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## GetInferenceEndpointJobs
@@ -139,7 +139,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## CreateInferenceEndpointJob
@@ -178,14 +178,16 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := inferenceendpoints.CreateInferenceEndpointJob{}
-request.SetInput(any)
+request.SetInput("")
+request.SetMetadata("string")
+request.SetWebhook("Webhook")
 
 response, err := client.InferenceEndpoints.CreateInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", request)
 if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## GetInferenceEndpointJob
@@ -226,7 +228,7 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```
 
 ## DeleteInferenceEndpointJob
@@ -267,5 +269,5 @@ if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 ```

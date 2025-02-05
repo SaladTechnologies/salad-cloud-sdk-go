@@ -1,17 +1,258 @@
 {
-  "liblabVersion": "2.5.1",
-  "date": "2024-10-04T04:24:19.790Z",
+  "liblabVersion": "2.13.0",
+  "date": "2025-02-05T02:35:44.401Z",
   "config": {
     "language": "go",
-    "apiId": 1252,
+    "apiId": 1737,
     "sdkName": "salad-cloud-sdk",
-    "sdkVersion": "0.9.0-alpha.5",
+    "sdkVersion": "0.9.0-alpha.6",
+    "languages": ["go"],
+    "auth": ["apikey"],
+    "docs": ["snippets"],
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
-    "languages": ["go"],
+    "rawConfig": {
+      "sdkName": "salad-cloud-sdk",
+      "specFilePath": "spec.yaml",
+      "languages": ["csharp", "go", "java", "python", "typescript"],
+      "auth": ["apikey"],
+      "docs": ["snippets"],
+      "customizations": {
+        "authentication": {
+          "apiKey": {
+            "header": "Salad-Api-Key"
+          }
+        },
+        "license": {
+          "type": "MIT"
+        },
+        "retry": {
+          "enabled": true,
+          "maxAttempts": 3,
+          "retryDelay": 150
+        },
+        "devContainer": true
+      },
+      "languageOptions": {
+        "csharp": {
+          "liblabVersion": "2",
+          "githubRepoName": "salad-cloud-sdk-dotnet",
+          "targetBranch": "main",
+          "ignoreFiles": [".gitignore", "./LICENSE"],
+          "sdkVersion": "0.9.0-alpha.6",
+          "authors": [
+            {
+              "name": "salad"
+            },
+            {
+              "name": "seniorquico"
+            }
+          ],
+          "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-dotnet",
+          "packageId": "Salad.Cloud.SDK"
+        },
+        "go": {
+          "liblabVersion": "2",
+          "githubRepoName": "salad-cloud-sdk-go",
+          "targetBranch": "main",
+          "ignoreFiles": [".gitignore", "./LICENSE"],
+          "sdkVersion": "0.9.0-alpha.6",
+          "goModuleName": "github.com/saladtechnologies/salad-cloud-sdk-go"
+        },
+        "java": {
+          "liblabVersion": "2",
+          "githubRepoName": "salad-cloud-sdk-java",
+          "targetBranch": "main",
+          "ignoreFiles": [".gitignore", "./LICENSE"],
+          "sdkVersion": "0.9.0-alpha.7",
+          "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-java",
+          "groupId": "com.salad.cloud",
+          "artifactId": "sdk",
+          "developers": [
+            {
+              "name": "SaladCloud Developers",
+              "email": "dev@salad.com",
+              "organization": "Salad Technologies",
+              "organizationUrl": "https://salad.com"
+            },
+            {
+              "name": "Kyle Dodson",
+              "email": "kyle@salad.com",
+              "organization": "Salad Technologies",
+              "organizationUrl": "https://salad.com"
+            }
+          ]
+        },
+        "python": {
+          "liblabVersion": "2",
+          "githubRepoName": "salad-cloud-sdk-python",
+          "targetBranch": "main",
+          "ignoreFiles": [".gitignore", "./LICENSE"],
+          "sdkVersion": "0.9.0-alpha.6",
+          "authors": [
+            {
+              "name": "SaladCloud Developers",
+              "email": "dev@salad.com"
+            },
+            {
+              "name": "Kyle Dodson",
+              "email": "kyle@salad.com"
+            }
+          ],
+          "pypiPackageName": "salad-cloud-sdk",
+          "alwaysInitializeOptionals": false,
+          "classifiers": [
+            "Development Status :: 3 - Alpha",
+            "Intended Audience :: Developers",
+            "License :: OSI Approved :: MIT License",
+            "Operating System :: OS Independent",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3 :: Only",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
+            "Topic :: Internet",
+            "Topic :: Software Development",
+            "Topic :: Software Development :: Libraries"
+          ],
+          "projectUrls": {
+            "Homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-python",
+            "Documentation": "https://docs.salad.com",
+            "Repository": "https://github.com/SaladTechnologies/salad-cloud-sdk-python.git",
+            "Issues": "https://github.com/SaladTechnologies/salad-cloud-sdk-python/issues"
+          }
+        },
+        "terraform": {
+          "liblabVersion": "2",
+          "githubRepoName": "terraform-provider-salad-cloud",
+          "targetBranch": "main",
+          "ignoreFiles": [".gitignore", "./LICENSE"],
+          "providerName": "salad-cloud",
+          "providerVersion": "0.9.0-alpha.1",
+          "providerGoModuleName": "github.com/saladtechnologies/terraform-provider-salad-cloud",
+          "providerSchemaConfig": {
+            "authTokenKey": "api_key"
+          }
+        },
+        "typescript": {
+          "liblabVersion": "2",
+          "githubRepoName": "salad-cloud-sdk-javascript",
+          "targetBranch": "main",
+          "ignoreFiles": [".gitignore", "./LICENSE"],
+          "sdkVersion": "0.9.0-alpha.7",
+          "authors": [
+            {
+              "name": "SaladCloud Developers",
+              "email": "dev@salad.com"
+            },
+            {
+              "name": "Kyle Dodson",
+              "email": "kyle@salad.com"
+            }
+          ],
+          "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-javascript",
+          "npmOrg": "saladtechnologies-oss",
+          "npmName": "salad-cloud-sdk",
+          "httpClient": "fetch",
+          "bundle": true,
+          "exportClassDefault": false
+        }
+      },
+      "publishing": {
+        "githubOrg": "SaladTechnologies"
+      },
+      "validationsToIgnore": [
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "CreateQueueProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "UpdateQueueProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "CreateQueueJobProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "CreateContainerGroupProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "ListContainerGroupsProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "DeleteContainerGroupProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "GetContainerGroupProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "UpdateContainerGroupProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "StartContainerGroupProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "StopContainerGroupProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "ReallocateContainerGroupInstanceProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "RecreateContainerGroupInstanceProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "RestartContainerGroupInstanceProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "CreateInferenceEndpointJobProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "GetInferenceEndpointJobProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "GetInferenceEndpointJobsProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "DeleteInferenceEndpointJobProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "GetWebhookSecretKeyProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "UpdateWebhookSecretKeyProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "schemas", "ListGpuClassesProblemType"]
+        },
+        {
+          "code": "oas3-unused-component",
+          "path": ["components", "responses", "401"]
+        }
+      ]
+    },
     "specFilePath": "spec.yaml",
-    "docs": ["snippets"],
-    "auth": ["apikey"],
     "languageOptions": {
       "csharp": {
         "packageId": "Salad.Cloud.SDK",
@@ -27,7 +268,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-dotnet",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.5",
+        "sdkVersion": "0.9.0-alpha.6",
         "targetBranch": "main"
       },
       "go": {
@@ -35,7 +276,7 @@
         "githubRepoName": "salad-cloud-sdk-go",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.5",
+        "sdkVersion": "0.9.0-alpha.6",
         "targetBranch": "main"
       },
       "java": {
@@ -59,7 +300,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-java",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.6",
+        "sdkVersion": "0.9.0-alpha.7",
         "targetBranch": "main"
       },
       "python": {
@@ -102,7 +343,7 @@
         "githubRepoName": "salad-cloud-sdk-python",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.5",
+        "sdkVersion": "0.9.0-alpha.6",
         "targetBranch": "main"
       },
       "terraform": {
@@ -139,7 +380,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-javascript",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.6",
+        "sdkVersion": "0.9.0-alpha.7",
         "targetBranch": "main",
         "generateEnumAs": "enum"
       }
@@ -234,7 +475,7 @@
       }
     ],
     "apiName": "SaladCloud API",
-    "apiVersion": "0.9.0-alpha.5",
+    "apiVersion": "0.9.0-alpha.6",
     "authentication": {
       "apiKey": {
         "header": "Salad-Api-Key"
@@ -278,7 +519,7 @@
     "httpLibrary": {
       "name": "axios",
       "packages": {
-        "axios": "^1.7.7"
+        "axios": "^1.7.9"
       },
       "languages": ["typescript"]
     },
@@ -286,7 +527,8 @@
       "paths": [],
       "rawQueries": [],
       "queriesData": []
-    }
+    },
+    "ai": false
   },
   "files": [
     "internal/validation/validate_array_length.go",
@@ -298,9 +540,14 @@
     "internal/validation/validate_pattern.go",
     "pkg/saladcloudsdk/saladcloudsdk.go",
     "go.mod",
+    "pkg/containergroups/container_groups_service.go",
     "pkg/workloaderrors/workload_errors_service.go",
+    "pkg/systemlogs/system_logs_service.go",
+    "pkg/queues/queues_service.go",
     "pkg/quotas/quotas_service.go",
+    "pkg/inferenceendpoints/inference_endpoints_service.go",
     "pkg/organizationdata/organization_data_service.go",
+    "pkg/webhooksecretkey/webhook_secret_key_service.go",
     "internal/clients/rest/client.go",
     "internal/utils/utils.go",
     "internal/clients/rest/httptransport/request.go",
@@ -344,6 +591,7 @@
     "documentation/snippets/organizations-{organization_name}-projects-{project_name}-containers-{container_group_name}-instances-{container_group_instance_id}-recreate-post.md",
     "documentation/snippets/organizations-{organization_name}-projects-{project_name}-containers-{container_group_name}-instances-{container_group_instance_id}-restart-post.md",
     "documentation/snippets/organizations-{organization_name}-projects-{project_name}-containers-{container_group_name}-errors-get.md",
+    "documentation/snippets/organizations-{organization_name}-projects-{project_name}-containers-{container_group_name}-system-logs-get.md",
     "documentation/snippets/organizations-{organization_name}-projects-{project_name}-queues-get.md",
     "documentation/snippets/organizations-{organization_name}-projects-{project_name}-queues-post.md",
     "documentation/snippets/organizations-{organization_name}-projects-{project_name}-queues-{queue_name}-get.md",
@@ -369,6 +617,7 @@
     "documentation/models/update_container_group.md",
     "documentation/models/container_group_instances.md",
     "documentation/models/workload_error_list.md",
+    "documentation/models/system_log_list.md",
     "documentation/models/queue_list.md",
     "documentation/models/create_queue.md",
     "documentation/models/queue.md",
@@ -403,29 +652,31 @@
     "documentation/models/container_group_probe_http_headers_2.md",
     "documentation/models/update_container_group_networking.md",
     "documentation/models/workload_error.md",
+    "documentation/models/system_log.md",
     "documentation/models/container_groups_quotas.md",
     "documentation/models/gpu_class.md",
     "documentation/models/gpu_class_price.md",
-    "pkg/webhooksecretkey/webhook_secret_key_service.go",
-    "pkg/shared/container_restart_policy.go",
-    "pkg/shared/country_code.go",
-    "pkg/shared/container_group_priority.go",
-    "pkg/shared/container_group_status.go",
-    "pkg/shared/container_networking_protocol.go",
-    "pkg/shared/container_probe_http_scheme.go",
-    "documentation/models/container_group_instance.md",
-    "documentation/models/queue_job.md",
-    "documentation/models/inference_endpoint_job.md",
-    "documentation/models/container_group_networking.md",
-    "documentation/models/create_container_group_networking.md",
-    "documentation/models/queue_job_event.md",
-    "documentation/models/inference_endpoint_job_event.md",
+    ".devcontainer/devcontainer.json",
+    "internal/clients/rest/httptransport/content-type.go",
+    "internal/clients/rest/httptransport/request-builder.go",
+    "internal/contenttypes/from_form_data.go",
+    "internal/contenttypes/from_form_url_encoded.go",
+    "internal/contenttypes/from_json.go",
+    "internal/contenttypes/from_binary.go",
+    "internal/contenttypes/from_text.go",
+    "internal/contenttypes/to_form_data.go",
+    "internal/contenttypes/to_form_url_encoded.go",
+    "internal/contenttypes/to_json.go",
+    "internal/contenttypes/to_text.go",
+    "internal/contenttypes/to_binary.go",
+    "internal/serialization/serialize_object.go",
     "pkg/containergroups/container_group_list.go",
     "pkg/containergroups/create_container_group.go",
     "pkg/shared/container_group.go",
     "pkg/containergroups/update_container_group.go",
     "pkg/containergroups/container_group_instances.go",
     "pkg/workloaderrors/workload_error_list.go",
+    "pkg/systemlogs/system_log_list.go",
     "pkg/queues/queue_list.go",
     "pkg/queues/create_queue.go",
     "pkg/queues/queue.go",
@@ -439,28 +690,42 @@
     "pkg/inferenceendpoints/create_inference_endpoint_job.go",
     "pkg/organizationdata/gpu_classes_list.go",
     "pkg/webhooksecretkey/webhook_secret_key.go",
+    "pkg/shared/container_restart_policy.go",
     "pkg/shared/container_group_state.go",
+    "pkg/shared/country_code.go",
     "pkg/shared/container_group_liveness_probe.go",
     "pkg/shared/container_group_readiness_probe.go",
     "pkg/shared/container_group_startup_probe.go",
     "pkg/shared/container_group_queue_connection.go",
     "pkg/shared/queue_autoscaler.go",
     "pkg/shared/container_resource_requirements.go",
+    "pkg/shared/container_group_priority.go",
+    "pkg/shared/container_group_status.go",
     "pkg/shared/container_group_instance_status_count.go",
+    "pkg/shared/container_networking_protocol.go",
     "pkg/shared/container_group_probe_tcp.go",
     "pkg/shared/container_group_probe_http.go",
     "pkg/shared/container_group_probe_grpc.go",
     "pkg/shared/container_group_probe_exec.go",
+    "pkg/shared/container_probe_http_scheme.go",
     "pkg/shared/container_group_probe_http_headers_2.go",
     "pkg/containergroups/update_container_group_networking.go",
     "pkg/workloaderrors/workload_error.go",
+    "pkg/systemlogs/system_log.go",
     "pkg/quotas/container_groups_quotas.go",
     "pkg/organizationdata/gpu_class.go",
     "pkg/organizationdata/gpu_class_price.go",
     "documentation/services/workload_errors_service.md",
+    "documentation/models/container_group_instance.md",
+    "documentation/models/queue_job.md",
+    "documentation/models/inference_endpoint_job.md",
+    "documentation/models/container_group_networking.md",
+    "documentation/models/create_container_group_networking.md",
+    "documentation/models/queue_job_event.md",
+    "documentation/models/inference_endpoint_job_event.md",
+    "documentation/services/system_logs_service.md",
     "documentation/services/quotas_service.md",
     "documentation/services/organization_data_service.md",
-    "documentation/services/webhook_secret_key_service.md",
     "pkg/containergroups/container_group_instance.go",
     "pkg/queues/queue_job.go",
     "pkg/inferenceendpoints/inference_endpoint_job.go",
@@ -468,12 +733,10 @@
     "pkg/containergroups/create_container_group_networking.go",
     "pkg/queues/queue_job_event.go",
     "pkg/inferenceendpoints/inference_endpoint_job_event.go",
-    "pkg/inferenceendpoints/inference_endpoints_service.go",
+    "documentation/services/webhook_secret_key_service.md",
     "documentation/services/inference_endpoints_service.md",
-    "pkg/queues/queues_service.go",
     "README.md",
     "documentation/services/queues_service.md",
-    "pkg/containergroups/container_groups_service.go",
     "documentation/models/container.md",
     "documentation/services/container_groups_service.md",
     "documentation/models/create_container.md",

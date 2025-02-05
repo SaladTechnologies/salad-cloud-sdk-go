@@ -8,13 +8,16 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/queues"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/quotas"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/systemlogs"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/webhooksecretkey"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/workloaderrors"
+	"time"
 )
 
 type SaladCloudSdk struct {
 	ContainerGroups    *containergroups.ContainerGroupsService
 	WorkloadErrors     *workloaderrors.WorkloadErrorsService
+	SystemLogs         *systemlogs.SystemLogsService
 	Queues             *queues.QueuesService
 	Quotas             *quotas.QuotasService
 	InferenceEndpoints *inferenceendpoints.InferenceEndpointsService
@@ -24,21 +27,44 @@ type SaladCloudSdk struct {
 }
 
 func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
+	containerGroups := containergroups.NewContainerGroupsService()
+	workloadErrors := workloaderrors.NewWorkloadErrorsService()
+	systemLogs := systemlogs.NewSystemLogsService()
+	queues := queues.NewQueuesService()
+	quotas := quotas.NewQuotasService()
+	inferenceEndpoints := inferenceendpoints.NewInferenceEndpointsService()
+	organizationData := organizationdata.NewOrganizationDataService()
+	webhookSecretKey := webhooksecretkey.NewWebhookSecretKeyService()
+
 	manager := configmanager.NewConfigManager(config)
+	containerGroups.WithConfigManager(manager)
+	workloadErrors.WithConfigManager(manager)
+	systemLogs.WithConfigManager(manager)
+	queues.WithConfigManager(manager)
+	quotas.WithConfigManager(manager)
+	inferenceEndpoints.WithConfigManager(manager)
+	organizationData.WithConfigManager(manager)
+	webhookSecretKey.WithConfigManager(manager)
+
 	return &SaladCloudSdk{
-		ContainerGroups:    containergroups.NewContainerGroupsService(manager),
-		WorkloadErrors:     workloaderrors.NewWorkloadErrorsService(manager),
-		Queues:             queues.NewQueuesService(manager),
-		Quotas:             quotas.NewQuotasService(manager),
-		InferenceEndpoints: inferenceendpoints.NewInferenceEndpointsService(manager),
-		OrganizationData:   organizationdata.NewOrganizationDataService(manager),
-		WebhookSecretKey:   webhooksecretkey.NewWebhookSecretKeyService(manager),
+		ContainerGroups:    containerGroups,
+		WorkloadErrors:     workloadErrors,
+		SystemLogs:         systemLogs,
+		Queues:             queues,
+		Quotas:             quotas,
+		InferenceEndpoints: inferenceEndpoints,
+		OrganizationData:   organizationData,
+		WebhookSecretKey:   webhookSecretKey,
 		manager:            manager,
 	}
 }
 
 func (s *SaladCloudSdk) SetBaseUrl(baseUrl string) {
 	s.manager.SetBaseUrl(baseUrl)
+}
+
+func (s *SaladCloudSdk) SetTimeout(timeout time.Duration) {
+	s.manager.SetTimeout(timeout)
 }
 
 func (s *SaladCloudSdk) SetApiKey(apiKey string) {

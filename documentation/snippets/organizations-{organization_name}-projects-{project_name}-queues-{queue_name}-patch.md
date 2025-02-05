@@ -12,12 +12,14 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.UpdateQueue{}
+request.SetDisplayName("DisplayName")
+request.SetDescription("Description")
 
 response, err := client.Queues.UpdateQueue(context.Background(), "organizationName", "projectName", "queueName", request)
 if err != nil {
   panic(err)
 }
 
-fmt.Print(response)
+fmt.Println(response)
 
 ```

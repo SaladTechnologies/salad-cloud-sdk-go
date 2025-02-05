@@ -7,16 +7,22 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
+	"time"
 )
 
 type QuotasService struct {
 	manager *configmanager.ConfigManager
 }
 
-func NewQuotasService(manager *configmanager.ConfigManager) *QuotasService {
+func NewQuotasService() *QuotasService {
 	return &QuotasService{
-		manager: manager,
+		manager: configmanager.NewConfigManager(saladcloudsdkconfig.Config{}),
 	}
+}
+
+func (api *QuotasService) WithConfigManager(manager *configmanager.ConfigManager) *QuotasService {
+	api.manager = manager
+	return api
 }
 
 func (api *QuotasService) getConfig() *saladcloudsdkconfig.Config {
@@ -28,6 +34,11 @@ func (api *QuotasService) SetBaseUrl(baseUrl string) {
 	config.SetBaseUrl(baseUrl)
 }
 
+func (api *QuotasService) SetTimeout(timeout time.Duration) {
+	config := api.getConfig()
+	config.SetTimeout(timeout)
+}
+
 func (api *QuotasService) SetApiKey(apiKey string) {
 	config := api.getConfig()
 	config.SetApiKey(apiKey)
@@ -37,13 +48,17 @@ func (api *QuotasService) SetApiKey(apiKey string) {
 func (api *QuotasService) GetQuotas(ctx context.Context, organizationName string) (*shared.SaladCloudSdkResponse[Quotas], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/organizations/{organization_name}/quotas").
+		WithConfig(config).
+		AddPathParam("organization_name", organizationName).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
 	client := restClient.NewRestClient[Quotas](config)
-
-	request := httptransport.NewRequest(ctx, "GET", "/organizations/{organization_name}/quotas", config)
-
-	request.SetPathParam("organization_name", organizationName)
-
-	resp, err := client.Call(request)
+	resp, err := client.Call(*request)
 	if err != nil {
 		return nil, shared.NewSaladCloudSdkError[Quotas](err)
 	}

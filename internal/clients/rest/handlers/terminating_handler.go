@@ -3,29 +3,30 @@ package handlers
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
 )
 
-type TerminatingHandler[T any] struct {
-	httpClient *http.Client
-}
+type TerminatingHandler[T any] struct{}
 
 func NewTerminatingHandler[T any]() *TerminatingHandler[T] {
-	return &TerminatingHandler[T]{
-		httpClient: &http.Client{Timeout: time.Second * 10},
-	}
+	return &TerminatingHandler[T]{}
 }
 
 func (h *TerminatingHandler[T]) Handle(request httptransport.Request) (*httptransport.Response[T], *httptransport.ErrorResponse[T]) {
 	requestClone := request.Clone()
+
+	client := http.Client{}
+	if requestClone.Config.Timeout != nil {
+		client.Timeout = *requestClone.Config.Timeout
+	}
+
 	req, err := requestClone.CreateHttpRequest()
 	if err != nil {
 		return nil, httptransport.NewErrorResponse[T](err, nil)
 	}
 
-	resp, err := h.httpClient.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, httptransport.NewErrorResponse[T](err, nil)
 	}
