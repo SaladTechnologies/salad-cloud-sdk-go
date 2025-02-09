@@ -1,6 +1,6 @@
 {
-  "liblabVersion": "2.13.0",
-  "date": "2025-02-05T02:35:44.401Z",
+  "liblabVersion": "2.14.0",
+  "date": "2025-02-09T22:21:05.646Z",
   "config": {
     "language": "go",
     "apiId": 1737,
@@ -8,7 +8,7 @@
     "sdkVersion": "0.9.0-alpha.6",
     "languages": ["go"],
     "auth": ["apikey"],
-    "docs": ["snippets"],
+    "docs": ["enhancedApiSpec", "snippets"],
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "rawConfig": {
@@ -16,11 +16,18 @@
       "specFilePath": "spec.yaml",
       "languages": ["csharp", "go", "java", "python", "typescript"],
       "auth": ["apikey"],
-      "docs": ["snippets"],
+      "docs": ["enhancedApiSpec"],
       "customizations": {
         "authentication": {
           "apiKey": {
             "header": "Salad-Api-Key"
+          }
+        },
+        "documentation": {
+          "enhancedApiSpec": {
+            "provider": "mintlify",
+            "githubRepoName": "salad-cloud-docs",
+            "targetBranch": "main"
           }
         },
         "license": {
@@ -480,6 +487,9 @@
       "apiKey": {
         "header": "Salad-Api-Key"
       }
+    },
+    "documentation": {
+      "enhancedApiSpec": {}
     },
     "devContainer": true,
     "generateEnv": true,

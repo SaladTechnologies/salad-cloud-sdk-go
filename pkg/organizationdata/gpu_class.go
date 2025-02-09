@@ -9,7 +9,7 @@ type GpuClass struct {
 	// The unique identifier
 	Id *string `json:"id,omitempty" required:"true"`
 	// The GPU class name
-	Name *string `json:"name,omitempty" required:"true" maxLength:"63" minLength:"2"`
+	Name *string `json:"name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[ -~]{2,63}$"`
 	// The list of prices for each container group priority
 	Prices []GpuClassPrice `json:"prices,omitempty" required:"true" minItems:"1" maxItems:"100"`
 	// Whether the GPU class is in high demand

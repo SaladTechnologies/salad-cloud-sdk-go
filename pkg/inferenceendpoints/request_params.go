@@ -12,14 +12,14 @@ func (params *ListInferenceEndpointsRequestParams) SetPageSize(pageSize int64) {
 	params.PageSize = &pageSize
 }
 
-type GetInferenceEndpointJobsRequestParams struct {
+type ListInferenceEndpointJobsRequestParams struct {
 	Page     *int64 `explode:"true" serializationStyle:"form" min:"1" max:"2147483647" queryParam:"page"`
 	PageSize *int64 `explode:"true" serializationStyle:"form" min:"1" max:"100" queryParam:"page_size"`
 }
 
-func (params *GetInferenceEndpointJobsRequestParams) SetPage(page int64) {
+func (params *ListInferenceEndpointJobsRequestParams) SetPage(page int64) {
 	params.Page = &page
 }
-func (params *GetInferenceEndpointJobsRequestParams) SetPageSize(pageSize int64) {
+func (params *ListInferenceEndpointJobsRequestParams) SetPageSize(pageSize int64) {
 	params.PageSize = &pageSize
 }
