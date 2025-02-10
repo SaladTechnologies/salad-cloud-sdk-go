@@ -11,10 +11,10 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-params := inferenceendpoints.GetInferenceEndpointJobsRequestParams{}
+params := inferenceendpoints.ListInferenceEndpointJobsRequestParams{}
 
 
-response, err := client.InferenceEndpoints.GetInferenceEndpointJobs(context.Background(), "organizationName", "inferenceEndpointName", params)
+response, err := client.InferenceEndpoints.ListInferenceEndpointJobs(context.Background(), "organizationName", "inferenceEndpointName", params)
 if err != nil {
   panic(err)
 }

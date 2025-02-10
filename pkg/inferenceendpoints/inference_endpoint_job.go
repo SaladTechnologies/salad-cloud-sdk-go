@@ -6,20 +6,27 @@ import (
 
 // Represents a inference endpoint job
 type InferenceEndpointJob struct {
+	// The unique identifier.
 	Id *string `json:"id,omitempty" required:"true"`
 	// The job input. May be any valid JSON.
 	Input any `json:"input,omitempty" required:"true"`
-	// The inference endpoint name
-	InferenceEndpointName *string                     `json:"inference_endpoint_name,omitempty" required:"true"`
-	Metadata              any                         `json:"metadata,omitempty"`
-	Webhook               *string                     `json:"webhook,omitempty"`
-	Status                *InferenceEndpointJobStatus `json:"status,omitempty" required:"true"`
-	Events                []InferenceEndpointJobEvent `json:"events,omitempty" required:"true" maxItems:"1000"`
-	// The organization name
-	OrganizationName *string `json:"organization_name,omitempty" required:"true"`
+	// The inference endpoint name.
+	InferenceEndpointName *string `json:"inference_endpoint_name,omitempty" required:"true"`
+	// The job metadata. May be any valid JSON.
+	Metadata any `json:"metadata,omitempty"`
+	// The webhook URL called when the job completes.
+	Webhook *string `json:"webhook,omitempty"`
+	// The current status.
+	Status *InferenceEndpointJobStatus `json:"status,omitempty" required:"true"`
+	// The list of events.
+	Events []InferenceEndpointJobEvent `json:"events,omitempty" required:"true" maxItems:"1000"`
+	// The organization name.
+	OrganizationName *string `json:"organization_name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[a-z][a-z0-9-]{0,61}[a-z0-9]$"`
 	// The job output. May be any valid JSON.
-	Output     any     `json:"output,omitempty"`
+	Output any `json:"output,omitempty"`
+	// The time the job was created.
 	CreateTime *string `json:"create_time,omitempty" required:"true"`
+	// The time the job was last updated.
 	UpdateTime *string `json:"update_time,omitempty" required:"true"`
 	touched    map[string]bool
 }
@@ -357,6 +364,7 @@ func (i InferenceEndpointJob) String() string {
 	return string(jsonData)
 }
 
+// The current status.
 type InferenceEndpointJobStatus string
 
 const (

@@ -91,7 +91,7 @@ func (api *InferenceEndpointsService) GetInferenceEndpoint(ctx context.Context, 
 }
 
 // Retrieves a list of an inference endpoint jobs
-func (api *InferenceEndpointsService) GetInferenceEndpointJobs(ctx context.Context, organizationName string, inferenceEndpointName string, params GetInferenceEndpointJobsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointJobList], *shared.SaladCloudSdkError) {
+func (api *InferenceEndpointsService) ListInferenceEndpointJobs(ctx context.Context, organizationName string, inferenceEndpointName string, params ListInferenceEndpointJobsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointJobList], *shared.SaladCloudSdkError) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
