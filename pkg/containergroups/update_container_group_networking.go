@@ -2,47 +2,27 @@ package containergroups
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
 // Represents update container group networking parameters
 type UpdateContainerGroupNetworking struct {
-	Port    *int64 `json:"port,omitempty" min:"1" max:"65535"`
-	touched map[string]bool
+	Port *util.Nullable[int64] `json:"port,omitempty" min:"1" max:"65535"`
 }
 
-func (u *UpdateContainerGroupNetworking) GetPort() *int64 {
+func (u *UpdateContainerGroupNetworking) GetPort() *util.Nullable[int64] {
 	if u == nil {
 		return nil
 	}
 	return u.Port
 }
 
-func (u *UpdateContainerGroupNetworking) SetPort(port int64) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["Port"] = true
+func (u *UpdateContainerGroupNetworking) SetPort(port util.Nullable[int64]) {
 	u.Port = &port
 }
 
-func (u *UpdateContainerGroupNetworking) SetPortNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["Port"] = true
-	u.Port = nil
-}
-
-func (u UpdateContainerGroupNetworking) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if u.touched["Port"] && u.Port == nil {
-		data["port"] = nil
-	} else if u.Port != nil {
-		data["port"] = u.Port
-	}
-
-	return json.Marshal(data)
+func (u *UpdateContainerGroupNetworking) SetPortNull() {
+	u.Port = &util.Nullable[int64]{IsNull: true}
 }
 
 func (u UpdateContainerGroupNetworking) String() string {

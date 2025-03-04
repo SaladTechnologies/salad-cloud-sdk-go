@@ -1,14 +1,17 @@
 package inferenceendpoints
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // Represents a list of inference endpoint jobs
 type InferenceEndpointJobList struct {
-	// The list of items
-	Items   []InferenceEndpointJob `json:"items,omitempty" required:"true" maxItems:"100"`
-	touched map[string]bool
+	// The list of inference endpoint jobs.
+	Items []InferenceEndpointJob `json:"items,omitempty" required:"true" maxItems:"100"`
+	// The page number.
+	Page *int64 `json:"page,omitempty" required:"true" min:"1" max:"2147483647"`
+	// The maximum number of items per page.
+	PageSize *int64 `json:"page_size,omitempty" required:"true" min:"1" max:"100"`
+	// The total number of items in the collection.
+	TotalSize *int64 `json:"total_size,omitempty" required:"true" min:"0" max:"2147483647"`
 }
 
 func (i *InferenceEndpointJobList) GetItems() []InferenceEndpointJob {
@@ -19,31 +22,40 @@ func (i *InferenceEndpointJobList) GetItems() []InferenceEndpointJob {
 }
 
 func (i *InferenceEndpointJobList) SetItems(items []InferenceEndpointJob) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["Items"] = true
 	i.Items = items
 }
 
-func (i *InferenceEndpointJobList) SetItemsNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
+func (i *InferenceEndpointJobList) GetPage() *int64 {
+	if i == nil {
+		return nil
 	}
-	i.touched["Items"] = true
-	i.Items = nil
+	return i.Page
 }
 
-func (i InferenceEndpointJobList) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
+func (i *InferenceEndpointJobList) SetPage(page int64) {
+	i.Page = &page
+}
 
-	if i.touched["Items"] && i.Items == nil {
-		data["items"] = nil
-	} else if i.Items != nil {
-		data["items"] = i.Items
+func (i *InferenceEndpointJobList) GetPageSize() *int64 {
+	if i == nil {
+		return nil
 	}
+	return i.PageSize
+}
 
-	return json.Marshal(data)
+func (i *InferenceEndpointJobList) SetPageSize(pageSize int64) {
+	i.PageSize = &pageSize
+}
+
+func (i *InferenceEndpointJobList) GetTotalSize() *int64 {
+	if i == nil {
+		return nil
+	}
+	return i.TotalSize
+}
+
+func (i *InferenceEndpointJobList) SetTotalSize(totalSize int64) {
+	i.TotalSize = &totalSize
 }
 
 func (i InferenceEndpointJobList) String() string {

@@ -14,6 +14,7 @@ Represents a container
 | Hash                 | string                               | ❌       |                                              |
 | EnvironmentVariables | map[string]\*string                  | ❌       |                                              |
 | Logging              | shared.ContainerLogging              | ❌       |                                              |
+| ImageCaching         | bool                                 | ❌       |                                              |
 
 # ContainerLogging
 

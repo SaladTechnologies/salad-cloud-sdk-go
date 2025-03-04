@@ -13,6 +13,7 @@ Represents a container
 | EnvironmentVariables   | map[string]\*string                                   | ❌       |                                                                                                  |
 | Logging                | containergroups.CreateContainerLogging                | ❌       |                                                                                                  |
 | RegistryAuthentication | containergroups.CreateContainerRegistryAuthentication | ❌       |                                                                                                  |
+| ImageCaching           | bool                                                  | ❌       |                                                                                                  |
 
 # CreateContainerLogging
 

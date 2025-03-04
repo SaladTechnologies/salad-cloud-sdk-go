@@ -1,28 +1,29 @@
 package inferenceendpoints
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // Represents an inference endpoint
 type InferenceEndpoint struct {
-	// The unique identifier
+	// The inference endpoint identifier.
 	Id *string `json:"id,omitempty" required:"true"`
-	// The inference endpoint name
-	Name *string `json:"name,omitempty" required:"true"`
-	// The inference endpoint display name
+	// The inference endpoint name.
+	Name *string `json:"name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[a-z][a-z0-9-]{0,61}[a-z0-9]$"`
+	// The organization name.
+	OrganizationName *string `json:"organization_name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[a-z][a-z0-9-]{0,61}[a-z0-9]$"`
+	// The display-friendly name of the resource.
 	DisplayName *string `json:"display_name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[ ,-.0-9A-Za-z]+$"`
-	// a brief description of the inference endpoint
-	Description *string `json:"description,omitempty" required:"true"`
-	// The URL of the inference endpoint
-	EndpointUrl *string `json:"endpoint_url,omitempty" required:"true"`
+	// The detailed description of the resource.
+	Description *string `json:"description,omitempty" required:"true" maxLength:"1000" pattern:"^[\P{Cc}\P{Cn}\P{Cs}]*$"`
 	// A markdown file containing a detailed description of the inference endpoint
 	Readme *string `json:"readme,omitempty" required:"true"`
 	// A description of the price
 	PriceDescription *string `json:"price_description,omitempty" required:"true"`
 	// The URL of the icon image
-	IconImage *string `json:"icon_image,omitempty" required:"true"`
-	touched   map[string]bool
+	IconUrl *string `json:"icon_url,omitempty" required:"true"`
+	// The input schema
+	InputSchema *string `json:"input_schema,omitempty" required:"true"`
+	// The output schema
+	OutputSchema *string `json:"output_schema,omitempty" required:"true"`
 }
 
 func (i *InferenceEndpoint) GetId() *string {
@@ -33,19 +34,7 @@ func (i *InferenceEndpoint) GetId() *string {
 }
 
 func (i *InferenceEndpoint) SetId(id string) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["Id"] = true
 	i.Id = &id
-}
-
-func (i *InferenceEndpoint) SetIdNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["Id"] = true
-	i.Id = nil
 }
 
 func (i *InferenceEndpoint) GetName() *string {
@@ -56,19 +45,18 @@ func (i *InferenceEndpoint) GetName() *string {
 }
 
 func (i *InferenceEndpoint) SetName(name string) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["Name"] = true
 	i.Name = &name
 }
 
-func (i *InferenceEndpoint) SetNameNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
+func (i *InferenceEndpoint) GetOrganizationName() *string {
+	if i == nil {
+		return nil
 	}
-	i.touched["Name"] = true
-	i.Name = nil
+	return i.OrganizationName
+}
+
+func (i *InferenceEndpoint) SetOrganizationName(organizationName string) {
+	i.OrganizationName = &organizationName
 }
 
 func (i *InferenceEndpoint) GetDisplayName() *string {
@@ -79,19 +67,7 @@ func (i *InferenceEndpoint) GetDisplayName() *string {
 }
 
 func (i *InferenceEndpoint) SetDisplayName(displayName string) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["DisplayName"] = true
 	i.DisplayName = &displayName
-}
-
-func (i *InferenceEndpoint) SetDisplayNameNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["DisplayName"] = true
-	i.DisplayName = nil
 }
 
 func (i *InferenceEndpoint) GetDescription() *string {
@@ -102,42 +78,7 @@ func (i *InferenceEndpoint) GetDescription() *string {
 }
 
 func (i *InferenceEndpoint) SetDescription(description string) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["Description"] = true
 	i.Description = &description
-}
-
-func (i *InferenceEndpoint) SetDescriptionNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["Description"] = true
-	i.Description = nil
-}
-
-func (i *InferenceEndpoint) GetEndpointUrl() *string {
-	if i == nil {
-		return nil
-	}
-	return i.EndpointUrl
-}
-
-func (i *InferenceEndpoint) SetEndpointUrl(endpointUrl string) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["EndpointUrl"] = true
-	i.EndpointUrl = &endpointUrl
-}
-
-func (i *InferenceEndpoint) SetEndpointUrlNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["EndpointUrl"] = true
-	i.EndpointUrl = nil
 }
 
 func (i *InferenceEndpoint) GetReadme() *string {
@@ -148,19 +89,7 @@ func (i *InferenceEndpoint) GetReadme() *string {
 }
 
 func (i *InferenceEndpoint) SetReadme(readme string) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["Readme"] = true
 	i.Readme = &readme
-}
-
-func (i *InferenceEndpoint) SetReadmeNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["Readme"] = true
-	i.Readme = nil
 }
 
 func (i *InferenceEndpoint) GetPriceDescription() *string {
@@ -171,96 +100,40 @@ func (i *InferenceEndpoint) GetPriceDescription() *string {
 }
 
 func (i *InferenceEndpoint) SetPriceDescription(priceDescription string) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["PriceDescription"] = true
 	i.PriceDescription = &priceDescription
 }
 
-func (i *InferenceEndpoint) SetPriceDescriptionNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["PriceDescription"] = true
-	i.PriceDescription = nil
-}
-
-func (i *InferenceEndpoint) GetIconImage() *string {
+func (i *InferenceEndpoint) GetIconUrl() *string {
 	if i == nil {
 		return nil
 	}
-	return i.IconImage
+	return i.IconUrl
 }
 
-func (i *InferenceEndpoint) SetIconImage(iconImage string) {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
-	}
-	i.touched["IconImage"] = true
-	i.IconImage = &iconImage
+func (i *InferenceEndpoint) SetIconUrl(iconUrl string) {
+	i.IconUrl = &iconUrl
 }
 
-func (i *InferenceEndpoint) SetIconImageNil() {
-	if i.touched == nil {
-		i.touched = map[string]bool{}
+func (i *InferenceEndpoint) GetInputSchema() *string {
+	if i == nil {
+		return nil
 	}
-	i.touched["IconImage"] = true
-	i.IconImage = nil
+	return i.InputSchema
 }
 
-func (i InferenceEndpoint) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
+func (i *InferenceEndpoint) SetInputSchema(inputSchema string) {
+	i.InputSchema = &inputSchema
+}
 
-	if i.touched["Id"] && i.Id == nil {
-		data["id"] = nil
-	} else if i.Id != nil {
-		data["id"] = i.Id
+func (i *InferenceEndpoint) GetOutputSchema() *string {
+	if i == nil {
+		return nil
 	}
+	return i.OutputSchema
+}
 
-	if i.touched["Name"] && i.Name == nil {
-		data["name"] = nil
-	} else if i.Name != nil {
-		data["name"] = i.Name
-	}
-
-	if i.touched["DisplayName"] && i.DisplayName == nil {
-		data["display_name"] = nil
-	} else if i.DisplayName != nil {
-		data["display_name"] = i.DisplayName
-	}
-
-	if i.touched["Description"] && i.Description == nil {
-		data["description"] = nil
-	} else if i.Description != nil {
-		data["description"] = i.Description
-	}
-
-	if i.touched["EndpointUrl"] && i.EndpointUrl == nil {
-		data["endpoint_url"] = nil
-	} else if i.EndpointUrl != nil {
-		data["endpoint_url"] = i.EndpointUrl
-	}
-
-	if i.touched["Readme"] && i.Readme == nil {
-		data["readme"] = nil
-	} else if i.Readme != nil {
-		data["readme"] = i.Readme
-	}
-
-	if i.touched["PriceDescription"] && i.PriceDescription == nil {
-		data["price_description"] = nil
-	} else if i.PriceDescription != nil {
-		data["price_description"] = i.PriceDescription
-	}
-
-	if i.touched["IconImage"] && i.IconImage == nil {
-		data["icon_image"] = nil
-	} else if i.IconImage != nil {
-		data["icon_image"] = i.IconImage
-	}
-
-	return json.Marshal(data)
+func (i *InferenceEndpoint) SetOutputSchema(outputSchema string) {
+	i.OutputSchema = &outputSchema
 }
 
 func (i InferenceEndpoint) String() string {

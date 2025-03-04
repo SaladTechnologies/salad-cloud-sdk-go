@@ -41,6 +41,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
 )
 
 config := saladcloudsdkconfig.NewConfig()
@@ -82,6 +83,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/queues"
 )
 
@@ -89,10 +91,11 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.CreateQueue{}
-request.SetName("Name")
-request.SetDisplayName("DisplayName")
-request.SetDescription("Description")
+request := queues.CreateQueue{
+  Name: util.ToPointer("Name"),
+  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "DisplayName" }),
+  Description: util.ToPointer(util.Nullable[string]{ Value: "Description" }),
+}
 
 response, err := client.Queues.CreateQueue(context.Background(), "organizationName", "projectName", request)
 if err != nil {
@@ -130,6 +133,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
 )
 
 config := saladcloudsdkconfig.NewConfig()
@@ -172,6 +176,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/queues"
 )
 
@@ -179,9 +184,10 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.UpdateQueue{}
-request.SetDisplayName("DisplayName")
-request.SetDescription("Description")
+request := queues.UpdateQueue{
+  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "DisplayName" }),
+  Description: util.ToPointer(util.Nullable[string]{ Value: "Description" }),
+}
 
 response, err := client.Queues.UpdateQueue(context.Background(), "organizationName", "projectName", "queueName", request)
 if err != nil {
@@ -219,6 +225,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
 )
 
 config := saladcloudsdkconfig.NewConfig()
@@ -261,6 +268,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/queues"
 )
 
@@ -268,8 +276,9 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-params := queues.ListQueueJobsRequestParams{}
+params := queues.ListQueueJobsRequestParams{
 
+}
 
 response, err := client.Queues.ListQueueJobs(context.Background(), "organizationName", "projectName", "queueName", params)
 if err != nil {
@@ -308,6 +317,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/queues"
 )
 
@@ -315,10 +325,11 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.CreateQueueJob{}
-request.SetInput("")
-request.SetMetadata("string")
-request.SetWebhook("Webhook")
+request := queues.CreateQueueJob{
+  Input: []byte{},
+  Metadata: []byte{},
+  Webhook: util.ToPointer(util.Nullable[string]{ Value: "Webhook" }),
+}
 
 response, err := client.Queues.CreateQueueJob(context.Background(), "organizationName", "projectName", "queueName", request)
 if err != nil {
@@ -357,6 +368,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
 )
 
 config := saladcloudsdkconfig.NewConfig()
@@ -399,6 +411,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
 )
 
 config := saladcloudsdkconfig.NewConfig()

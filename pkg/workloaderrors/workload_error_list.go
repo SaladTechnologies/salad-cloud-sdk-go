@@ -1,13 +1,10 @@
 package workloaderrors
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // Represents a list of workload errors
 type WorkloadErrorList struct {
-	Items   []WorkloadError `json:"items,omitempty" required:"true" maxItems:"50"`
-	touched map[string]bool
+	Items []WorkloadError `json:"items,omitempty" required:"true" maxItems:"50"`
 }
 
 func (w *WorkloadErrorList) GetItems() []WorkloadError {
@@ -18,31 +15,7 @@ func (w *WorkloadErrorList) GetItems() []WorkloadError {
 }
 
 func (w *WorkloadErrorList) SetItems(items []WorkloadError) {
-	if w.touched == nil {
-		w.touched = map[string]bool{}
-	}
-	w.touched["Items"] = true
 	w.Items = items
-}
-
-func (w *WorkloadErrorList) SetItemsNil() {
-	if w.touched == nil {
-		w.touched = map[string]bool{}
-	}
-	w.touched["Items"] = true
-	w.Items = nil
-}
-
-func (w WorkloadErrorList) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if w.touched["Items"] && w.Items == nil {
-		data["items"] = nil
-	} else if w.Items != nil {
-		data["items"] = w.Items
-	}
-
-	return json.Marshal(data)
 }
 
 func (w WorkloadErrorList) String() string {

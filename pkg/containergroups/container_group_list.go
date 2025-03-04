@@ -7,8 +7,7 @@ import (
 
 // Represents a list of container groups
 type ContainerGroupList struct {
-	Items   []shared.ContainerGroup `json:"items,omitempty" required:"true" maxItems:"100"`
-	touched map[string]bool
+	Items []shared.ContainerGroup `json:"items,omitempty" required:"true" maxItems:"100"`
 }
 
 func (c *ContainerGroupList) GetItems() []shared.ContainerGroup {
@@ -19,31 +18,7 @@ func (c *ContainerGroupList) GetItems() []shared.ContainerGroup {
 }
 
 func (c *ContainerGroupList) SetItems(items []shared.ContainerGroup) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Items"] = true
 	c.Items = items
-}
-
-func (c *ContainerGroupList) SetItemsNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Items"] = true
-	c.Items = nil
-}
-
-func (c ContainerGroupList) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if c.touched["Items"] && c.Items == nil {
-		data["items"] = nil
-	} else if c.Items != nil {
-		data["items"] = c.Items
-	}
-
-	return json.Marshal(data)
 }
 
 func (c ContainerGroupList) String() string {

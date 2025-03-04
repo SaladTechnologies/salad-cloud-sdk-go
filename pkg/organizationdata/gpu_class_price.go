@@ -3,37 +3,29 @@ package organizationdata
 import (
 	"encoding/json"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
 // Represents the price of a GPU class for a given container group priority
 type GpuClassPrice struct {
-	Priority *shared.ContainerGroupPriority `json:"priority,omitempty" required:"true"`
+	Priority *util.Nullable[shared.ContainerGroupPriority] `json:"priority,omitempty" required:"true"`
 	// The price
-	Price   *string `json:"price,omitempty" required:"true" maxLength:"20" minLength:"1"`
-	touched map[string]bool
+	Price *string `json:"price,omitempty" required:"true" maxLength:"20" minLength:"1"`
 }
 
-func (g *GpuClassPrice) GetPriority() *shared.ContainerGroupPriority {
+func (g *GpuClassPrice) GetPriority() *util.Nullable[shared.ContainerGroupPriority] {
 	if g == nil {
 		return nil
 	}
 	return g.Priority
 }
 
-func (g *GpuClassPrice) SetPriority(priority shared.ContainerGroupPriority) {
-	if g.touched == nil {
-		g.touched = map[string]bool{}
-	}
-	g.touched["Priority"] = true
+func (g *GpuClassPrice) SetPriority(priority util.Nullable[shared.ContainerGroupPriority]) {
 	g.Priority = &priority
 }
 
-func (g *GpuClassPrice) SetPriorityNil() {
-	if g.touched == nil {
-		g.touched = map[string]bool{}
-	}
-	g.touched["Priority"] = true
-	g.Priority = nil
+func (g *GpuClassPrice) SetPriorityNull() {
+	g.Priority = &util.Nullable[shared.ContainerGroupPriority]{IsNull: true}
 }
 
 func (g *GpuClassPrice) GetPrice() *string {
@@ -44,37 +36,7 @@ func (g *GpuClassPrice) GetPrice() *string {
 }
 
 func (g *GpuClassPrice) SetPrice(price string) {
-	if g.touched == nil {
-		g.touched = map[string]bool{}
-	}
-	g.touched["Price"] = true
 	g.Price = &price
-}
-
-func (g *GpuClassPrice) SetPriceNil() {
-	if g.touched == nil {
-		g.touched = map[string]bool{}
-	}
-	g.touched["Price"] = true
-	g.Price = nil
-}
-
-func (g GpuClassPrice) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if g.touched["Priority"] && g.Priority == nil {
-		data["priority"] = nil
-	} else if g.Priority != nil {
-		data["priority"] = g.Priority
-	}
-
-	if g.touched["Price"] && g.Price == nil {
-		data["price"] = nil
-	} else if g.Price != nil {
-		data["price"] = g.Price
-	}
-
-	return json.Marshal(data)
 }
 
 func (g GpuClassPrice) String() string {

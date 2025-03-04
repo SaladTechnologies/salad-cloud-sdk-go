@@ -1,12 +1,9 @@
 package shared
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 type ContainerGroupProbeTcp struct {
-	Port    *int64 `json:"port,omitempty" required:"true" min:"0" max:"65536"`
-	touched map[string]bool
+	Port *int64 `json:"port,omitempty" required:"true" min:"0" max:"65536"`
 }
 
 func (c *ContainerGroupProbeTcp) GetPort() *int64 {
@@ -17,31 +14,7 @@ func (c *ContainerGroupProbeTcp) GetPort() *int64 {
 }
 
 func (c *ContainerGroupProbeTcp) SetPort(port int64) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Port"] = true
 	c.Port = &port
-}
-
-func (c *ContainerGroupProbeTcp) SetPortNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Port"] = true
-	c.Port = nil
-}
-
-func (c ContainerGroupProbeTcp) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if c.touched["Port"] && c.Port == nil {
-		data["port"] = nil
-	} else if c.Port != nil {
-		data["port"] = c.Port
-	}
-
-	return json.Marshal(data)
 }
 
 func (c ContainerGroupProbeTcp) String() string {

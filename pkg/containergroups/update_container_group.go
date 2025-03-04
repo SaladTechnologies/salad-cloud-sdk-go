@@ -3,119 +3,87 @@ package containergroups
 import (
 	"encoding/json"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
 // Represents a request to update a container group
 type UpdateContainerGroup struct {
-	DisplayName *string `json:"display_name,omitempty" maxLength:"63" minLength:"2" pattern:"^[ ,-.0-9A-Za-z]+$"`
+	DisplayName *util.Nullable[string] `json:"display_name,omitempty" maxLength:"63" minLength:"2" pattern:"^[ ,-.0-9A-Za-z]+$"`
 	// Represents an update container object
-	Container *UpdateContainer `json:"container,omitempty"`
-	Replicas  *int64           `json:"replicas,omitempty" min:"0" max:"250"`
+	Container *util.Nullable[UpdateContainer] `json:"container,omitempty"`
+	Replicas  *util.Nullable[int64]           `json:"replicas,omitempty" min:"0" max:"500"`
 	// List of countries nodes must be located in. Remove this field to permit nodes from any country.
-	CountryCodes []shared.CountryCode `json:"country_codes,omitempty" minItems:"1" maxItems:"500"`
+	CountryCodes *util.Nullable[[]shared.CountryCode] `json:"country_codes,omitempty" minItems:"1" maxItems:"500"`
 	// Represents update container group networking parameters
 	Networking *UpdateContainerGroupNetworking `json:"networking,omitempty"`
 	// Represents the container group liveness probe
-	LivenessProbe *shared.ContainerGroupLivenessProbe `json:"liveness_probe,omitempty"`
+	LivenessProbe *util.Nullable[shared.ContainerGroupLivenessProbe] `json:"liveness_probe,omitempty"`
 	// Represents the container group readiness probe
-	ReadinessProbe *shared.ContainerGroupReadinessProbe `json:"readiness_probe,omitempty"`
+	ReadinessProbe *util.Nullable[shared.ContainerGroupReadinessProbe] `json:"readiness_probe,omitempty"`
 	// Represents the container group startup probe
-	StartupProbe *shared.ContainerGroupStartupProbe `json:"startup_probe,omitempty"`
+	StartupProbe *util.Nullable[shared.ContainerGroupStartupProbe] `json:"startup_probe,omitempty"`
 	// Represents the autoscaling rules for a queue
-	QueueAutoscaler *shared.QueueAutoscaler `json:"queue_autoscaler,omitempty"`
-	touched         map[string]bool
+	QueueAutoscaler *util.Nullable[shared.QueueAutoscaler] `json:"queue_autoscaler,omitempty"`
 }
 
-func (u *UpdateContainerGroup) GetDisplayName() *string {
+func (u *UpdateContainerGroup) GetDisplayName() *util.Nullable[string] {
 	if u == nil {
 		return nil
 	}
 	return u.DisplayName
 }
 
-func (u *UpdateContainerGroup) SetDisplayName(displayName string) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["DisplayName"] = true
+func (u *UpdateContainerGroup) SetDisplayName(displayName util.Nullable[string]) {
 	u.DisplayName = &displayName
 }
 
-func (u *UpdateContainerGroup) SetDisplayNameNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["DisplayName"] = true
-	u.DisplayName = nil
+func (u *UpdateContainerGroup) SetDisplayNameNull() {
+	u.DisplayName = &util.Nullable[string]{IsNull: true}
 }
 
-func (u *UpdateContainerGroup) GetContainer() *UpdateContainer {
+func (u *UpdateContainerGroup) GetContainer() *util.Nullable[UpdateContainer] {
 	if u == nil {
 		return nil
 	}
 	return u.Container
 }
 
-func (u *UpdateContainerGroup) SetContainer(container UpdateContainer) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["Container"] = true
+func (u *UpdateContainerGroup) SetContainer(container util.Nullable[UpdateContainer]) {
 	u.Container = &container
 }
 
-func (u *UpdateContainerGroup) SetContainerNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["Container"] = true
-	u.Container = nil
+func (u *UpdateContainerGroup) SetContainerNull() {
+	u.Container = &util.Nullable[UpdateContainer]{IsNull: true}
 }
 
-func (u *UpdateContainerGroup) GetReplicas() *int64 {
+func (u *UpdateContainerGroup) GetReplicas() *util.Nullable[int64] {
 	if u == nil {
 		return nil
 	}
 	return u.Replicas
 }
 
-func (u *UpdateContainerGroup) SetReplicas(replicas int64) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["Replicas"] = true
+func (u *UpdateContainerGroup) SetReplicas(replicas util.Nullable[int64]) {
 	u.Replicas = &replicas
 }
 
-func (u *UpdateContainerGroup) SetReplicasNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["Replicas"] = true
-	u.Replicas = nil
+func (u *UpdateContainerGroup) SetReplicasNull() {
+	u.Replicas = &util.Nullable[int64]{IsNull: true}
 }
 
-func (u *UpdateContainerGroup) GetCountryCodes() []shared.CountryCode {
+func (u *UpdateContainerGroup) GetCountryCodes() *util.Nullable[[]shared.CountryCode] {
 	if u == nil {
 		return nil
 	}
 	return u.CountryCodes
 }
 
-func (u *UpdateContainerGroup) SetCountryCodes(countryCodes []shared.CountryCode) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["CountryCodes"] = true
-	u.CountryCodes = countryCodes
+func (u *UpdateContainerGroup) SetCountryCodes(countryCodes util.Nullable[[]shared.CountryCode]) {
+	u.CountryCodes = &countryCodes
 }
 
-func (u *UpdateContainerGroup) SetCountryCodesNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["CountryCodes"] = true
-	u.CountryCodes = nil
+func (u *UpdateContainerGroup) SetCountryCodesNull() {
+	u.CountryCodes = &util.Nullable[[]shared.CountryCode]{IsNull: true}
 }
 
 func (u *UpdateContainerGroup) GetNetworking() *UpdateContainerGroupNetworking {
@@ -126,171 +94,67 @@ func (u *UpdateContainerGroup) GetNetworking() *UpdateContainerGroupNetworking {
 }
 
 func (u *UpdateContainerGroup) SetNetworking(networking UpdateContainerGroupNetworking) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["Networking"] = true
 	u.Networking = &networking
 }
 
-func (u *UpdateContainerGroup) SetNetworkingNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["Networking"] = true
-	u.Networking = nil
-}
-
-func (u *UpdateContainerGroup) GetLivenessProbe() *shared.ContainerGroupLivenessProbe {
+func (u *UpdateContainerGroup) GetLivenessProbe() *util.Nullable[shared.ContainerGroupLivenessProbe] {
 	if u == nil {
 		return nil
 	}
 	return u.LivenessProbe
 }
 
-func (u *UpdateContainerGroup) SetLivenessProbe(livenessProbe shared.ContainerGroupLivenessProbe) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["LivenessProbe"] = true
+func (u *UpdateContainerGroup) SetLivenessProbe(livenessProbe util.Nullable[shared.ContainerGroupLivenessProbe]) {
 	u.LivenessProbe = &livenessProbe
 }
 
-func (u *UpdateContainerGroup) SetLivenessProbeNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["LivenessProbe"] = true
-	u.LivenessProbe = nil
+func (u *UpdateContainerGroup) SetLivenessProbeNull() {
+	u.LivenessProbe = &util.Nullable[shared.ContainerGroupLivenessProbe]{IsNull: true}
 }
 
-func (u *UpdateContainerGroup) GetReadinessProbe() *shared.ContainerGroupReadinessProbe {
+func (u *UpdateContainerGroup) GetReadinessProbe() *util.Nullable[shared.ContainerGroupReadinessProbe] {
 	if u == nil {
 		return nil
 	}
 	return u.ReadinessProbe
 }
 
-func (u *UpdateContainerGroup) SetReadinessProbe(readinessProbe shared.ContainerGroupReadinessProbe) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["ReadinessProbe"] = true
+func (u *UpdateContainerGroup) SetReadinessProbe(readinessProbe util.Nullable[shared.ContainerGroupReadinessProbe]) {
 	u.ReadinessProbe = &readinessProbe
 }
 
-func (u *UpdateContainerGroup) SetReadinessProbeNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["ReadinessProbe"] = true
-	u.ReadinessProbe = nil
+func (u *UpdateContainerGroup) SetReadinessProbeNull() {
+	u.ReadinessProbe = &util.Nullable[shared.ContainerGroupReadinessProbe]{IsNull: true}
 }
 
-func (u *UpdateContainerGroup) GetStartupProbe() *shared.ContainerGroupStartupProbe {
+func (u *UpdateContainerGroup) GetStartupProbe() *util.Nullable[shared.ContainerGroupStartupProbe] {
 	if u == nil {
 		return nil
 	}
 	return u.StartupProbe
 }
 
-func (u *UpdateContainerGroup) SetStartupProbe(startupProbe shared.ContainerGroupStartupProbe) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["StartupProbe"] = true
+func (u *UpdateContainerGroup) SetStartupProbe(startupProbe util.Nullable[shared.ContainerGroupStartupProbe]) {
 	u.StartupProbe = &startupProbe
 }
 
-func (u *UpdateContainerGroup) SetStartupProbeNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["StartupProbe"] = true
-	u.StartupProbe = nil
+func (u *UpdateContainerGroup) SetStartupProbeNull() {
+	u.StartupProbe = &util.Nullable[shared.ContainerGroupStartupProbe]{IsNull: true}
 }
 
-func (u *UpdateContainerGroup) GetQueueAutoscaler() *shared.QueueAutoscaler {
+func (u *UpdateContainerGroup) GetQueueAutoscaler() *util.Nullable[shared.QueueAutoscaler] {
 	if u == nil {
 		return nil
 	}
 	return u.QueueAutoscaler
 }
 
-func (u *UpdateContainerGroup) SetQueueAutoscaler(queueAutoscaler shared.QueueAutoscaler) {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["QueueAutoscaler"] = true
+func (u *UpdateContainerGroup) SetQueueAutoscaler(queueAutoscaler util.Nullable[shared.QueueAutoscaler]) {
 	u.QueueAutoscaler = &queueAutoscaler
 }
 
-func (u *UpdateContainerGroup) SetQueueAutoscalerNil() {
-	if u.touched == nil {
-		u.touched = map[string]bool{}
-	}
-	u.touched["QueueAutoscaler"] = true
-	u.QueueAutoscaler = nil
-}
-
-func (u UpdateContainerGroup) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if u.touched["DisplayName"] && u.DisplayName == nil {
-		data["display_name"] = nil
-	} else if u.DisplayName != nil {
-		data["display_name"] = u.DisplayName
-	}
-
-	if u.touched["Container"] && u.Container == nil {
-		data["container"] = nil
-	} else if u.Container != nil {
-		data["container"] = u.Container
-	}
-
-	if u.touched["Replicas"] && u.Replicas == nil {
-		data["replicas"] = nil
-	} else if u.Replicas != nil {
-		data["replicas"] = u.Replicas
-	}
-
-	if u.touched["CountryCodes"] && u.CountryCodes == nil {
-		data["country_codes"] = nil
-	} else if u.CountryCodes != nil {
-		data["country_codes"] = u.CountryCodes
-	}
-
-	if u.touched["Networking"] && u.Networking == nil {
-		data["networking"] = nil
-	} else if u.Networking != nil {
-		data["networking"] = u.Networking
-	}
-
-	if u.touched["LivenessProbe"] && u.LivenessProbe == nil {
-		data["liveness_probe"] = nil
-	} else if u.LivenessProbe != nil {
-		data["liveness_probe"] = u.LivenessProbe
-	}
-
-	if u.touched["ReadinessProbe"] && u.ReadinessProbe == nil {
-		data["readiness_probe"] = nil
-	} else if u.ReadinessProbe != nil {
-		data["readiness_probe"] = u.ReadinessProbe
-	}
-
-	if u.touched["StartupProbe"] && u.StartupProbe == nil {
-		data["startup_probe"] = nil
-	} else if u.StartupProbe != nil {
-		data["startup_probe"] = u.StartupProbe
-	}
-
-	if u.touched["QueueAutoscaler"] && u.QueueAutoscaler == nil {
-		data["queue_autoscaler"] = nil
-	} else if u.QueueAutoscaler != nil {
-		data["queue_autoscaler"] = u.QueueAutoscaler
-	}
-
-	return json.Marshal(data)
+func (u *UpdateContainerGroup) SetQueueAutoscalerNull() {
+	u.QueueAutoscaler = &util.Nullable[shared.QueueAutoscaler]{IsNull: true}
 }
 
 func (u UpdateContainerGroup) String() string {

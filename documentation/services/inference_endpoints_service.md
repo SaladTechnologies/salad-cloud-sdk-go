@@ -2,18 +2,18 @@
 
 A list of all methods in the `InferenceEndpointsService` service. Click on the method name to view detailed information about that method.
 
-| Methods                                                   | Description                                    |
-| :-------------------------------------------------------- | :--------------------------------------------- |
-| [ListInferenceEndpoints](#listinferenceendpoints)         | Gets the list of inference endpoints           |
-| [GetInferenceEndpoint](#getinferenceendpoint)             | Gets an inference endpoint                     |
-| [GetInferenceEndpointJobs](#getinferenceendpointjobs)     | Retrieves a list of an inference endpoint jobs |
-| [CreateInferenceEndpointJob](#createinferenceendpointjob) | Creates a new job                              |
-| [GetInferenceEndpointJob](#getinferenceendpointjob)       | Retrieves a job in an inference endpoint       |
-| [DeleteInferenceEndpointJob](#deleteinferenceendpointjob) | Deletes an inference endpoint job              |
+| Methods                                                   | Description                           |
+| :-------------------------------------------------------- | :------------------------------------ |
+| [ListInferenceEndpoints](#listinferenceendpoints)         | Lists inference endpoints.            |
+| [GetInferenceEndpoint](#getinferenceendpoint)             | Gets an inference endpoint.           |
+| [ListInferenceEndpointJobs](#listinferenceendpointjobs)   | Lists inference endpoint jobs.        |
+| [CreateInferenceEndpointJob](#createinferenceendpointjob) | Creates a new inference endpoint job. |
+| [GetInferenceEndpointJob](#getinferenceendpointjob)       | Gets an inference endpoint job.       |
+| [CancelInferenceEndpointJob](#cancelinferenceendpointjob) | Cancels an inference endpoint job.    |
 
 ## ListInferenceEndpoints
 
-Gets the list of inference endpoints
+Lists inference endpoints.
 
 - HTTP Method: `GET`
 - Endpoint: `/organizations/{organization_name}/inference-endpoints`
@@ -28,7 +28,7 @@ Gets the list of inference endpoints
 
 **Return Type**
 
-`InferenceEndpointsList`
+`InferenceEndpointList`
 
 **Example Usage Code Snippet**
 
@@ -38,6 +38,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/inferenceendpoints"
 )
 
@@ -45,8 +46,9 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-params := inferenceendpoints.ListInferenceEndpointsRequestParams{}
+params := inferenceendpoints.ListInferenceEndpointsRequestParams{
 
+}
 
 response, err := client.InferenceEndpoints.ListInferenceEndpoints(context.Background(), "organizationName", params)
 if err != nil {
@@ -58,7 +60,7 @@ fmt.Println(response)
 
 ## GetInferenceEndpoint
 
-Gets an inference endpoint
+Gets an inference endpoint.
 
 - HTTP Method: `GET`
 - Endpoint: `/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}`
@@ -69,7 +71,7 @@ Gets an inference endpoint
 | :-------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ctx                   | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
 | organizationName      | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| inferenceEndpointName | string  | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
+| inferenceEndpointName | string  | ✅       | The inference endpoint name.                                                                                                                                                                                                                        |
 
 **Return Type**
 
@@ -83,6 +85,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
 )
 
 config := saladcloudsdkconfig.NewConfig()
@@ -96,21 +99,21 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetInferenceEndpointJobs
+## ListInferenceEndpointJobs
 
-Retrieves a list of an inference endpoint jobs
+Lists inference endpoint jobs.
 
 - HTTP Method: `GET`
 - Endpoint: `/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs`
 
 **Parameters**
 
-| Name                  | Type                                  | Required | Description                                                                                                                                                                                                                                         |
-| :-------------------- | :------------------------------------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                   | Context                               | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName      | string                                | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| inferenceEndpointName | string                                | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
-| params                | GetInferenceEndpointJobsRequestParams | ✅       | Additional request parameters                                                                                                                                                                                                                       |
+| Name                  | Type                                   | Required | Description                                                                                                                                                                                                                                         |
+| :-------------------- | :------------------------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                   | Context                                | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName      | string                                 | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| inferenceEndpointName | string                                 | ✅       | The inference endpoint name.                                                                                                                                                                                                                        |
+| params                | ListInferenceEndpointJobsRequestParams | ✅       | Additional request parameters                                                                                                                                                                                                                       |
 
 **Return Type**
 
@@ -124,6 +127,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/inferenceendpoints"
 )
 
@@ -131,10 +135,11 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-params := inferenceendpoints.GetInferenceEndpointJobsRequestParams{}
+params := inferenceendpoints.ListInferenceEndpointJobsRequestParams{
 
+}
 
-response, err := client.InferenceEndpoints.GetInferenceEndpointJobs(context.Background(), "organizationName", "inferenceEndpointName", params)
+response, err := client.InferenceEndpoints.ListInferenceEndpointJobs(context.Background(), "organizationName", "inferenceEndpointName", params)
 if err != nil {
   panic(err)
 }
@@ -144,7 +149,7 @@ fmt.Println(response)
 
 ## CreateInferenceEndpointJob
 
-Creates a new job
+Creates a new inference endpoint job.
 
 - HTTP Method: `POST`
 - Endpoint: `/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs`
@@ -155,7 +160,7 @@ Creates a new job
 | :------------------------- | :------------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ctx                        | Context                    | ✅       | Default go language context                                                                                                                                                                                                                         |
 | organizationName           | string                     | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| inferenceEndpointName      | string                     | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
+| inferenceEndpointName      | string                     | ✅       | The inference endpoint name.                                                                                                                                                                                                                        |
 | createInferenceEndpointJob | CreateInferenceEndpointJob | ✅       |                                                                                                                                                                                                                                                     |
 
 **Return Type**
@@ -170,6 +175,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/inferenceendpoints"
 )
 
@@ -177,10 +183,12 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := inferenceendpoints.CreateInferenceEndpointJob{}
-request.SetInput("")
-request.SetMetadata("string")
-request.SetWebhook("Webhook")
+request := inferenceendpoints.CreateInferenceEndpointJob{
+  Input: []byte{},
+  Metadata: []byte{},
+  Webhook: util.ToPointer("Webhook"),
+  WebhookUrl: util.ToPointer("WebhookUrl"),
+}
 
 response, err := client.InferenceEndpoints.CreateInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", request)
 if err != nil {
@@ -192,7 +200,7 @@ fmt.Println(response)
 
 ## GetInferenceEndpointJob
 
-Retrieves a job in an inference endpoint
+Gets an inference endpoint job.
 
 - HTTP Method: `GET`
 - Endpoint: `/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs/{inference_endpoint_job_id}`
@@ -203,8 +211,8 @@ Retrieves a job in an inference endpoint
 | :--------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ctx                    | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
 | organizationName       | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| inferenceEndpointName  | string  | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
-| inferenceEndpointJobId | string  | ✅       | The unique job id                                                                                                                                                                                                                                   |
+| inferenceEndpointName  | string  | ✅       | The inference endpoint name.                                                                                                                                                                                                                        |
+| inferenceEndpointJobId | string  | ✅       | The inference endpoint job identifier.                                                                                                                                                                                                              |
 
 **Return Type**
 
@@ -218,6 +226,7 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
 )
 
 config := saladcloudsdkconfig.NewConfig()
@@ -231,9 +240,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DeleteInferenceEndpointJob
+## CancelInferenceEndpointJob
 
-Deletes an inference endpoint job
+Cancels an inference endpoint job.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/organizations/{organization_name}/inference-endpoints/{inference_endpoint_name}/jobs/{inference_endpoint_job_id}`
@@ -244,8 +253,8 @@ Deletes an inference endpoint job
 | :--------------------- | :------ | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ctx                    | Context | ✅       | Default go language context                                                                                                                                                                                                                         |
 | organizationName       | string  | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| inferenceEndpointName  | string  | ✅       | The unique inference endpoint name                                                                                                                                                                                                                  |
-| inferenceEndpointJobId | string  | ✅       | The unique job id                                                                                                                                                                                                                                   |
+| inferenceEndpointName  | string  | ✅       | The inference endpoint name.                                                                                                                                                                                                                        |
+| inferenceEndpointJobId | string  | ✅       | The inference endpoint job identifier.                                                                                                                                                                                                              |
 
 **Return Type**
 
@@ -259,12 +268,13 @@ import (
   "encoding/json"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
+
 )
 
 config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.InferenceEndpoints.DeleteInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", "inferenceEndpointJobId")
+response, err := client.InferenceEndpoints.CancelInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", "inferenceEndpointJobId")
 if err != nil {
   panic(err)
 }

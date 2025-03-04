@@ -1,37 +1,22 @@
 package queues
 
-import (
-	"encoding/json"
-)
+import "encoding/json"
 
 // Represents an event for queue job
 type QueueJobEvent struct {
-	Action  *QueueJobEventAction `json:"action,omitempty" required:"true"`
-	Time    *string              `json:"time,omitempty" required:"true"`
-	touched map[string]bool
+	Action *Action `json:"action,omitempty" required:"true"`
+	Time   *string `json:"time,omitempty" required:"true"`
 }
 
-func (q *QueueJobEvent) GetAction() *QueueJobEventAction {
+func (q *QueueJobEvent) GetAction() *Action {
 	if q == nil {
 		return nil
 	}
 	return q.Action
 }
 
-func (q *QueueJobEvent) SetAction(action QueueJobEventAction) {
-	if q.touched == nil {
-		q.touched = map[string]bool{}
-	}
-	q.touched["Action"] = true
+func (q *QueueJobEvent) SetAction(action Action) {
 	q.Action = &action
-}
-
-func (q *QueueJobEvent) SetActionNil() {
-	if q.touched == nil {
-		q.touched = map[string]bool{}
-	}
-	q.touched["Action"] = true
-	q.Action = nil
 }
 
 func (q *QueueJobEvent) GetTime() *string {
@@ -42,37 +27,7 @@ func (q *QueueJobEvent) GetTime() *string {
 }
 
 func (q *QueueJobEvent) SetTime(time string) {
-	if q.touched == nil {
-		q.touched = map[string]bool{}
-	}
-	q.touched["Time"] = true
 	q.Time = &time
-}
-
-func (q *QueueJobEvent) SetTimeNil() {
-	if q.touched == nil {
-		q.touched = map[string]bool{}
-	}
-	q.touched["Time"] = true
-	q.Time = nil
-}
-
-func (q QueueJobEvent) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if q.touched["Action"] && q.Action == nil {
-		data["action"] = nil
-	} else if q.Action != nil {
-		data["action"] = q.Action
-	}
-
-	if q.touched["Time"] && q.Time == nil {
-		data["time"] = nil
-	} else if q.Time != nil {
-		data["time"] = q.Time
-	}
-
-	return json.Marshal(data)
 }
 
 func (q QueueJobEvent) String() string {
@@ -83,12 +38,12 @@ func (q QueueJobEvent) String() string {
 	return string(jsonData)
 }
 
-type QueueJobEventAction string
+type Action string
 
 const (
-	QUEUE_JOB_EVENT_ACTION_CREATED   QueueJobEventAction = "created"
-	QUEUE_JOB_EVENT_ACTION_STARTED   QueueJobEventAction = "started"
-	QUEUE_JOB_EVENT_ACTION_SUCCEEDED QueueJobEventAction = "succeeded"
-	QUEUE_JOB_EVENT_ACTION_CANCELLED QueueJobEventAction = "cancelled"
-	QUEUE_JOB_EVENT_ACTION_FAILED    QueueJobEventAction = "failed"
+	ACTION_CREATED   Action = "created"
+	ACTION_STARTED   Action = "started"
+	ACTION_SUCCEEDED Action = "succeeded"
+	ACTION_CANCELLED Action = "cancelled"
+	ACTION_FAILED    Action = "failed"
 )

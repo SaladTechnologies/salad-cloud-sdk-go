@@ -13,6 +13,7 @@ Represents an update container object
 | EnvironmentVariables   | map[string]\*string                                   | ❌       |                                                                                                  |
 | Logging                | containergroups.UpdateContainerLogging                | ❌       |                                                                                                  |
 | RegistryAuthentication | containergroups.UpdateContainerRegistryAuthentication | ❌       |                                                                                                  |
+| ImageCaching           | bool                                                  | ❌       |                                                                                                  |
 
 # Resources
 

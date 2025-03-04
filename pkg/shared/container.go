@@ -3,20 +3,21 @@ package shared
 import (
 	"encoding/json"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
 // Represents a container
 type Container struct {
 	Image *string `json:"image,omitempty" required:"true" maxLength:"1024" minLength:"1"`
 	// Represents a container resource requirements
-	Resources            *ContainerResourceRequirements `json:"resources,omitempty" required:"true"`
-	Command              []string                       `json:"command,omitempty" required:"true" maxItems:"100"`
-	Priority             *ContainerGroupPriority        `json:"priority,omitempty"`
-	Size                 *int64                         `json:"size,omitempty"`
-	Hash                 *string                        `json:"hash,omitempty"`
-	EnvironmentVariables map[string]*string             `json:"environment_variables,omitempty"`
-	Logging              *ContainerLogging              `json:"logging,omitempty"`
-	touched              map[string]bool
+	Resources            *ContainerResourceRequirements         `json:"resources,omitempty" required:"true"`
+	Command              []string                               `json:"command,omitempty" required:"true" maxItems:"100"`
+	Priority             *util.Nullable[ContainerGroupPriority] `json:"priority,omitempty"`
+	Size                 *int64                                 `json:"size,omitempty"`
+	Hash                 *string                                `json:"hash,omitempty"`
+	EnvironmentVariables map[string]*string                     `json:"environment_variables,omitempty"`
+	Logging              *util.Nullable[ContainerLogging]       `json:"logging,omitempty"`
+	ImageCaching         *bool                                  `json:"image_caching,omitempty"`
 }
 
 func (c *Container) GetImage() *string {
@@ -27,19 +28,7 @@ func (c *Container) GetImage() *string {
 }
 
 func (c *Container) SetImage(image string) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Image"] = true
 	c.Image = &image
-}
-
-func (c *Container) SetImageNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Image"] = true
-	c.Image = nil
 }
 
 func (c *Container) GetResources() *ContainerResourceRequirements {
@@ -50,19 +39,7 @@ func (c *Container) GetResources() *ContainerResourceRequirements {
 }
 
 func (c *Container) SetResources(resources ContainerResourceRequirements) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Resources"] = true
 	c.Resources = &resources
-}
-
-func (c *Container) SetResourcesNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Resources"] = true
-	c.Resources = nil
 }
 
 func (c *Container) GetCommand() []string {
@@ -73,42 +50,22 @@ func (c *Container) GetCommand() []string {
 }
 
 func (c *Container) SetCommand(command []string) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Command"] = true
 	c.Command = command
 }
 
-func (c *Container) SetCommandNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Command"] = true
-	c.Command = nil
-}
-
-func (c *Container) GetPriority() *ContainerGroupPriority {
+func (c *Container) GetPriority() *util.Nullable[ContainerGroupPriority] {
 	if c == nil {
 		return nil
 	}
 	return c.Priority
 }
 
-func (c *Container) SetPriority(priority ContainerGroupPriority) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Priority"] = true
+func (c *Container) SetPriority(priority util.Nullable[ContainerGroupPriority]) {
 	c.Priority = &priority
 }
 
-func (c *Container) SetPriorityNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Priority"] = true
-	c.Priority = nil
+func (c *Container) SetPriorityNull() {
+	c.Priority = &util.Nullable[ContainerGroupPriority]{IsNull: true}
 }
 
 func (c *Container) GetSize() *int64 {
@@ -119,19 +76,7 @@ func (c *Container) GetSize() *int64 {
 }
 
 func (c *Container) SetSize(size int64) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Size"] = true
 	c.Size = &size
-}
-
-func (c *Container) SetSizeNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Size"] = true
-	c.Size = nil
 }
 
 func (c *Container) GetHash() *string {
@@ -142,19 +87,7 @@ func (c *Container) GetHash() *string {
 }
 
 func (c *Container) SetHash(hash string) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Hash"] = true
 	c.Hash = &hash
-}
-
-func (c *Container) SetHashNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Hash"] = true
-	c.Hash = nil
 }
 
 func (c *Container) GetEnvironmentVariables() map[string]*string {
@@ -165,96 +98,33 @@ func (c *Container) GetEnvironmentVariables() map[string]*string {
 }
 
 func (c *Container) SetEnvironmentVariables(environmentVariables map[string]*string) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["EnvironmentVariables"] = true
 	c.EnvironmentVariables = utils.CloneMap(environmentVariables)
 }
 
-func (c *Container) SetEnvironmentVariablesNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["EnvironmentVariables"] = true
-	c.EnvironmentVariables = nil
-}
-
-func (c *Container) GetLogging() *ContainerLogging {
+func (c *Container) GetLogging() *util.Nullable[ContainerLogging] {
 	if c == nil {
 		return nil
 	}
 	return c.Logging
 }
 
-func (c *Container) SetLogging(logging ContainerLogging) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Logging"] = true
+func (c *Container) SetLogging(logging util.Nullable[ContainerLogging]) {
 	c.Logging = &logging
 }
 
-func (c *Container) SetLoggingNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Logging"] = true
-	c.Logging = nil
+func (c *Container) SetLoggingNull() {
+	c.Logging = &util.Nullable[ContainerLogging]{IsNull: true}
 }
 
-func (c Container) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if c.touched["Image"] && c.Image == nil {
-		data["image"] = nil
-	} else if c.Image != nil {
-		data["image"] = c.Image
+func (c *Container) GetImageCaching() *bool {
+	if c == nil {
+		return nil
 	}
+	return c.ImageCaching
+}
 
-	if c.touched["Resources"] && c.Resources == nil {
-		data["resources"] = nil
-	} else if c.Resources != nil {
-		data["resources"] = c.Resources
-	}
-
-	if c.touched["Command"] && c.Command == nil {
-		data["command"] = nil
-	} else if c.Command != nil {
-		data["command"] = c.Command
-	}
-
-	if c.touched["Priority"] && c.Priority == nil {
-		data["priority"] = nil
-	} else if c.Priority != nil {
-		data["priority"] = c.Priority
-	}
-
-	if c.touched["Size"] && c.Size == nil {
-		data["size"] = nil
-	} else if c.Size != nil {
-		data["size"] = c.Size
-	}
-
-	if c.touched["Hash"] && c.Hash == nil {
-		data["hash"] = nil
-	} else if c.Hash != nil {
-		data["hash"] = c.Hash
-	}
-
-	if c.touched["EnvironmentVariables"] && c.EnvironmentVariables == nil {
-		data["environment_variables"] = nil
-	} else if c.EnvironmentVariables != nil {
-		data["environment_variables"] = c.EnvironmentVariables
-	}
-
-	if c.touched["Logging"] && c.Logging == nil {
-		data["logging"] = nil
-	} else if c.Logging != nil {
-		data["logging"] = c.Logging
-	}
-
-	return json.Marshal(data)
+func (c *Container) SetImageCaching(imageCaching bool) {
+	c.ImageCaching = &imageCaching
 }
 
 func (c Container) String() string {
@@ -266,193 +136,102 @@ func (c Container) String() string {
 }
 
 type ContainerLogging struct {
-	Axiom    *LoggingAxiom1    `json:"axiom,omitempty"`
-	Datadog  *LoggingDatadog1  `json:"datadog,omitempty"`
-	NewRelic *LoggingNewRelic1 `json:"new_relic,omitempty"`
-	Splunk   *LoggingSplunk1   `json:"splunk,omitempty"`
-	Tcp      *LoggingTcp1      `json:"tcp,omitempty"`
-	Http     *LoggingHttp1     `json:"http,omitempty"`
-	touched  map[string]bool
+	Axiom    *util.Nullable[LoggingAxiom1]    `json:"axiom,omitempty"`
+	Datadog  *util.Nullable[LoggingDatadog1]  `json:"datadog,omitempty"`
+	NewRelic *util.Nullable[LoggingNewRelic1] `json:"new_relic,omitempty"`
+	Splunk   *util.Nullable[LoggingSplunk1]   `json:"splunk,omitempty"`
+	Tcp      *util.Nullable[LoggingTcp1]      `json:"tcp,omitempty"`
+	Http     *util.Nullable[LoggingHttp1]     `json:"http,omitempty"`
 }
 
-func (c *ContainerLogging) GetAxiom() *LoggingAxiom1 {
+func (c *ContainerLogging) GetAxiom() *util.Nullable[LoggingAxiom1] {
 	if c == nil {
 		return nil
 	}
 	return c.Axiom
 }
 
-func (c *ContainerLogging) SetAxiom(axiom LoggingAxiom1) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Axiom"] = true
+func (c *ContainerLogging) SetAxiom(axiom util.Nullable[LoggingAxiom1]) {
 	c.Axiom = &axiom
 }
 
-func (c *ContainerLogging) SetAxiomNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Axiom"] = true
-	c.Axiom = nil
+func (c *ContainerLogging) SetAxiomNull() {
+	c.Axiom = &util.Nullable[LoggingAxiom1]{IsNull: true}
 }
 
-func (c *ContainerLogging) GetDatadog() *LoggingDatadog1 {
+func (c *ContainerLogging) GetDatadog() *util.Nullable[LoggingDatadog1] {
 	if c == nil {
 		return nil
 	}
 	return c.Datadog
 }
 
-func (c *ContainerLogging) SetDatadog(datadog LoggingDatadog1) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Datadog"] = true
+func (c *ContainerLogging) SetDatadog(datadog util.Nullable[LoggingDatadog1]) {
 	c.Datadog = &datadog
 }
 
-func (c *ContainerLogging) SetDatadogNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Datadog"] = true
-	c.Datadog = nil
+func (c *ContainerLogging) SetDatadogNull() {
+	c.Datadog = &util.Nullable[LoggingDatadog1]{IsNull: true}
 }
 
-func (c *ContainerLogging) GetNewRelic() *LoggingNewRelic1 {
+func (c *ContainerLogging) GetNewRelic() *util.Nullable[LoggingNewRelic1] {
 	if c == nil {
 		return nil
 	}
 	return c.NewRelic
 }
 
-func (c *ContainerLogging) SetNewRelic(newRelic LoggingNewRelic1) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["NewRelic"] = true
+func (c *ContainerLogging) SetNewRelic(newRelic util.Nullable[LoggingNewRelic1]) {
 	c.NewRelic = &newRelic
 }
 
-func (c *ContainerLogging) SetNewRelicNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["NewRelic"] = true
-	c.NewRelic = nil
+func (c *ContainerLogging) SetNewRelicNull() {
+	c.NewRelic = &util.Nullable[LoggingNewRelic1]{IsNull: true}
 }
 
-func (c *ContainerLogging) GetSplunk() *LoggingSplunk1 {
+func (c *ContainerLogging) GetSplunk() *util.Nullable[LoggingSplunk1] {
 	if c == nil {
 		return nil
 	}
 	return c.Splunk
 }
 
-func (c *ContainerLogging) SetSplunk(splunk LoggingSplunk1) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Splunk"] = true
+func (c *ContainerLogging) SetSplunk(splunk util.Nullable[LoggingSplunk1]) {
 	c.Splunk = &splunk
 }
 
-func (c *ContainerLogging) SetSplunkNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Splunk"] = true
-	c.Splunk = nil
+func (c *ContainerLogging) SetSplunkNull() {
+	c.Splunk = &util.Nullable[LoggingSplunk1]{IsNull: true}
 }
 
-func (c *ContainerLogging) GetTcp() *LoggingTcp1 {
+func (c *ContainerLogging) GetTcp() *util.Nullable[LoggingTcp1] {
 	if c == nil {
 		return nil
 	}
 	return c.Tcp
 }
 
-func (c *ContainerLogging) SetTcp(tcp LoggingTcp1) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Tcp"] = true
+func (c *ContainerLogging) SetTcp(tcp util.Nullable[LoggingTcp1]) {
 	c.Tcp = &tcp
 }
 
-func (c *ContainerLogging) SetTcpNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Tcp"] = true
-	c.Tcp = nil
+func (c *ContainerLogging) SetTcpNull() {
+	c.Tcp = &util.Nullable[LoggingTcp1]{IsNull: true}
 }
 
-func (c *ContainerLogging) GetHttp() *LoggingHttp1 {
+func (c *ContainerLogging) GetHttp() *util.Nullable[LoggingHttp1] {
 	if c == nil {
 		return nil
 	}
 	return c.Http
 }
 
-func (c *ContainerLogging) SetHttp(http LoggingHttp1) {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Http"] = true
+func (c *ContainerLogging) SetHttp(http util.Nullable[LoggingHttp1]) {
 	c.Http = &http
 }
 
-func (c *ContainerLogging) SetHttpNil() {
-	if c.touched == nil {
-		c.touched = map[string]bool{}
-	}
-	c.touched["Http"] = true
-	c.Http = nil
-}
-
-func (c ContainerLogging) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if c.touched["Axiom"] && c.Axiom == nil {
-		data["axiom"] = nil
-	} else if c.Axiom != nil {
-		data["axiom"] = c.Axiom
-	}
-
-	if c.touched["Datadog"] && c.Datadog == nil {
-		data["datadog"] = nil
-	} else if c.Datadog != nil {
-		data["datadog"] = c.Datadog
-	}
-
-	if c.touched["NewRelic"] && c.NewRelic == nil {
-		data["new_relic"] = nil
-	} else if c.NewRelic != nil {
-		data["new_relic"] = c.NewRelic
-	}
-
-	if c.touched["Splunk"] && c.Splunk == nil {
-		data["splunk"] = nil
-	} else if c.Splunk != nil {
-		data["splunk"] = c.Splunk
-	}
-
-	if c.touched["Tcp"] && c.Tcp == nil {
-		data["tcp"] = nil
-	} else if c.Tcp != nil {
-		data["tcp"] = c.Tcp
-	}
-
-	if c.touched["Http"] && c.Http == nil {
-		data["http"] = nil
-	} else if c.Http != nil {
-		data["http"] = c.Http
-	}
-
-	return json.Marshal(data)
+func (c *ContainerLogging) SetHttpNull() {
+	c.Http = &util.Nullable[LoggingHttp1]{IsNull: true}
 }
 
 func (c ContainerLogging) String() string {
@@ -467,7 +246,6 @@ type LoggingAxiom1 struct {
 	Host     *string `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
 	ApiToken *string `json:"api_token,omitempty" required:"true" maxLength:"1000" minLength:"1"`
 	Dataset  *string `json:"dataset,omitempty" required:"true" maxLength:"1000" minLength:"1"`
-	touched  map[string]bool
 }
 
 func (l *LoggingAxiom1) GetHost() *string {
@@ -478,19 +256,7 @@ func (l *LoggingAxiom1) GetHost() *string {
 }
 
 func (l *LoggingAxiom1) SetHost(host string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
 	l.Host = &host
-}
-
-func (l *LoggingAxiom1) SetHostNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
-	l.Host = nil
 }
 
 func (l *LoggingAxiom1) GetApiToken() *string {
@@ -501,19 +267,7 @@ func (l *LoggingAxiom1) GetApiToken() *string {
 }
 
 func (l *LoggingAxiom1) SetApiToken(apiToken string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["ApiToken"] = true
 	l.ApiToken = &apiToken
-}
-
-func (l *LoggingAxiom1) SetApiTokenNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["ApiToken"] = true
-	l.ApiToken = nil
 }
 
 func (l *LoggingAxiom1) GetDataset() *string {
@@ -524,43 +278,7 @@ func (l *LoggingAxiom1) GetDataset() *string {
 }
 
 func (l *LoggingAxiom1) SetDataset(dataset string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Dataset"] = true
 	l.Dataset = &dataset
-}
-
-func (l *LoggingAxiom1) SetDatasetNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Dataset"] = true
-	l.Dataset = nil
-}
-
-func (l LoggingAxiom1) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if l.touched["Host"] && l.Host == nil {
-		data["host"] = nil
-	} else if l.Host != nil {
-		data["host"] = l.Host
-	}
-
-	if l.touched["ApiToken"] && l.ApiToken == nil {
-		data["api_token"] = nil
-	} else if l.ApiToken != nil {
-		data["api_token"] = l.ApiToken
-	}
-
-	if l.touched["Dataset"] && l.Dataset == nil {
-		data["dataset"] = nil
-	} else if l.Dataset != nil {
-		data["dataset"] = l.Dataset
-	}
-
-	return json.Marshal(data)
 }
 
 func (l LoggingAxiom1) String() string {
@@ -572,10 +290,9 @@ func (l LoggingAxiom1) String() string {
 }
 
 type LoggingDatadog1 struct {
-	Host    *string        `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
-	ApiKey  *string        `json:"api_key,omitempty" required:"true" maxLength:"1000" minLength:"1"`
-	Tags    []DatadogTags1 `json:"tags,omitempty" maxItems:"1000"`
-	touched map[string]bool
+	Host   *string                        `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
+	ApiKey *string                        `json:"api_key,omitempty" required:"true" maxLength:"1000" minLength:"1"`
+	Tags   *util.Nullable[[]DatadogTags1] `json:"tags,omitempty" maxItems:"1000"`
 }
 
 func (l *LoggingDatadog1) GetHost() *string {
@@ -586,19 +303,7 @@ func (l *LoggingDatadog1) GetHost() *string {
 }
 
 func (l *LoggingDatadog1) SetHost(host string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
 	l.Host = &host
-}
-
-func (l *LoggingDatadog1) SetHostNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
-	l.Host = nil
 }
 
 func (l *LoggingDatadog1) GetApiKey() *string {
@@ -609,66 +314,22 @@ func (l *LoggingDatadog1) GetApiKey() *string {
 }
 
 func (l *LoggingDatadog1) SetApiKey(apiKey string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["ApiKey"] = true
 	l.ApiKey = &apiKey
 }
 
-func (l *LoggingDatadog1) SetApiKeyNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["ApiKey"] = true
-	l.ApiKey = nil
-}
-
-func (l *LoggingDatadog1) GetTags() []DatadogTags1 {
+func (l *LoggingDatadog1) GetTags() *util.Nullable[[]DatadogTags1] {
 	if l == nil {
 		return nil
 	}
 	return l.Tags
 }
 
-func (l *LoggingDatadog1) SetTags(tags []DatadogTags1) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Tags"] = true
-	l.Tags = tags
+func (l *LoggingDatadog1) SetTags(tags util.Nullable[[]DatadogTags1]) {
+	l.Tags = &tags
 }
 
-func (l *LoggingDatadog1) SetTagsNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Tags"] = true
-	l.Tags = nil
-}
-
-func (l LoggingDatadog1) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if l.touched["Host"] && l.Host == nil {
-		data["host"] = nil
-	} else if l.Host != nil {
-		data["host"] = l.Host
-	}
-
-	if l.touched["ApiKey"] && l.ApiKey == nil {
-		data["api_key"] = nil
-	} else if l.ApiKey != nil {
-		data["api_key"] = l.ApiKey
-	}
-
-	if l.touched["Tags"] && l.Tags == nil {
-		data["tags"] = nil
-	} else if l.Tags != nil {
-		data["tags"] = l.Tags
-	}
-
-	return json.Marshal(data)
+func (l *LoggingDatadog1) SetTagsNull() {
+	l.Tags = &util.Nullable[[]DatadogTags1]{IsNull: true}
 }
 
 func (l LoggingDatadog1) String() string {
@@ -680,9 +341,8 @@ func (l LoggingDatadog1) String() string {
 }
 
 type DatadogTags1 struct {
-	Name    *string `json:"name,omitempty" required:"true"`
-	Value   *string `json:"value,omitempty" required:"true"`
-	touched map[string]bool
+	Name  *string `json:"name,omitempty" required:"true"`
+	Value *string `json:"value,omitempty" required:"true"`
 }
 
 func (d *DatadogTags1) GetName() *string {
@@ -693,19 +353,7 @@ func (d *DatadogTags1) GetName() *string {
 }
 
 func (d *DatadogTags1) SetName(name string) {
-	if d.touched == nil {
-		d.touched = map[string]bool{}
-	}
-	d.touched["Name"] = true
 	d.Name = &name
-}
-
-func (d *DatadogTags1) SetNameNil() {
-	if d.touched == nil {
-		d.touched = map[string]bool{}
-	}
-	d.touched["Name"] = true
-	d.Name = nil
 }
 
 func (d *DatadogTags1) GetValue() *string {
@@ -716,37 +364,7 @@ func (d *DatadogTags1) GetValue() *string {
 }
 
 func (d *DatadogTags1) SetValue(value string) {
-	if d.touched == nil {
-		d.touched = map[string]bool{}
-	}
-	d.touched["Value"] = true
 	d.Value = &value
-}
-
-func (d *DatadogTags1) SetValueNil() {
-	if d.touched == nil {
-		d.touched = map[string]bool{}
-	}
-	d.touched["Value"] = true
-	d.Value = nil
-}
-
-func (d DatadogTags1) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if d.touched["Name"] && d.Name == nil {
-		data["name"] = nil
-	} else if d.Name != nil {
-		data["name"] = d.Name
-	}
-
-	if d.touched["Value"] && d.Value == nil {
-		data["value"] = nil
-	} else if d.Value != nil {
-		data["value"] = d.Value
-	}
-
-	return json.Marshal(data)
 }
 
 func (d DatadogTags1) String() string {
@@ -760,7 +378,6 @@ func (d DatadogTags1) String() string {
 type LoggingNewRelic1 struct {
 	Host         *string `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
 	IngestionKey *string `json:"ingestion_key,omitempty" required:"true" maxLength:"1000" minLength:"1"`
-	touched      map[string]bool
 }
 
 func (l *LoggingNewRelic1) GetHost() *string {
@@ -771,19 +388,7 @@ func (l *LoggingNewRelic1) GetHost() *string {
 }
 
 func (l *LoggingNewRelic1) SetHost(host string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
 	l.Host = &host
-}
-
-func (l *LoggingNewRelic1) SetHostNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
-	l.Host = nil
 }
 
 func (l *LoggingNewRelic1) GetIngestionKey() *string {
@@ -794,37 +399,7 @@ func (l *LoggingNewRelic1) GetIngestionKey() *string {
 }
 
 func (l *LoggingNewRelic1) SetIngestionKey(ingestionKey string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["IngestionKey"] = true
 	l.IngestionKey = &ingestionKey
-}
-
-func (l *LoggingNewRelic1) SetIngestionKeyNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["IngestionKey"] = true
-	l.IngestionKey = nil
-}
-
-func (l LoggingNewRelic1) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if l.touched["Host"] && l.Host == nil {
-		data["host"] = nil
-	} else if l.Host != nil {
-		data["host"] = l.Host
-	}
-
-	if l.touched["IngestionKey"] && l.IngestionKey == nil {
-		data["ingestion_key"] = nil
-	} else if l.IngestionKey != nil {
-		data["ingestion_key"] = l.IngestionKey
-	}
-
-	return json.Marshal(data)
 }
 
 func (l LoggingNewRelic1) String() string {
@@ -836,9 +411,8 @@ func (l LoggingNewRelic1) String() string {
 }
 
 type LoggingSplunk1 struct {
-	Host    *string `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
-	Token   *string `json:"token,omitempty" required:"true" maxLength:"1000" minLength:"1"`
-	touched map[string]bool
+	Host  *string `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
+	Token *string `json:"token,omitempty" required:"true" maxLength:"1000" minLength:"1"`
 }
 
 func (l *LoggingSplunk1) GetHost() *string {
@@ -849,19 +423,7 @@ func (l *LoggingSplunk1) GetHost() *string {
 }
 
 func (l *LoggingSplunk1) SetHost(host string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
 	l.Host = &host
-}
-
-func (l *LoggingSplunk1) SetHostNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
-	l.Host = nil
 }
 
 func (l *LoggingSplunk1) GetToken() *string {
@@ -872,37 +434,7 @@ func (l *LoggingSplunk1) GetToken() *string {
 }
 
 func (l *LoggingSplunk1) SetToken(token string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Token"] = true
 	l.Token = &token
-}
-
-func (l *LoggingSplunk1) SetTokenNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Token"] = true
-	l.Token = nil
-}
-
-func (l LoggingSplunk1) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if l.touched["Host"] && l.Host == nil {
-		data["host"] = nil
-	} else if l.Host != nil {
-		data["host"] = l.Host
-	}
-
-	if l.touched["Token"] && l.Token == nil {
-		data["token"] = nil
-	} else if l.Token != nil {
-		data["token"] = l.Token
-	}
-
-	return json.Marshal(data)
 }
 
 func (l LoggingSplunk1) String() string {
@@ -914,9 +446,8 @@ func (l LoggingSplunk1) String() string {
 }
 
 type LoggingTcp1 struct {
-	Host    *string `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
-	Port    *int64  `json:"port,omitempty" required:"true" min:"1" max:"65535"`
-	touched map[string]bool
+	Host *string `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
+	Port *int64  `json:"port,omitempty" required:"true" min:"1" max:"65535"`
 }
 
 func (l *LoggingTcp1) GetHost() *string {
@@ -927,19 +458,7 @@ func (l *LoggingTcp1) GetHost() *string {
 }
 
 func (l *LoggingTcp1) SetHost(host string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
 	l.Host = &host
-}
-
-func (l *LoggingTcp1) SetHostNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
-	l.Host = nil
 }
 
 func (l *LoggingTcp1) GetPort() *int64 {
@@ -950,37 +469,7 @@ func (l *LoggingTcp1) GetPort() *int64 {
 }
 
 func (l *LoggingTcp1) SetPort(port int64) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Port"] = true
 	l.Port = &port
-}
-
-func (l *LoggingTcp1) SetPortNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Port"] = true
-	l.Port = nil
-}
-
-func (l LoggingTcp1) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if l.touched["Host"] && l.Host == nil {
-		data["host"] = nil
-	} else if l.Host != nil {
-		data["host"] = l.Host
-	}
-
-	if l.touched["Port"] && l.Port == nil {
-		data["port"] = nil
-	} else if l.Port != nil {
-		data["port"] = l.Port
-	}
-
-	return json.Marshal(data)
 }
 
 func (l LoggingTcp1) String() string {
@@ -992,15 +481,14 @@ func (l LoggingTcp1) String() string {
 }
 
 type LoggingHttp1 struct {
-	Host        *string           `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
-	Port        *int64            `json:"port,omitempty" required:"true" min:"1" max:"65535"`
-	User        *string           `json:"user,omitempty"`
-	Password    *string           `json:"password,omitempty"`
-	Path        *string           `json:"path,omitempty"`
-	Format      *HttpFormat1      `json:"format,omitempty" required:"true"`
-	Headers     []HttpHeaders1    `json:"headers,omitempty" maxItems:"1000"`
-	Compression *HttpCompression1 `json:"compression,omitempty" required:"true"`
-	touched     map[string]bool
+	Host        *string                        `json:"host,omitempty" required:"true" maxLength:"1000" minLength:"1"`
+	Port        *int64                         `json:"port,omitempty" required:"true" min:"1" max:"65535"`
+	User        *util.Nullable[string]         `json:"user,omitempty"`
+	Password    *util.Nullable[string]         `json:"password,omitempty"`
+	Path        *util.Nullable[string]         `json:"path,omitempty"`
+	Format      *HttpFormat1                   `json:"format,omitempty" required:"true"`
+	Headers     *util.Nullable[[]HttpHeaders1] `json:"headers,omitempty" maxItems:"1000"`
+	Compression *HttpCompression1              `json:"compression,omitempty" required:"true"`
 }
 
 func (l *LoggingHttp1) GetHost() *string {
@@ -1011,19 +499,7 @@ func (l *LoggingHttp1) GetHost() *string {
 }
 
 func (l *LoggingHttp1) SetHost(host string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
 	l.Host = &host
-}
-
-func (l *LoggingHttp1) SetHostNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Host"] = true
-	l.Host = nil
 }
 
 func (l *LoggingHttp1) GetPort() *int64 {
@@ -1034,88 +510,52 @@ func (l *LoggingHttp1) GetPort() *int64 {
 }
 
 func (l *LoggingHttp1) SetPort(port int64) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Port"] = true
 	l.Port = &port
 }
 
-func (l *LoggingHttp1) SetPortNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Port"] = true
-	l.Port = nil
-}
-
-func (l *LoggingHttp1) GetUser() *string {
+func (l *LoggingHttp1) GetUser() *util.Nullable[string] {
 	if l == nil {
 		return nil
 	}
 	return l.User
 }
 
-func (l *LoggingHttp1) SetUser(user string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["User"] = true
+func (l *LoggingHttp1) SetUser(user util.Nullable[string]) {
 	l.User = &user
 }
 
-func (l *LoggingHttp1) SetUserNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["User"] = true
-	l.User = nil
+func (l *LoggingHttp1) SetUserNull() {
+	l.User = &util.Nullable[string]{IsNull: true}
 }
 
-func (l *LoggingHttp1) GetPassword() *string {
+func (l *LoggingHttp1) GetPassword() *util.Nullable[string] {
 	if l == nil {
 		return nil
 	}
 	return l.Password
 }
 
-func (l *LoggingHttp1) SetPassword(password string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Password"] = true
+func (l *LoggingHttp1) SetPassword(password util.Nullable[string]) {
 	l.Password = &password
 }
 
-func (l *LoggingHttp1) SetPasswordNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Password"] = true
-	l.Password = nil
+func (l *LoggingHttp1) SetPasswordNull() {
+	l.Password = &util.Nullable[string]{IsNull: true}
 }
 
-func (l *LoggingHttp1) GetPath() *string {
+func (l *LoggingHttp1) GetPath() *util.Nullable[string] {
 	if l == nil {
 		return nil
 	}
 	return l.Path
 }
 
-func (l *LoggingHttp1) SetPath(path string) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Path"] = true
+func (l *LoggingHttp1) SetPath(path util.Nullable[string]) {
 	l.Path = &path
 }
 
-func (l *LoggingHttp1) SetPathNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Path"] = true
-	l.Path = nil
+func (l *LoggingHttp1) SetPathNull() {
+	l.Path = &util.Nullable[string]{IsNull: true}
 }
 
 func (l *LoggingHttp1) GetFormat() *HttpFormat1 {
@@ -1126,42 +566,22 @@ func (l *LoggingHttp1) GetFormat() *HttpFormat1 {
 }
 
 func (l *LoggingHttp1) SetFormat(format HttpFormat1) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Format"] = true
 	l.Format = &format
 }
 
-func (l *LoggingHttp1) SetFormatNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Format"] = true
-	l.Format = nil
-}
-
-func (l *LoggingHttp1) GetHeaders() []HttpHeaders1 {
+func (l *LoggingHttp1) GetHeaders() *util.Nullable[[]HttpHeaders1] {
 	if l == nil {
 		return nil
 	}
 	return l.Headers
 }
 
-func (l *LoggingHttp1) SetHeaders(headers []HttpHeaders1) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Headers"] = true
-	l.Headers = headers
+func (l *LoggingHttp1) SetHeaders(headers util.Nullable[[]HttpHeaders1]) {
+	l.Headers = &headers
 }
 
-func (l *LoggingHttp1) SetHeadersNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Headers"] = true
-	l.Headers = nil
+func (l *LoggingHttp1) SetHeadersNull() {
+	l.Headers = &util.Nullable[[]HttpHeaders1]{IsNull: true}
 }
 
 func (l *LoggingHttp1) GetCompression() *HttpCompression1 {
@@ -1172,73 +592,7 @@ func (l *LoggingHttp1) GetCompression() *HttpCompression1 {
 }
 
 func (l *LoggingHttp1) SetCompression(compression HttpCompression1) {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Compression"] = true
 	l.Compression = &compression
-}
-
-func (l *LoggingHttp1) SetCompressionNil() {
-	if l.touched == nil {
-		l.touched = map[string]bool{}
-	}
-	l.touched["Compression"] = true
-	l.Compression = nil
-}
-
-func (l LoggingHttp1) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if l.touched["Host"] && l.Host == nil {
-		data["host"] = nil
-	} else if l.Host != nil {
-		data["host"] = l.Host
-	}
-
-	if l.touched["Port"] && l.Port == nil {
-		data["port"] = nil
-	} else if l.Port != nil {
-		data["port"] = l.Port
-	}
-
-	if l.touched["User"] && l.User == nil {
-		data["user"] = nil
-	} else if l.User != nil {
-		data["user"] = l.User
-	}
-
-	if l.touched["Password"] && l.Password == nil {
-		data["password"] = nil
-	} else if l.Password != nil {
-		data["password"] = l.Password
-	}
-
-	if l.touched["Path"] && l.Path == nil {
-		data["path"] = nil
-	} else if l.Path != nil {
-		data["path"] = l.Path
-	}
-
-	if l.touched["Format"] && l.Format == nil {
-		data["format"] = nil
-	} else if l.Format != nil {
-		data["format"] = l.Format
-	}
-
-	if l.touched["Headers"] && l.Headers == nil {
-		data["headers"] = nil
-	} else if l.Headers != nil {
-		data["headers"] = l.Headers
-	}
-
-	if l.touched["Compression"] && l.Compression == nil {
-		data["compression"] = nil
-	} else if l.Compression != nil {
-		data["compression"] = l.Compression
-	}
-
-	return json.Marshal(data)
 }
 
 func (l LoggingHttp1) String() string {
@@ -1257,9 +611,8 @@ const (
 )
 
 type HttpHeaders1 struct {
-	Name    *string `json:"name,omitempty" required:"true"`
-	Value   *string `json:"value,omitempty" required:"true"`
-	touched map[string]bool
+	Name  *string `json:"name,omitempty" required:"true"`
+	Value *string `json:"value,omitempty" required:"true"`
 }
 
 func (h *HttpHeaders1) GetName() *string {
@@ -1270,19 +623,7 @@ func (h *HttpHeaders1) GetName() *string {
 }
 
 func (h *HttpHeaders1) SetName(name string) {
-	if h.touched == nil {
-		h.touched = map[string]bool{}
-	}
-	h.touched["Name"] = true
 	h.Name = &name
-}
-
-func (h *HttpHeaders1) SetNameNil() {
-	if h.touched == nil {
-		h.touched = map[string]bool{}
-	}
-	h.touched["Name"] = true
-	h.Name = nil
 }
 
 func (h *HttpHeaders1) GetValue() *string {
@@ -1293,37 +634,7 @@ func (h *HttpHeaders1) GetValue() *string {
 }
 
 func (h *HttpHeaders1) SetValue(value string) {
-	if h.touched == nil {
-		h.touched = map[string]bool{}
-	}
-	h.touched["Value"] = true
 	h.Value = &value
-}
-
-func (h *HttpHeaders1) SetValueNil() {
-	if h.touched == nil {
-		h.touched = map[string]bool{}
-	}
-	h.touched["Value"] = true
-	h.Value = nil
-}
-
-func (h HttpHeaders1) MarshalJSON() ([]byte, error) {
-	data := make(map[string]any)
-
-	if h.touched["Name"] && h.Name == nil {
-		data["name"] = nil
-	} else if h.Name != nil {
-		data["name"] = h.Name
-	}
-
-	if h.touched["Value"] && h.Value == nil {
-		data["value"] = nil
-	} else if h.Value != nil {
-		data["value"] = h.Value
-	}
-
-	return json.Marshal(data)
 }
 
 func (h HttpHeaders1) String() string {
