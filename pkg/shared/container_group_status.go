@@ -1,5 +1,6 @@
 package shared
 
+// Represents the current operational state of a container group within the Salad platform.
 type ContainerGroupStatus string
 
 const (

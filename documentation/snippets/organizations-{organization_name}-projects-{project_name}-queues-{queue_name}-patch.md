@@ -12,7 +12,7 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.UpdateQueue{
+request := queues.QueuePatch{
   DisplayName: util.ToPointer(util.Nullable[string]{ Value: "DisplayName" }),
   Description: util.ToPointer(util.Nullable[string]{ Value: "Description" }),
 }

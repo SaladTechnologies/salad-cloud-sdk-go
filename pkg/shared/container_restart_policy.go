@@ -1,5 +1,6 @@
 package shared
 
+// Specifies the policy for restarting containers when they exit or fail.
 type ContainerRestartPolicy string
 
 const (

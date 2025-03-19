@@ -1,19 +1,34 @@
 package workloaderrors
 
-import (
-	"encoding/json"
-	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
-)
+import "encoding/json"
 
 // Represents a workload error
 type WorkloadError struct {
-	Detail      *string                `json:"detail,omitempty" required:"true"`
-	FailedAt    *string                `json:"failed_at,omitempty" required:"true"`
-	InstanceId  *string                `json:"instance_id,omitempty" required:"true"`
-	MachineId   *string                `json:"machine_id,omitempty" required:"true"`
-	AllocatedAt *string                `json:"allocated_at,omitempty" required:"true"`
-	StartedAt   *util.Nullable[string] `json:"started_at,omitempty"`
-	Version     *int64                 `json:"version,omitempty" required:"true" min:"1"`
+	// The timestamp when the workload was initially allocated to a machine
+	AllocatedAt *string `json:"allocated_at,omitempty" required:"true"`
+	// A detailed error message describing the nature and cause of the workload failure
+	Detail *string `json:"detail,omitempty" required:"true" maxLength:"255" minLength:"1" pattern:"^.*$"`
+	// The timestamp when the workload failure was detected or reported
+	FailedAt *string `json:"failed_at,omitempty" required:"true"`
+	// The container group instance identifier.
+	InstanceId *string `json:"instance_id,omitempty" required:"true"`
+	// The container group machine identifier.
+	MachineId *string `json:"machine_id,omitempty" required:"true"`
+	// The timestamp when the workload started execution, or null if it failed before starting
+	StartedAt *string `json:"started_at,omitempty"`
+	// The schema version number for this error record, used for tracking error format changes
+	Version *int64 `json:"version,omitempty" required:"true" min:"1" max:"2147483647"`
+}
+
+func (w *WorkloadError) GetAllocatedAt() *string {
+	if w == nil {
+		return nil
+	}
+	return w.AllocatedAt
+}
+
+func (w *WorkloadError) SetAllocatedAt(allocatedAt string) {
+	w.AllocatedAt = &allocatedAt
 }
 
 func (w *WorkloadError) GetDetail() *string {
@@ -60,30 +75,15 @@ func (w *WorkloadError) SetMachineId(machineId string) {
 	w.MachineId = &machineId
 }
 
-func (w *WorkloadError) GetAllocatedAt() *string {
-	if w == nil {
-		return nil
-	}
-	return w.AllocatedAt
-}
-
-func (w *WorkloadError) SetAllocatedAt(allocatedAt string) {
-	w.AllocatedAt = &allocatedAt
-}
-
-func (w *WorkloadError) GetStartedAt() *util.Nullable[string] {
+func (w *WorkloadError) GetStartedAt() *string {
 	if w == nil {
 		return nil
 	}
 	return w.StartedAt
 }
 
-func (w *WorkloadError) SetStartedAt(startedAt util.Nullable[string]) {
+func (w *WorkloadError) SetStartedAt(startedAt string) {
 	w.StartedAt = &startedAt
-}
-
-func (w *WorkloadError) SetStartedAtNull() {
-	w.StartedAt = &util.Nullable[string]{IsNull: true}
 }
 
 func (w *WorkloadError) GetVersion() *int64 {

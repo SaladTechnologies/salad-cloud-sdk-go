@@ -4,6 +4,7 @@ import "encoding/json"
 
 // Represents the organization quotas
 type Quotas struct {
+	// Represents the organization quotas for container groups
 	ContainerGroupsQuotas *ContainerGroupsQuotas `json:"container_groups_quotas,omitempty" required:"true"`
 	// The time the resource was created
 	CreateTime *string `json:"create_time,omitempty"`

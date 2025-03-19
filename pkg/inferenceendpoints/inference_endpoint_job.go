@@ -15,9 +15,9 @@ type InferenceEndpointJob struct {
 	// The job metadata. May be any valid JSON.
 	Metadata any `json:"metadata,omitempty"`
 	// The webhook URL called when the job completes.
-	Webhook *string `json:"webhook,omitempty"`
+	Webhook *string `json:"webhook,omitempty" maxLength:"2048" minLength:"1"`
 	// The webhook URL called when the job completes.
-	WebhookUrl *string `json:"webhook_url,omitempty"`
+	WebhookUrl *string `json:"webhook_url,omitempty" maxLength:"2048" minLength:"1"`
 	// The current status.
 	Status *Status `json:"status,omitempty" required:"true"`
 	// The list of events.

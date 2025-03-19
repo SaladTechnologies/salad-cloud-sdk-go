@@ -1,5 +1,6 @@
 package inferenceendpoints
 
+// The action that was taken on the inference endpoint job.
 type InferenceEndpointJobEventAction string
 
 const (

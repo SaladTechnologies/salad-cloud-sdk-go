@@ -2,12 +2,16 @@ package shared
 
 import "encoding/json"
 
-// Represents a container group instance status count
+// A summary of container group instances categorized by their current lifecycle status
 type ContainerGroupInstanceStatusCount struct {
-	AllocatingCount *int64 `json:"allocating_count,omitempty" required:"true" min:"0"`
-	CreatingCount   *int64 `json:"creating_count,omitempty" required:"true" min:"0"`
-	RunningCount    *int64 `json:"running_count,omitempty" required:"true" min:"0"`
-	StoppingCount   *int64 `json:"stopping_count,omitempty" required:"true" min:"0"`
+	// The number of container instances that are currently being allocated resources
+	AllocatingCount *int64 `json:"allocating_count,omitempty" required:"true" min:"0" max:"2147483647"`
+	// The number of container instances that are in the process of being created
+	CreatingCount *int64 `json:"creating_count,omitempty" required:"true" min:"0" max:"2147483647"`
+	// The number of container instances that are currently running and operational
+	RunningCount *int64 `json:"running_count,omitempty" required:"true" min:"0" max:"2147483647"`
+	// The number of container instances that are in the process of stopping
+	StoppingCount *int64 `json:"stopping_count,omitempty" required:"true" min:"0" max:"2147483647"`
 }
 
 func (c *ContainerGroupInstanceStatusCount) GetAllocatingCount() *int64 {

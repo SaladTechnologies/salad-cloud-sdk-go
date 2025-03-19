@@ -4,6 +4,7 @@ import "encoding/json"
 
 // Represents a list of system logs
 type SystemLogList struct {
+	// A list of system logs
 	Items []SystemLog `json:"items,omitempty" required:"true" maxItems:"50"`
 }
 

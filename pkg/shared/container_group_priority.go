@@ -1,5 +1,6 @@
 package shared
 
+// Specifies the priority level for container group execution, which determines resource allocation and scheduling precedence.
 type ContainerGroupPriority string
 
 const (

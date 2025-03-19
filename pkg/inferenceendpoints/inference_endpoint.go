@@ -13,17 +13,17 @@ type InferenceEndpoint struct {
 	// The display-friendly name of the resource.
 	DisplayName *string `json:"display_name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[ ,-.0-9A-Za-z]+$"`
 	// The detailed description of the resource.
-	Description *string `json:"description,omitempty" required:"true" maxLength:"1000" pattern:"^[\P{Cc}\P{Cn}\P{Cs}]*$"`
+	Description *string `json:"description,omitempty" required:"true" maxLength:"1000" pattern:"^.*$"`
 	// A markdown file containing a detailed description of the inference endpoint
-	Readme *string `json:"readme,omitempty" required:"true"`
+	Readme *string `json:"readme,omitempty" required:"true" maxLength:"100000" minLength:"1" pattern:"^.*$"`
 	// A description of the price
-	PriceDescription *string `json:"price_description,omitempty" required:"true"`
+	PriceDescription *string `json:"price_description,omitempty" required:"true" maxLength:"100" minLength:"1" pattern:"^.*$"`
 	// The URL of the icon image
-	IconUrl *string `json:"icon_url,omitempty" required:"true"`
+	IconUrl *string `json:"icon_url,omitempty" required:"true" maxLength:"2048" minLength:"1" pattern:"^.*$"`
 	// The input schema
-	InputSchema *string `json:"input_schema,omitempty" required:"true"`
+	InputSchema *string `json:"input_schema,omitempty" required:"true" maxLength:"100000" minLength:"1" pattern:"^.*$"`
 	// The output schema
-	OutputSchema *string `json:"output_schema,omitempty" required:"true"`
+	OutputSchema *string `json:"output_schema,omitempty" required:"true" maxLength:"100000" minLength:"1" pattern:"^.*$"`
 }
 
 func (i *InferenceEndpoint) GetId() *string {

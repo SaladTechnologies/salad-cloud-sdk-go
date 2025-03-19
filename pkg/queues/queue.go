@@ -3,7 +3,6 @@ package queues
 import (
 	"encoding/json"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
-	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
 // Represents a queue.
@@ -15,7 +14,8 @@ type Queue struct {
 	// The display name. This may be used as a more human-readable name.
 	DisplayName *string `json:"display_name,omitempty" required:"true" maxLength:"63" minLength:"2" pattern:"^[ ,-.0-9A-Za-z]+$"`
 	// The description. This may be used as a space for notes or other information about the queue.
-	Description     *util.Nullable[string]  `json:"description,omitempty" maxLength:"500"`
+	Description *string `json:"description,omitempty" maxLength:"500" pattern:"^.*$"`
+	// The container groups that are part of this queue. Each container group represents a scalable set of identical containers running as a distributed service.
 	ContainerGroups []shared.ContainerGroup `json:"container_groups,omitempty" required:"true" maxItems:"100"`
 	// The date and time the queue was created.
 	CreateTime *string `json:"create_time,omitempty" required:"true"`
@@ -56,19 +56,15 @@ func (q *Queue) SetDisplayName(displayName string) {
 	q.DisplayName = &displayName
 }
 
-func (q *Queue) GetDescription() *util.Nullable[string] {
+func (q *Queue) GetDescription() *string {
 	if q == nil {
 		return nil
 	}
 	return q.Description
 }
 
-func (q *Queue) SetDescription(description util.Nullable[string]) {
+func (q *Queue) SetDescription(description string) {
 	q.Description = &description
-}
-
-func (q *Queue) SetDescriptionNull() {
-	q.Description = &util.Nullable[string]{IsNull: true}
 }
 
 func (q *Queue) GetContainerGroups() []shared.ContainerGroup {

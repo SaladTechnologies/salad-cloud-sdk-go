@@ -2,12 +2,22 @@ package quotas
 
 import "encoding/json"
 
+// Represents the organization quotas for container groups
 type ContainerGroupsQuotas struct {
-	MaxCreatedContainerGroups               *int64 `json:"max_created_container_groups,omitempty" required:"true"`
-	ContainerInstanceQuota                  *int64 `json:"container_instance_quota,omitempty" required:"true"`
-	MaxContainerGroupReallocationsPerMinute *int64 `json:"max_container_group_reallocations_per_minute,omitempty" min:"0"`
-	MaxContainerGroupRecreatesPerMinute     *int64 `json:"max_container_group_recreates_per_minute,omitempty" min:"0"`
-	MaxContainerGroupRestartsPerMinute      *int64 `json:"max_container_group_restarts_per_minute,omitempty" min:"0"`
+	// The maximum number of container groups that can be created
+	MaxCreatedContainerGroups *int64 `json:"max_created_container_groups,omitempty" min:"0" max:"10000"`
+	// The maximum number of replicas that can be created for a container group
+	ContainerInstanceQuota *int64 `json:"container_instance_quota,omitempty" min:"0" max:"500"`
+	// The maximum number of replicas that can be created for a container group
+	ContainerReplicaQuota *int64 `json:"container_replica_quota,omitempty" min:"0" max:"500"`
+	// The number of replicas that are currently in use
+	ContainerReplicasUsed *int64 `json:"container_replicas_used,omitempty" min:"0" max:"500"`
+	// The maximum number of container group reallocations per minute
+	MaxContainerGroupReallocationsPerMinute *int64 `json:"max_container_group_reallocations_per_minute,omitempty" min:"0" max:"100"`
+	// The maximum number of container group recreates per minute
+	MaxContainerGroupRecreatesPerMinute *int64 `json:"max_container_group_recreates_per_minute,omitempty" min:"0" max:"100"`
+	// The maximum number of container group restarts per minute
+	MaxContainerGroupRestartsPerMinute *int64 `json:"max_container_group_restarts_per_minute,omitempty" min:"0" max:"100"`
 }
 
 func (c *ContainerGroupsQuotas) GetMaxCreatedContainerGroups() *int64 {
@@ -30,6 +40,28 @@ func (c *ContainerGroupsQuotas) GetContainerInstanceQuota() *int64 {
 
 func (c *ContainerGroupsQuotas) SetContainerInstanceQuota(containerInstanceQuota int64) {
 	c.ContainerInstanceQuota = &containerInstanceQuota
+}
+
+func (c *ContainerGroupsQuotas) GetContainerReplicaQuota() *int64 {
+	if c == nil {
+		return nil
+	}
+	return c.ContainerReplicaQuota
+}
+
+func (c *ContainerGroupsQuotas) SetContainerReplicaQuota(containerReplicaQuota int64) {
+	c.ContainerReplicaQuota = &containerReplicaQuota
+}
+
+func (c *ContainerGroupsQuotas) GetContainerReplicasUsed() *int64 {
+	if c == nil {
+		return nil
+	}
+	return c.ContainerReplicasUsed
+}
+
+func (c *ContainerGroupsQuotas) SetContainerReplicasUsed(containerReplicasUsed int64) {
+	c.ContainerReplicasUsed = &containerReplicasUsed
 }
 
 func (c *ContainerGroupsQuotas) GetMaxContainerGroupReallocationsPerMinute() *int64 {

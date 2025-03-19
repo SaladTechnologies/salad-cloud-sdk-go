@@ -12,10 +12,10 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.CreateQueueJob{
+request := queues.QueueJobPrototype{
   Input: []byte{},
   Metadata: []byte{},
-  Webhook: util.ToPointer(util.Nullable[string]{ Value: "Webhook" }),
+  Webhook: util.ToPointer("Webhook"),
 }
 
 response, err := client.Queues.CreateQueueJob(context.Background(), "organizationName", "projectName", "queueName", request)

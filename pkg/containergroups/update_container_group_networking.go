@@ -7,6 +7,7 @@ import (
 
 // Represents update container group networking parameters
 type UpdateContainerGroupNetworking struct {
+	// The port number to expose on the container group
 	Port *util.Nullable[int64] `json:"port,omitempty" min:"1" max:"65535"`
 }
 

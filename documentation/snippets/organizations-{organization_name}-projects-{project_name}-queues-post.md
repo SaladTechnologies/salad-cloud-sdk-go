@@ -12,10 +12,10 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.CreateQueue{
+request := queues.QueuePrototype{
   Name: util.ToPointer("Name"),
-  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "DisplayName" }),
-  Description: util.ToPointer(util.Nullable[string]{ Value: "Description" }),
+  DisplayName: util.ToPointer("DisplayName"),
+  Description: util.ToPointer("Description"),
 }
 
 response, err := client.Queues.CreateQueue(context.Background(), "organizationName", "projectName", request)

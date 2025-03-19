@@ -8,23 +8,23 @@ import (
 // Represents a system log
 type SystemLog struct {
 	// The name of the event
-	EventName *string `json:"event_name,omitempty" required:"true"`
+	EventName *string `json:"event_name,omitempty" required:"true" maxLength:"255" minLength:"1" pattern:"^.*$"`
 	// The UTC date & time when the log item was created
 	EventTime *string `json:"event_time,omitempty" required:"true"`
-	// The unique instance ID
+	// The container group instance identifier.
 	InstanceId *string `json:"instance_id,omitempty"`
-	// The organization-specific machine ID
+	// The container group machine identifier.
 	MachineId *string `json:"machine_id,omitempty"`
-	// The version instance ID
-	Version *string `json:"version,omitempty" required:"true"`
 	// The number of CPUs
 	ResourceCpu *util.Nullable[int64] `json:"resource_cpu,omitempty" required:"true" min:"1" max:"16"`
-	// The memory amount in MB
-	ResourceMemory *util.Nullable[int64] `json:"resource_memory,omitempty" required:"true" min:"1024" max:"61440"`
 	// The GPU class name
 	ResourceGpuClass *string `json:"resource_gpu_class,omitempty" required:"true"`
+	// The memory amount in MB
+	ResourceMemory *util.Nullable[int64] `json:"resource_memory,omitempty" required:"true" min:"1024" max:"61440"`
 	// The storage amount in bytes
 	ResourceStorageAmount *util.Nullable[int64] `json:"resource_storage_amount,omitempty" required:"true" min:"1073741824" max:"53687091200"`
+	// The version instance ID
+	Version *string `json:"version,omitempty" required:"true"`
 }
 
 func (s *SystemLog) GetEventName() *string {
@@ -71,17 +71,6 @@ func (s *SystemLog) SetMachineId(machineId string) {
 	s.MachineId = &machineId
 }
 
-func (s *SystemLog) GetVersion() *string {
-	if s == nil {
-		return nil
-	}
-	return s.Version
-}
-
-func (s *SystemLog) SetVersion(version string) {
-	s.Version = &version
-}
-
 func (s *SystemLog) GetResourceCpu() *util.Nullable[int64] {
 	if s == nil {
 		return nil
@@ -95,6 +84,17 @@ func (s *SystemLog) SetResourceCpu(resourceCpu util.Nullable[int64]) {
 
 func (s *SystemLog) SetResourceCpuNull() {
 	s.ResourceCpu = &util.Nullable[int64]{IsNull: true}
+}
+
+func (s *SystemLog) GetResourceGpuClass() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ResourceGpuClass
+}
+
+func (s *SystemLog) SetResourceGpuClass(resourceGpuClass string) {
+	s.ResourceGpuClass = &resourceGpuClass
 }
 
 func (s *SystemLog) GetResourceMemory() *util.Nullable[int64] {
@@ -112,17 +112,6 @@ func (s *SystemLog) SetResourceMemoryNull() {
 	s.ResourceMemory = &util.Nullable[int64]{IsNull: true}
 }
 
-func (s *SystemLog) GetResourceGpuClass() *string {
-	if s == nil {
-		return nil
-	}
-	return s.ResourceGpuClass
-}
-
-func (s *SystemLog) SetResourceGpuClass(resourceGpuClass string) {
-	s.ResourceGpuClass = &resourceGpuClass
-}
-
 func (s *SystemLog) GetResourceStorageAmount() *util.Nullable[int64] {
 	if s == nil {
 		return nil
@@ -136,6 +125,17 @@ func (s *SystemLog) SetResourceStorageAmount(resourceStorageAmount util.Nullable
 
 func (s *SystemLog) SetResourceStorageAmountNull() {
 	s.ResourceStorageAmount = &util.Nullable[int64]{IsNull: true}
+}
+
+func (s *SystemLog) GetVersion() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Version
+}
+
+func (s *SystemLog) SetVersion(version string) {
+	s.Version = &version
 }
 
 func (s SystemLog) String() string {

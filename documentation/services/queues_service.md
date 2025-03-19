@@ -31,7 +31,7 @@ Gets the list of queues in the given project.
 
 **Return Type**
 
-`QueueList`
+`QueueCollection`
 
 **Example Usage Code Snippet**
 
@@ -64,12 +64,12 @@ Creates a new queue in the given project.
 
 **Parameters**
 
-| Name             | Type        | Required | Description                                                                                                                                                                                                                                         |
-| :--------------- | :---------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx              | Context     | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName | string      | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName      | string      | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| createQueue      | CreateQueue | ✅       |                                                                                                                                                                                                                                                     |
+| Name             | Type           | Required | Description                                                                                                                                                                                                                                         |
+| :--------------- | :------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx              | Context        | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName | string         | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName      | string         | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| queuePrototype   | QueuePrototype | ✅       |                                                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -91,10 +91,10 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.CreateQueue{
+request := queues.QueuePrototype{
   Name: util.ToPointer("Name"),
-  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "DisplayName" }),
-  Description: util.ToPointer(util.Nullable[string]{ Value: "Description" }),
+  DisplayName: util.ToPointer("DisplayName"),
+  Description: util.ToPointer("Description"),
 }
 
 response, err := client.Queues.CreateQueue(context.Background(), "organizationName", "projectName", request)
@@ -156,13 +156,13 @@ Updates an existing queue in the given project.
 
 **Parameters**
 
-| Name             | Type        | Required | Description                                                                                                                                                                                                                                         |
-| :--------------- | :---------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx              | Context     | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName | string      | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName      | string      | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| queueName        | string      | ✅       | The queue name.                                                                                                                                                                                                                                     |
-| updateQueue      | UpdateQueue | ✅       |                                                                                                                                                                                                                                                     |
+| Name             | Type       | Required | Description                                                                                                                                                                                                                                         |
+| :--------------- | :--------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx              | Context    | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName | string     | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName      | string     | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| queueName        | string     | ✅       | The queue name.                                                                                                                                                                                                                                     |
+| queuePatch       | QueuePatch | ✅       |                                                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -184,7 +184,7 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.UpdateQueue{
+request := queues.QueuePatch{
   DisplayName: util.ToPointer(util.Nullable[string]{ Value: "DisplayName" }),
   Description: util.ToPointer(util.Nullable[string]{ Value: "Description" }),
 }
@@ -258,7 +258,7 @@ Gets the list of jobs in a queue
 
 **Return Type**
 
-`QueueJobList`
+`QueueJobCollection`
 
 **Example Usage Code Snippet**
 
@@ -297,13 +297,13 @@ Creates a new job
 
 **Parameters**
 
-| Name             | Type           | Required | Description                                                                                                                                                                                                                                         |
-| :--------------- | :------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx              | Context        | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName | string         | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| projectName      | string         | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
-| queueName        | string         | ✅       | The queue name.                                                                                                                                                                                                                                     |
-| createQueueJob   | CreateQueueJob | ✅       |                                                                                                                                                                                                                                                     |
+| Name              | Type              | Required | Description                                                                                                                                                                                                                                         |
+| :---------------- | :---------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx               | Context           | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName  | string            | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| projectName       | string            | ✅       | Your project name. This represents a collection of related SaladCloud resources. The project must be created before using the API.                                                                                                                  |
+| queueName         | string            | ✅       | The queue name.                                                                                                                                                                                                                                     |
+| queueJobPrototype | QueueJobPrototype | ✅       |                                                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -325,10 +325,10 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := queues.CreateQueueJob{
+request := queues.QueueJobPrototype{
   Input: []byte{},
   Metadata: []byte{},
-  Webhook: util.ToPointer(util.Nullable[string]{ Value: "Webhook" }),
+  Webhook: util.ToPointer("Webhook"),
 }
 
 response, err := client.Queues.CreateQueueJob(context.Background(), "organizationName", "projectName", "queueName", request)

@@ -1,22 +1,26 @@
 package queues
 
-import (
-	"encoding/json"
-	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
-)
+import "encoding/json"
 
 // Represents a queue job
 type QueueJob struct {
+	// The job identifier
 	Id *string `json:"id,omitempty" required:"true"`
 	// The job input. May be any valid JSON.
-	Input    any                    `json:"input,omitempty" required:"true"`
-	Metadata *util.Nullable[any]    `json:"metadata,omitempty"`
-	Webhook  *util.Nullable[string] `json:"webhook,omitempty"`
-	Status   *QueueJobStatus        `json:"status,omitempty" required:"true"`
-	Events   []QueueJobEvent        `json:"events,omitempty" required:"true" maxItems:"1000"`
+	Input any `json:"input,omitempty" required:"true"`
+	// Additional metadata for the job
+	Metadata any `json:"metadata,omitempty"`
+	// The webhook URL to notify when the job completes
+	Webhook *string `json:"webhook,omitempty" maxLength:"27" minLength:"20" pattern:"^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$"`
+	// The job status
+	Status *QueueJobStatus `json:"status,omitempty" required:"true"`
+	// The job events
+	Events []QueueJobEvent `json:"events,omitempty" required:"true" maxItems:"1000"`
 	// The job output. May be any valid JSON.
-	Output     any     `json:"output,omitempty"`
+	Output any `json:"output,omitempty"`
+	// The job creation time
 	CreateTime *string `json:"create_time,omitempty" required:"true"`
+	// The job update time
 	UpdateTime *string `json:"update_time,omitempty" required:"true"`
 }
 
@@ -42,34 +46,26 @@ func (q *QueueJob) SetInput(input any) {
 	q.Input = input
 }
 
-func (q *QueueJob) GetMetadata() *util.Nullable[any] {
+func (q *QueueJob) GetMetadata() any {
 	if q == nil {
 		return nil
 	}
 	return q.Metadata
 }
 
-func (q *QueueJob) SetMetadata(metadata util.Nullable[any]) {
+func (q *QueueJob) SetMetadata(metadata any) {
 	q.Metadata = &metadata
 }
 
-func (q *QueueJob) SetMetadataNull() {
-	q.Metadata = &util.Nullable[any]{IsNull: true}
-}
-
-func (q *QueueJob) GetWebhook() *util.Nullable[string] {
+func (q *QueueJob) GetWebhook() *string {
 	if q == nil {
 		return nil
 	}
 	return q.Webhook
 }
 
-func (q *QueueJob) SetWebhook(webhook util.Nullable[string]) {
+func (q *QueueJob) SetWebhook(webhook string) {
 	q.Webhook = &webhook
-}
-
-func (q *QueueJob) SetWebhookNull() {
-	q.Webhook = &util.Nullable[string]{IsNull: true}
 }
 
 func (q *QueueJob) GetStatus() *QueueJobStatus {
@@ -135,6 +131,7 @@ func (q QueueJob) String() string {
 	return string(jsonData)
 }
 
+// The job status
 type QueueJobStatus string
 
 const (

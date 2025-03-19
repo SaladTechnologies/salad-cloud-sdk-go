@@ -4,6 +4,7 @@ import "encoding/json"
 
 // Represents a list of workload errors
 type WorkloadErrorList struct {
+	// A list of workload errors
 	Items []WorkloadError `json:"items,omitempty" required:"true" maxItems:"50"`
 }
 

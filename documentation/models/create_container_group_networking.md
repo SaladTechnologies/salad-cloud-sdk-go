@@ -1,24 +1,15 @@
 # CreateContainerGroupNetworking
 
-Represents container group networking parameters
+Network configuration for container groups specifying connectivity parameters, including authentication, protocol, and timeout settings
 
 **Properties**
 
-| Name                  | Type                                                       | Required | Description |
-| :-------------------- | :--------------------------------------------------------- | :------- | :---------- |
-| Protocol              | shared.ContainerNetworkingProtocol                         | ✅       |             |
-| Port                  | int64                                                      | ✅       |             |
-| Auth                  | bool                                                       | ✅       |             |
-| LoadBalancer          | containergroups.CreateContainerGroupNetworkingLoadBalancer | ❌       |             |
-| SingleConnectionLimit | bool                                                       | ❌       |             |
-| ClientRequestTimeout  | int64                                                      | ❌       |             |
-| ServerResponseTimeout | int64                                                      | ❌       |             |
-
-# CreateContainerGroupNetworkingLoadBalancer
-
-**Properties**
-
-| Name                        | Type   | Required | Description                   |
-| :-------------------------- | :----- | :------- | :---------------------------- |
-| round_robin                 | string | ✅       | "round_robin"                 |
-| least_number_of_connections | string | ✅       | "least_number_of_connections" |
+| Name                  | Type                                           | Required | Description                                                                                                                                                       |
+| :-------------------- | :--------------------------------------------- | :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Auth                  | bool                                           | ✅       | Determines whether authentication is required for network connections to the container group                                                                      |
+| Port                  | int64                                          | ✅       | The container group networking port.                                                                                                                              |
+| Protocol              | shared.ContainerNetworkingProtocol             | ✅       | Defines the communication protocol used for network traffic between containers or external systems. Currently supports HTTP protocol for web-based communication. |
+| ClientRequestTimeout  | int64                                          | ❌       | The container group networking client request timeout.                                                                                                            |
+| LoadBalancer          | shared.TheContainerGroupNetworkingLoadBalancer | ❌       | The container group networking load balancer.                                                                                                                     |
+| ServerResponseTimeout | int64                                          | ❌       | The container group networking server response timeout.                                                                                                           |
+| SingleConnectionLimit | bool                                           | ❌       | The container group networking single connection limit flag.                                                                                                      |

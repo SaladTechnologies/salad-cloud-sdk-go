@@ -12,7 +12,7 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := inferenceendpoints.CreateInferenceEndpointJob{
+request := inferenceendpoints.InferenceEndpointJobPrototype{
   Input: []byte{},
   Metadata: []byte{},
   Webhook: util.ToPointer("Webhook"),

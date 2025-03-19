@@ -4,8 +4,10 @@ import "encoding/json"
 
 // Represents an event for queue job
 type QueueJobEvent struct {
+	// The action that was taken on the queue job
 	Action *Action `json:"action,omitempty" required:"true"`
-	Time   *string `json:"time,omitempty" required:"true"`
+	// The time the action was taken on the queue job
+	Time *string `json:"time,omitempty" required:"true"`
 }
 
 func (q *QueueJobEvent) GetAction() *Action {
@@ -38,6 +40,7 @@ func (q QueueJobEvent) String() string {
 	return string(jsonData)
 }
 
+// The action that was taken on the queue job
 type Action string
 
 const (

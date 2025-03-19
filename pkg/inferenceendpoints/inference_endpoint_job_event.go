@@ -4,8 +4,10 @@ import "encoding/json"
 
 // Represents an event for inference endpoint job
 type InferenceEndpointJobEvent struct {
+	// The action that was taken on the inference endpoint job.
 	Action *InferenceEndpointJobEventAction `json:"action,omitempty" required:"true"`
-	Time   *string                          `json:"time,omitempty" required:"true"`
+	// The time the event occurred.
+	Time *string `json:"time,omitempty" required:"true"`
 }
 
 func (i *InferenceEndpointJobEvent) GetAction() *InferenceEndpointJobEventAction {

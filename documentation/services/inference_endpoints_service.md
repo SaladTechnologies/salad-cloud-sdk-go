@@ -9,7 +9,7 @@ A list of all methods in the `InferenceEndpointsService` service. Click on the m
 | [ListInferenceEndpointJobs](#listinferenceendpointjobs)   | Lists inference endpoint jobs.        |
 | [CreateInferenceEndpointJob](#createinferenceendpointjob) | Creates a new inference endpoint job. |
 | [GetInferenceEndpointJob](#getinferenceendpointjob)       | Gets an inference endpoint job.       |
-| [CancelInferenceEndpointJob](#cancelinferenceendpointjob) | Cancels an inference endpoint job.    |
+| [DeleteInferenceEndpointJob](#deleteinferenceendpointjob) | Cancels an inference endpoint job.    |
 
 ## ListInferenceEndpoints
 
@@ -28,7 +28,7 @@ Lists inference endpoints.
 
 **Return Type**
 
-`InferenceEndpointList`
+`InferenceEndpointCollection`
 
 **Example Usage Code Snippet**
 
@@ -117,7 +117,7 @@ Lists inference endpoint jobs.
 
 **Return Type**
 
-`InferenceEndpointJobList`
+`InferenceEndpointJobCollection`
 
 **Example Usage Code Snippet**
 
@@ -156,12 +156,12 @@ Creates a new inference endpoint job.
 
 **Parameters**
 
-| Name                       | Type                       | Required | Description                                                                                                                                                                                                                                         |
-| :------------------------- | :------------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ctx                        | Context                    | ✅       | Default go language context                                                                                                                                                                                                                         |
-| organizationName           | string                     | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
-| inferenceEndpointName      | string                     | ✅       | The inference endpoint name.                                                                                                                                                                                                                        |
-| createInferenceEndpointJob | CreateInferenceEndpointJob | ✅       |                                                                                                                                                                                                                                                     |
+| Name                          | Type                          | Required | Description                                                                                                                                                                                                                                         |
+| :---------------------------- | :---------------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ctx                           | Context                       | ✅       | Default go language context                                                                                                                                                                                                                         |
+| organizationName              | string                        | ✅       | Your organization name. This identifies the billing context for the API operation and represents a security boundary for SaladCloud resources. The organization must be created before using the API, and you must be a member of the organization. |
+| inferenceEndpointName         | string                        | ✅       | The inference endpoint name.                                                                                                                                                                                                                        |
+| inferenceEndpointJobPrototype | InferenceEndpointJobPrototype | ✅       |                                                                                                                                                                                                                                                     |
 
 **Return Type**
 
@@ -183,7 +183,7 @@ config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
-request := inferenceendpoints.CreateInferenceEndpointJob{
+request := inferenceendpoints.InferenceEndpointJobPrototype{
   Input: []byte{},
   Metadata: []byte{},
   Webhook: util.ToPointer("Webhook"),
@@ -240,7 +240,7 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## CancelInferenceEndpointJob
+## DeleteInferenceEndpointJob
 
 Cancels an inference endpoint job.
 
@@ -274,7 +274,7 @@ import (
 config := saladcloudsdkconfig.NewConfig()
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.InferenceEndpoints.CancelInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", "inferenceEndpointJobId")
+response, err := client.InferenceEndpoints.DeleteInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", "inferenceEndpointJobId")
 if err != nil {
   panic(err)
 }
