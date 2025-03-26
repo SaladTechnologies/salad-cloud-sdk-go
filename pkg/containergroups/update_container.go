@@ -18,7 +18,7 @@ type UpdateContainer struct {
 	// The container image caching.
 	ImageCaching *bool `json:"image_caching,omitempty"`
 	// Configuration options for directing container logs to a logging provider. This schema enables you to specify a single logging destination for container output, supporting monitoring, debugging, and analytics use cases. Each provider has its own configuration parameters defined in the referenced schemas. Only one logging provider can be selected at a time.
-	Logging *shared.ContainerLoggingConfiguration `json:"logging,omitempty"`
+	Logging *util.Nullable[UpdateContainerLogging] `json:"logging,omitempty"`
 	// Specifies the priority level for container group execution, which determines resource allocation and scheduling precedence.
 	Priority *util.Nullable[shared.ContainerGroupPriority] `json:"priority,omitempty"`
 	// Authentication configuration for various container registry types, including AWS ECR, Docker Hub, GCP GAR, GCP GCR, and basic authentication.
@@ -79,15 +79,19 @@ func (u *UpdateContainer) SetImageCaching(imageCaching bool) {
 	u.ImageCaching = &imageCaching
 }
 
-func (u *UpdateContainer) GetLogging() *shared.ContainerLoggingConfiguration {
+func (u *UpdateContainer) GetLogging() *util.Nullable[UpdateContainerLogging] {
 	if u == nil {
 		return nil
 	}
 	return u.Logging
 }
 
-func (u *UpdateContainer) SetLogging(logging shared.ContainerLoggingConfiguration) {
+func (u *UpdateContainer) SetLogging(logging util.Nullable[UpdateContainerLogging]) {
 	u.Logging = &logging
+}
+
+func (u *UpdateContainer) SetLoggingNull() {
+	u.Logging = &util.Nullable[UpdateContainerLogging]{IsNull: true}
 }
 
 func (u *UpdateContainer) GetPriority() *util.Nullable[shared.ContainerGroupPriority] {

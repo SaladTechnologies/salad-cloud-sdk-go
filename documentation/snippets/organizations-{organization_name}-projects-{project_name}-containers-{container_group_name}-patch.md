@@ -30,7 +30,7 @@ datadogLoggingConfiguration := shared.DatadogLoggingConfiguration{
   Tags: []shared.DatadogTagForContainerLogging{datadogTagForContainerLogging},
 }
 
-format := shared.FORMAT_JSON
+containerHttpLoggingConfigurationFormat1 := shared.CONTAINER_HTTP_LOGGING_CONFIGURATION_FORMAT1_JSON
 
 
 containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
@@ -38,17 +38,17 @@ containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
   Value: util.ToPointer("Value"),
 }
 
-compression := shared.COMPRESSION_NONE
+containerHttpLoggingConfigurationCompression1 := shared.CONTAINER_HTTP_LOGGING_CONFIGURATION_COMPRESSION1_NONE
 
-containerHttpLoggingConfiguration := shared.ContainerHttpLoggingConfiguration{
+containerLoggingConfigurationHttp1 := shared.ContainerLoggingConfigurationHttp1{
   Host: util.ToPointer("Host"),
   Port: util.ToPointer(int64(123)),
   User: util.ToPointer(util.Nullable[string]{ Value: "User" }),
   Password: util.ToPointer(util.Nullable[string]{ Value: "Password" }),
   Path: util.ToPointer(util.Nullable[string]{ Value: "Path" }),
-  Format: &format,
+  Format: &containerHttpLoggingConfigurationFormat1,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
-  Compression: &compression,
+  Compression: &containerHttpLoggingConfigurationCompression1,
 }
 
 
@@ -69,10 +69,10 @@ tcpLoggingConfiguration := shared.TcpLoggingConfiguration{
   Port: util.ToPointer(int64(123)),
 }
 
-containerLoggingConfiguration := shared.ContainerLoggingConfiguration{
+updateContainerLogging := containergroups.UpdateContainerLogging{
   Axiom: &axiomLoggingConfiguration,
   Datadog: &datadogLoggingConfiguration,
-  Http: &containerHttpLoggingConfiguration,
+  Http: &containerLoggingConfigurationHttp1,
   NewRelic: &newRelicLoggingConfiguration,
   Splunk: &containerLoggingSplunkConfiguration,
   Tcp: &tcpLoggingConfiguration,
@@ -129,7 +129,7 @@ updateContainer := containergroups.UpdateContainer{
   EnvironmentVariables: map[string]string{},
   Image: util.ToPointer(util.Nullable[string]{ Value: "Image" }),
   ImageCaching: util.ToPointer(true),
-  Logging: &containerLoggingConfiguration,
+  Logging: &updateContainerLogging,
   Priority: &containerGroupPriority,
   RegistryAuthentication: &containerRegistryAuthentication,
   Resources: &containerResourceUpdateSchema,

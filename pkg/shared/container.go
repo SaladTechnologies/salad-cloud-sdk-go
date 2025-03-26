@@ -13,13 +13,13 @@ type Container struct {
 	// Environment variables to set in the container.
 	EnvironmentVariables map[string]*string `json:"environment_variables,omitempty"`
 	// SHA-256 hash (64-character hexadecimal string)
-	Hash *string `json:"hash,omitempty" maxLength:"64" minLength:"64" pattern:"^[a-fA-F0-9]{64}$"`
+	Hash *string `json:"hash,omitempty" maxLength:"135" minLength:"47" pattern:"^sha\d{1,3}:[a-fA-F0-9]{40,135}$"`
 	// The container image.
 	Image *string `json:"image,omitempty" required:"true" maxLength:"2048" minLength:"1" pattern:"^.*$"`
 	// The container image caching.
 	ImageCaching *bool `json:"image_caching,omitempty"`
 	// Configuration options for directing container logs to a logging provider. This schema enables you to specify a single logging destination for container output, supporting monitoring, debugging, and analytics use cases. Each provider has its own configuration parameters defined in the referenced schemas. Only one logging provider can be selected at a time.
-	Logging *ContainerLoggingConfiguration `json:"logging,omitempty"`
+	Logging *ContainerLogging `json:"logging,omitempty"`
 	// Specifies the resource requirements for a container.
 	Resources *ContainerResourceRequirements `json:"resources,omitempty" required:"true"`
 	// Size of the container in bytes.
@@ -85,14 +85,14 @@ func (c *Container) SetImageCaching(imageCaching bool) {
 	c.ImageCaching = &imageCaching
 }
 
-func (c *Container) GetLogging() *ContainerLoggingConfiguration {
+func (c *Container) GetLogging() *ContainerLogging {
 	if c == nil {
 		return nil
 	}
 	return c.Logging
 }
 
-func (c *Container) SetLogging(logging ContainerLoggingConfiguration) {
+func (c *Container) SetLogging(logging ContainerLogging) {
 	c.Logging = &logging
 }
 

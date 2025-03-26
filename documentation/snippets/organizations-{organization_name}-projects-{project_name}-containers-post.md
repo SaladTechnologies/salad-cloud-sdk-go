@@ -31,7 +31,7 @@ datadogLoggingConfiguration := shared.DatadogLoggingConfiguration{
   Tags: []shared.DatadogTagForContainerLogging{datadogTagForContainerLogging},
 }
 
-format := shared.FORMAT_JSON
+containerHttpLoggingConfigurationFormat2 := containergroups.CONTAINER_HTTP_LOGGING_CONFIGURATION_FORMAT2_JSON
 
 
 containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
@@ -39,17 +39,17 @@ containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
   Value: util.ToPointer("Value"),
 }
 
-compression := shared.COMPRESSION_NONE
+containerHttpLoggingConfigurationCompression2 := containergroups.CONTAINER_HTTP_LOGGING_CONFIGURATION_COMPRESSION2_NONE
 
-containerHttpLoggingConfiguration := shared.ContainerHttpLoggingConfiguration{
+containerLoggingConfigurationHttp2 := containergroups.ContainerLoggingConfigurationHttp2{
   Host: util.ToPointer("Host"),
   Port: util.ToPointer(int64(123)),
   User: util.ToPointer(util.Nullable[string]{ Value: "User" }),
   Password: util.ToPointer(util.Nullable[string]{ Value: "Password" }),
   Path: util.ToPointer(util.Nullable[string]{ Value: "Path" }),
-  Format: &format,
+  Format: &containerHttpLoggingConfigurationFormat2,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
-  Compression: &compression,
+  Compression: &containerHttpLoggingConfigurationCompression2,
 }
 
 
@@ -70,10 +70,10 @@ tcpLoggingConfiguration := shared.TcpLoggingConfiguration{
   Port: util.ToPointer(int64(123)),
 }
 
-containerLoggingConfiguration := shared.ContainerLoggingConfiguration{
+containerConfigurationLogging := containergroups.ContainerConfigurationLogging{
   Axiom: &axiomLoggingConfiguration,
   Datadog: &datadogLoggingConfiguration,
-  Http: &containerHttpLoggingConfiguration,
+  Http: &containerLoggingConfigurationHttp2,
   NewRelic: &newRelicLoggingConfiguration,
   Splunk: &containerLoggingSplunkConfiguration,
   Tcp: &tcpLoggingConfiguration,
@@ -130,7 +130,7 @@ containerConfiguration := containergroups.ContainerConfiguration{
   EnvironmentVariables: map[string]string{},
   Image: util.ToPointer("Image"),
   ImageCaching: util.ToPointer(true),
-  Logging: &containerLoggingConfiguration,
+  Logging: &containerConfigurationLogging,
   Priority: &containerGroupPriority,
   RegistryAuthentication: &containerRegistryAuthentication,
   Resources: &containerResourceRequirements,

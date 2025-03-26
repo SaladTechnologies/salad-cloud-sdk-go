@@ -18,7 +18,7 @@ type ContainerConfiguration struct {
 	// The container image caching.
 	ImageCaching *bool `json:"image_caching,omitempty"`
 	// Configuration options for directing container logs to a logging provider. This schema enables you to specify a single logging destination for container output, supporting monitoring, debugging, and analytics use cases. Each provider has its own configuration parameters defined in the referenced schemas. Only one logging provider can be selected at a time.
-	Logging *shared.ContainerLoggingConfiguration `json:"logging,omitempty"`
+	Logging *ContainerConfigurationLogging `json:"logging,omitempty"`
 	// Specifies the priority level for container group execution, which determines resource allocation and scheduling precedence.
 	Priority *util.Nullable[shared.ContainerGroupPriority] `json:"priority,omitempty"`
 	// Authentication configuration for various container registry types, including AWS ECR, Docker Hub, GCP GAR, GCP GCR, and basic authentication.
@@ -75,14 +75,14 @@ func (c *ContainerConfiguration) SetImageCaching(imageCaching bool) {
 	c.ImageCaching = &imageCaching
 }
 
-func (c *ContainerConfiguration) GetLogging() *shared.ContainerLoggingConfiguration {
+func (c *ContainerConfiguration) GetLogging() *ContainerConfigurationLogging {
 	if c == nil {
 		return nil
 	}
 	return c.Logging
 }
 
-func (c *ContainerConfiguration) SetLogging(logging shared.ContainerLoggingConfiguration) {
+func (c *ContainerConfiguration) SetLogging(logging ContainerConfigurationLogging) {
 	c.Logging = &logging
 }
 

@@ -5,7 +5,7 @@ import "encoding/json"
 // Represents a webhook secret key
 type WebhookSecretKey struct {
 	// The webhook secret key
-	SecretKey *string `json:"secret_key,omitempty" required:"true" maxLength:"64" minLength:"8" pattern:"^.*$"`
+	SecretKey *string `json:"secret_key,omitempty" required:"true" maxLength:"172" minLength:"44" pattern:"^[+/=0-9A-Za-z]{44,172}$"`
 }
 
 func (w *WebhookSecretKey) GetSecretKey() *string {
