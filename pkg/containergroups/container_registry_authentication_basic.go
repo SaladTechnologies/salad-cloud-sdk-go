@@ -5,9 +5,9 @@ import "encoding/json"
 // Basic username and password authentication for generic container registries
 type ContainerRegistryAuthenticationBasic struct {
 	// Username for registry authentication
-	Username *string `json:"username,omitempty" required:"true" maxLength:"1000" minLength:"1" pattern:"^.*$"`
+	Username *string `json:"username,omitempty" required:"true" maxLength:"10000" minLength:"1" pattern:"^.*$"`
 	// Password for registry authentication
-	Password *string `json:"password,omitempty" required:"true" maxLength:"1000" minLength:"1" pattern:"^.*$"`
+	Password *string `json:"password,omitempty" required:"true" maxLength:"10000" minLength:"1" pattern:"^.*$"`
 }
 
 func (c *ContainerRegistryAuthenticationBasic) GetUsername() *string {

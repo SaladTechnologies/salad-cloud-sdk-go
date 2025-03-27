@@ -122,6 +122,8 @@ containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
   Value: util.ToPointer("Value"),
 }
 
+containerLoggingHttpCompression := shared.CONTAINER_LOGGING_HTTP_COMPRESSION_NONE
+
 containerLoggingConfigurationHttp2 := containergroups.ContainerLoggingConfigurationHttp2{
   Host: util.ToPointer("Host"),
   Port: util.ToPointer(int64(123)),
@@ -130,7 +132,7 @@ containerLoggingConfigurationHttp2 := containergroups.ContainerLoggingConfigurat
   Path: util.ToPointer(util.Nullable[string]{ Value: "Path" }),
   Format: &containerLoggingHttpFormat,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
-  Compression: []byte{},
+  Compression: &containerLoggingHttpCompression,
 }
 
 
@@ -510,6 +512,8 @@ containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
   Value: util.ToPointer("Value"),
 }
 
+containerLoggingHttpCompression := shared.CONTAINER_LOGGING_HTTP_COMPRESSION_NONE
+
 containerLoggingConfigurationHttp1 := shared.ContainerLoggingConfigurationHttp1{
   Host: util.ToPointer("Host"),
   Port: util.ToPointer(int64(123)),
@@ -518,7 +522,7 @@ containerLoggingConfigurationHttp1 := shared.ContainerLoggingConfigurationHttp1{
   Path: util.ToPointer(util.Nullable[string]{ Value: "Path" }),
   Format: &containerLoggingHttpFormat,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
-  Compression: []byte{},
+  Compression: &containerLoggingHttpCompression,
 }
 
 

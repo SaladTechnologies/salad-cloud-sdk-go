@@ -20,8 +20,9 @@ type ContainerLoggingConfigurationHttp1 struct {
 	// The format in which logs will be delivered
 	Format *ContainerLoggingHttpFormat `json:"format,omitempty" required:"true"`
 	// Optional HTTP headers to include in log transmission requests
-	Headers     *util.Nullable[[]ContainerLoggingHttpHeader] `json:"headers,omitempty" required:"true" maxItems:"1000"`
-	Compression any                                          `json:"compression,omitempty" required:"true"`
+	Headers *util.Nullable[[]ContainerLoggingHttpHeader] `json:"headers,omitempty" required:"true" maxItems:"1000"`
+	// The compression algorithm to apply to logs before transmission
+	Compression *ContainerLoggingHttpCompression `json:"compression,omitempty" required:"true"`
 }
 
 func (c *ContainerLoggingConfigurationHttp1) GetHost() *string {
@@ -117,15 +118,15 @@ func (c *ContainerLoggingConfigurationHttp1) SetHeadersNull() {
 	c.Headers = &util.Nullable[[]ContainerLoggingHttpHeader]{IsNull: true}
 }
 
-func (c *ContainerLoggingConfigurationHttp1) GetCompression() any {
+func (c *ContainerLoggingConfigurationHttp1) GetCompression() *ContainerLoggingHttpCompression {
 	if c == nil {
 		return nil
 	}
 	return c.Compression
 }
 
-func (c *ContainerLoggingConfigurationHttp1) SetCompression(compression any) {
-	c.Compression = compression
+func (c *ContainerLoggingConfigurationHttp1) SetCompression(compression ContainerLoggingHttpCompression) {
+	c.Compression = &compression
 }
 
 func (c ContainerLoggingConfigurationHttp1) String() string {

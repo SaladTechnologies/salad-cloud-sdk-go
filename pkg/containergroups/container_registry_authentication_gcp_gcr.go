@@ -5,7 +5,7 @@ import "encoding/json"
 // Authentication details for Google Container Registry (GCR)
 type ContainerRegistryAuthenticationGcpGcr struct {
 	// GCP service account key in JSON format for GCR authentication
-	ServiceKey *string `json:"service_key,omitempty" required:"true" maxLength:"1000" minLength:"1" pattern:"^.*$"`
+	ServiceKey *string `json:"service_key,omitempty" required:"true" maxLength:"10000" minLength:"1" pattern:"^.*$"`
 }
 
 func (c *ContainerRegistryAuthenticationGcpGcr) GetServiceKey() *string {

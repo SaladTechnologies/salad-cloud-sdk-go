@@ -5,9 +5,9 @@ import "encoding/json"
 // Authentication details for AWS Elastic Container Registry (ECR)
 type ContainerRegistryAuthenticationAwsEcr struct {
 	// AWS access key ID used for ECR authentication
-	AccessKeyId *string `json:"access_key_id,omitempty" required:"true" maxLength:"1000" minLength:"1" pattern:"^.*$"`
+	AccessKeyId *string `json:"access_key_id,omitempty" required:"true" maxLength:"10000" minLength:"1" pattern:"^.*$"`
 	// AWS secret access key used for ECR authentication
-	SecretAccessKey *string `json:"secret_access_key,omitempty" required:"true" maxLength:"1000" minLength:"1" pattern:"^.*$"`
+	SecretAccessKey *string `json:"secret_access_key,omitempty" required:"true" maxLength:"10000" minLength:"1" pattern:"^.*$"`
 }
 
 func (c *ContainerRegistryAuthenticationAwsEcr) GetAccessKeyId() *string {

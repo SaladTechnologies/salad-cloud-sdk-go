@@ -5,9 +5,9 @@ import "encoding/json"
 // Authentication details for Docker Hub registry
 type ContainerRegistryAuthenticationDockerHub struct {
 	// Docker Hub username
-	Username *string `json:"username,omitempty" required:"true" maxLength:"1000" minLength:"1" pattern:"^.*$"`
+	Username *string `json:"username,omitempty" required:"true" maxLength:"10000" minLength:"1" pattern:"^.*$"`
 	// Docker Hub personal access token (PAT)
-	PersonalAccessToken *string `json:"personal_access_token,omitempty" required:"true" maxLength:"1000" minLength:"1" pattern:"^.*$"`
+	PersonalAccessToken *string `json:"personal_access_token,omitempty" required:"true" maxLength:"10000" minLength:"1" pattern:"^.*$"`
 }
 
 func (c *ContainerRegistryAuthenticationDockerHub) GetUsername() *string {
