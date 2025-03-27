@@ -12,7 +12,7 @@ type ContainerGroup struct {
 	// Represents a container with its configuration and resource requirements.
 	Container *Container `json:"container,omitempty" required:"true"`
 	// List of country codes where container instances are permitted to run. When not specified or empty, containers may run in any available region.
-	CountryCodes []CountryCode `json:"country_codes,omitempty" required:"true" minItems:"1" maxItems:"500"`
+	CountryCodes []CountryCode `json:"country_codes,omitempty" required:"true" maxItems:"500"`
 	// ISO 8601 timestamp when this container group was initially created
 	CreateTime *string `json:"create_time,omitempty" required:"true"`
 	// Represents the operational state of a container group during its lifecycle, including timing information, status, and instance distribution metrics. This state captures the current execution status, start and finish times, and provides visibility into the operational health across instances.

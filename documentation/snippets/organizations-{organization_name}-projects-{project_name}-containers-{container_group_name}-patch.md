@@ -30,7 +30,7 @@ datadogLoggingConfiguration := shared.DatadogLoggingConfiguration{
   Tags: []shared.DatadogTagForContainerLogging{datadogTagForContainerLogging},
 }
 
-containerHttpLoggingConfigurationFormat1 := shared.CONTAINER_HTTP_LOGGING_CONFIGURATION_FORMAT1_JSON
+containerLoggingHttpFormat := shared.CONTAINER_LOGGING_HTTP_FORMAT_JSON
 
 
 containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
@@ -38,17 +38,15 @@ containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
   Value: util.ToPointer("Value"),
 }
 
-containerHttpLoggingConfigurationCompression1 := shared.CONTAINER_HTTP_LOGGING_CONFIGURATION_COMPRESSION1_NONE
-
 containerLoggingConfigurationHttp1 := shared.ContainerLoggingConfigurationHttp1{
   Host: util.ToPointer("Host"),
   Port: util.ToPointer(int64(123)),
   User: util.ToPointer(util.Nullable[string]{ Value: "User" }),
   Password: util.ToPointer(util.Nullable[string]{ Value: "Password" }),
   Path: util.ToPointer(util.Nullable[string]{ Value: "Path" }),
-  Format: &containerHttpLoggingConfigurationFormat1,
+  Format: &containerLoggingHttpFormat,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
-  Compression: &containerHttpLoggingConfigurationCompression1,
+  Compression: []byte{},
 }
 
 

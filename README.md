@@ -1,4 +1,4 @@
-# SaladCloudSdk Go SDK 0.9.0-alpha.9
+# SaladCloudSdk Go SDK 0.9.0-alpha.10
 
 Welcome to the SaladCloudSdk SDK documentation. This guide will help you get started with integrating and using the SaladCloudSdk SDK in your project.
 
@@ -6,8 +6,8 @@ Welcome to the SaladCloudSdk SDK documentation. This guide will help you get sta
 
 ## Versions
 
-- API version: `0.9.0-alpha.9`
-- SDK version: `0.9.0-alpha.9`
+- API version: `0.9.0-alpha.10`
+- SDK version: `0.9.0-alpha.10`
 
 ## About the API
 
@@ -179,6 +179,7 @@ The SDK includes several models that represent the data structures used in API r
 | [ContainerLoggingSplunkConfiguration](documentation/models/container_logging_splunk_configuration.md)            | Configuration settings for forwarding container logs to a Splunk instance.                                                                                                                                                                                                                                                                                            |
 | [TcpLoggingConfiguration](documentation/models/tcp_logging_configuration.md)                                     | Configuration for forwarding container logs to a remote TCP endpoint                                                                                                                                                                                                                                                                                                  |
 | [DatadogTagForContainerLogging](documentation/models/datadog_tag_for_container_logging.md)                       | Represents a Datadog tag used for container logging metadata.                                                                                                                                                                                                                                                                                                         |
+| [ContainerLoggingHttpFormat](documentation/models/container_logging_http_format.md)                              | The format in which logs will be delivered                                                                                                                                                                                                                                                                                                                            |
 | [ContainerLoggingHttpHeader](documentation/models/container_logging_http_header.md)                              | Represents an HTTP header used for container logging configuration.                                                                                                                                                                                                                                                                                                   |
 | [ContainerGroupInstanceStatusCount](documentation/models/container_group_instance_status_count.md)               | A summary of container group instances categorized by their current lifecycle status                                                                                                                                                                                                                                                                                  |
 | [ContainerGroupStatus](documentation/models/container_group_status.md)                                           | Represents the current operational state of a container group within the Salad platform.                                                                                                                                                                                                                                                                              |

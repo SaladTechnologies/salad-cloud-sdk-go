@@ -1,11 +1,11 @@
 {
-  "liblabVersion": "2.24.0",
-  "date": "2025-03-26T23:21:50.390Z",
+  "liblabVersion": "2.25.0",
+  "date": "2025-03-27T19:05:38.966Z",
   "config": {
     "language": "go",
-    "apiId": 1944,
+    "apiId": 1945,
     "sdkName": "salad-cloud-sdk",
-    "sdkVersion": "0.9.0-alpha.9",
+    "sdkVersion": "0.9.0-alpha.10",
     "languages": ["go"],
     "auth": ["apikey"],
     "docs": ["enhancedApiSpec", "snippets"],
@@ -50,7 +50,7 @@
           "githubRepoName": "salad-cloud-sdk-dotnet",
           "targetBranch": "main",
           "ignoreFiles": [".gitignore", "./LICENSE"],
-          "sdkVersion": "0.9.0-alpha.9",
+          "sdkVersion": "0.9.0-alpha.10",
           "authors": [
             {
               "name": "salad"
@@ -67,7 +67,7 @@
           "githubRepoName": "salad-cloud-sdk-go",
           "targetBranch": "main",
           "ignoreFiles": [".gitignore", "./LICENSE"],
-          "sdkVersion": "0.9.0-alpha.9",
+          "sdkVersion": "0.9.0-alpha.10",
           "goModuleName": "github.com/saladtechnologies/salad-cloud-sdk-go"
         },
         "java": {
@@ -75,7 +75,7 @@
           "githubRepoName": "salad-cloud-sdk-java",
           "targetBranch": "main",
           "ignoreFiles": [".gitignore", "./LICENSE"],
-          "sdkVersion": "0.9.0-alpha.10",
+          "sdkVersion": "0.9.0-alpha.11",
           "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-java",
           "groupId": "com.salad.cloud",
           "artifactId": "sdk",
@@ -99,7 +99,7 @@
           "githubRepoName": "salad-cloud-sdk-python",
           "targetBranch": "main",
           "ignoreFiles": [".gitignore", "./LICENSE"],
-          "sdkVersion": "0.9.0-alpha.9",
+          "sdkVersion": "0.9.0-alpha.10",
           "authors": [
             {
               "name": "SaladCloud Developers",
@@ -154,7 +154,7 @@
           "githubRepoName": "salad-cloud-sdk-javascript",
           "targetBranch": "main",
           "ignoreFiles": [".gitignore", "./LICENSE"],
-          "sdkVersion": "0.9.0-alpha.10",
+          "sdkVersion": "0.9.0-alpha.11",
           "authors": [
             {
               "name": "SaladCloud Developers",
@@ -279,7 +279,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-dotnet",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.9",
+        "sdkVersion": "0.9.0-alpha.10",
         "targetBranch": "main"
       },
       "go": {
@@ -287,7 +287,7 @@
         "githubRepoName": "salad-cloud-sdk-go",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.9",
+        "sdkVersion": "0.9.0-alpha.10",
         "targetBranch": "main"
       },
       "java": {
@@ -312,7 +312,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-java",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.10",
+        "sdkVersion": "0.9.0-alpha.11",
         "targetBranch": "main"
       },
       "python": {
@@ -355,7 +355,7 @@
         "githubRepoName": "salad-cloud-sdk-python",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.9",
+        "sdkVersion": "0.9.0-alpha.10",
         "targetBranch": "main"
       },
       "terraform": {
@@ -392,7 +392,7 @@
         "homepage": "https://github.com/saladtechnologies/salad-cloud-sdk-javascript",
         "ignoreFiles": [".gitignore", "./LICENSE"],
         "liblabVersion": "2",
-        "sdkVersion": "0.9.0-alpha.10",
+        "sdkVersion": "0.9.0-alpha.11",
         "targetBranch": "main",
         "generateEnumAs": "enum"
       }
@@ -487,7 +487,7 @@
       }
     ],
     "apiName": "SaladCloud API",
-    "apiVersion": "0.9.0-alpha.9",
+    "apiVersion": "0.9.0-alpha.10",
     "authentication": {
       "apiKey": {
         "header": "Salad-Api-Key"
@@ -667,10 +667,12 @@
     "documentation/models/container_resource_requirements.md",
     "documentation/models/axiom_logging_configuration.md",
     "documentation/models/datadog_logging_configuration.md",
+    "documentation/models/container_logging_configuration_http_1.md",
     "documentation/models/new_relic_logging_configuration.md",
     "documentation/models/container_logging_splunk_configuration.md",
     "documentation/models/tcp_logging_configuration.md",
     "documentation/models/datadog_tag_for_container_logging.md",
+    "documentation/models/container_logging_http_format.md",
     "documentation/models/container_logging_http_header.md",
     "documentation/models/container_group_instance_status_count.md",
     "documentation/models/container_group_status.md",
@@ -686,6 +688,7 @@
     "documentation/models/create_container_group_networking.md",
     "documentation/models/container_configuration_logging.md",
     "documentation/models/container_registry_authentication.md",
+    "documentation/models/container_logging_configuration_http_2.md",
     "documentation/models/container_registry_authentication_aws_ecr.md",
     "documentation/models/container_registry_authentication_basic.md",
     "documentation/models/container_registry_authentication_docker_hub.md",
@@ -758,10 +761,12 @@
     "pkg/shared/container_resource_requirements.go",
     "pkg/shared/axiom_logging_configuration.go",
     "pkg/shared/datadog_logging_configuration.go",
+    "pkg/shared/container_logging_configuration_http_1.go",
     "pkg/shared/new_relic_logging_configuration.go",
     "pkg/shared/container_logging_splunk_configuration.go",
     "pkg/shared/tcp_logging_configuration.go",
     "pkg/shared/datadog_tag_for_container_logging.go",
+    "pkg/shared/container_logging_http_format.go",
     "pkg/shared/container_logging_http_header.go",
     "pkg/shared/container_group_instance_status_count.go",
     "pkg/shared/container_group_status.go",
@@ -777,6 +782,7 @@
     "pkg/containergroups/create_container_group_networking.go",
     "pkg/containergroups/container_configuration_logging.go",
     "pkg/containergroups/container_registry_authentication.go",
+    "pkg/containergroups/container_logging_configuration_http_2.go",
     "pkg/containergroups/container_registry_authentication_aws_ecr.go",
     "pkg/containergroups/container_registry_authentication_basic.go",
     "pkg/containergroups/container_registry_authentication_docker_hub.go",
@@ -801,13 +807,9 @@
     "documentation/services/system_logs_service.md",
     "documentation/services/quotas_service.md",
     "documentation/services/organization_data_service.md",
-    "documentation/models/container_logging_configuration_http_1.md",
-    "documentation/models/container_logging_configuration_http_2.md",
     "pkg/queues/queue_job.go",
     "pkg/queues/queue_job_event.go",
     "documentation/services/webhook_secret_key_service.md",
-    "pkg/shared/container_logging_configuration_http_1.go",
-    "pkg/containergroups/container_logging_configuration_http_2.go",
     "documentation/services/inference_endpoints_service.md",
     "README.md",
     "documentation/services/queues_service.md",

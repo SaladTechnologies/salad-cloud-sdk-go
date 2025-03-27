@@ -19,11 +19,10 @@ type ContainerLoggingConfigurationHttp2 struct {
 	// Optional URL path for the HTTP endpoint
 	Path *util.Nullable[string] `json:"path,omitempty" maxLength:"1000" minLength:"1" pattern:"^.*$"`
 	// The format in which logs will be delivered
-	Format *ContainerHttpLoggingConfigurationFormat2 `json:"format,omitempty" required:"true"`
+	Format *shared.ContainerLoggingHttpFormat `json:"format,omitempty" required:"true"`
 	// Optional HTTP headers to include in log transmission requests
-	Headers []shared.ContainerLoggingHttpHeader `json:"headers,omitempty" maxItems:"1000"`
-	// The compression algorithm to apply to logs before transmission
-	Compression *ContainerHttpLoggingConfigurationCompression2 `json:"compression,omitempty" required:"true"`
+	Headers     []shared.ContainerLoggingHttpHeader `json:"headers,omitempty" maxItems:"1000"`
+	Compression any                                 `json:"compression,omitempty" required:"true"`
 }
 
 func (c *ContainerLoggingConfigurationHttp2) GetHost() *string {
@@ -93,14 +92,14 @@ func (c *ContainerLoggingConfigurationHttp2) SetPathNull() {
 	c.Path = &util.Nullable[string]{IsNull: true}
 }
 
-func (c *ContainerLoggingConfigurationHttp2) GetFormat() *ContainerHttpLoggingConfigurationFormat2 {
+func (c *ContainerLoggingConfigurationHttp2) GetFormat() *shared.ContainerLoggingHttpFormat {
 	if c == nil {
 		return nil
 	}
 	return c.Format
 }
 
-func (c *ContainerLoggingConfigurationHttp2) SetFormat(format ContainerHttpLoggingConfigurationFormat2) {
+func (c *ContainerLoggingConfigurationHttp2) SetFormat(format shared.ContainerLoggingHttpFormat) {
 	c.Format = &format
 }
 
@@ -115,15 +114,15 @@ func (c *ContainerLoggingConfigurationHttp2) SetHeaders(headers []shared.Contain
 	c.Headers = headers
 }
 
-func (c *ContainerLoggingConfigurationHttp2) GetCompression() *ContainerHttpLoggingConfigurationCompression2 {
+func (c *ContainerLoggingConfigurationHttp2) GetCompression() any {
 	if c == nil {
 		return nil
 	}
 	return c.Compression
 }
 
-func (c *ContainerLoggingConfigurationHttp2) SetCompression(compression ContainerHttpLoggingConfigurationCompression2) {
-	c.Compression = &compression
+func (c *ContainerLoggingConfigurationHttp2) SetCompression(compression any) {
+	c.Compression = compression
 }
 
 func (c ContainerLoggingConfigurationHttp2) String() string {
@@ -133,19 +132,3 @@ func (c ContainerLoggingConfigurationHttp2) String() string {
 	}
 	return string(jsonData)
 }
-
-// The format in which logs will be delivered
-type ContainerHttpLoggingConfigurationFormat2 string
-
-const (
-	CONTAINER_HTTP_LOGGING_CONFIGURATION_FORMAT2_JSON       ContainerHttpLoggingConfigurationFormat2 = "json"
-	CONTAINER_HTTP_LOGGING_CONFIGURATION_FORMAT2_JSON_LINES ContainerHttpLoggingConfigurationFormat2 = "json_lines"
-)
-
-// The compression algorithm to apply to logs before transmission
-type ContainerHttpLoggingConfigurationCompression2 string
-
-const (
-	CONTAINER_HTTP_LOGGING_CONFIGURATION_COMPRESSION2_NONE ContainerHttpLoggingConfigurationCompression2 = "none"
-	CONTAINER_HTTP_LOGGING_CONFIGURATION_COMPRESSION2_GZIP ContainerHttpLoggingConfigurationCompression2 = "gzip"
-)
