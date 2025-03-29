@@ -5,7 +5,7 @@ import "encoding/json"
 // Authentication details for Google Artifact Registry (GAR)
 type ContainerRegistryAuthenticationGcpGar struct {
 	// GCP service account key in JSON format for GAR authentication
-	ServiceKey *string `json:"service_key,omitempty" required:"true" maxLength:"10000" minLength:"1" pattern:"^.*$"`
+	ServiceKey *string `json:"service_key,omitempty" required:"true" maxLength:"10000" minLength:"1"`
 }
 
 func (c *ContainerRegistryAuthenticationGcpGar) GetServiceKey() *string {

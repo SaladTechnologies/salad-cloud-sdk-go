@@ -5,15 +5,15 @@ import "encoding/json"
 // Represents the organization quotas for container groups
 type ContainerGroupsQuotas struct {
 	// The maximum number of replicas that can be created for a container group
-	ContainerReplicasQuota *int64 `json:"container_replicas_quota,omitempty" required:"true" min:"0" max:"500"`
+	ContainerReplicasQuota *int64 `json:"container_replicas_quota,omitempty" required:"true" min:"0" max:"2147483647"`
 	// The number of replicas that are currently in use
-	ContainerReplicasUsed *int64 `json:"container_replicas_used,omitempty" required:"true" min:"0" max:"500"`
+	ContainerReplicasUsed *int64 `json:"container_replicas_used,omitempty" required:"true" min:"0" max:"2147483647"`
 	// The maximum number of container group reallocations per minute
-	MaxContainerGroupReallocationsPerMinute *int64 `json:"max_container_group_reallocations_per_minute,omitempty" min:"0" max:"100"`
+	MaxContainerGroupReallocationsPerMinute *int64 `json:"max_container_group_reallocations_per_minute,omitempty" min:"0" max:"2147483647"`
 	// The maximum number of container group recreates per minute
-	MaxContainerGroupRecreatesPerMinute *int64 `json:"max_container_group_recreates_per_minute,omitempty" min:"0" max:"100"`
+	MaxContainerGroupRecreatesPerMinute *int64 `json:"max_container_group_recreates_per_minute,omitempty" min:"0" max:"2147483647"`
 	// The maximum number of container group restarts per minute
-	MaxContainerGroupRestartsPerMinute *int64 `json:"max_container_group_restarts_per_minute,omitempty" min:"0" max:"100"`
+	MaxContainerGroupRestartsPerMinute *int64 `json:"max_container_group_restarts_per_minute,omitempty" min:"0" max:"2147483647"`
 }
 
 func (c *ContainerGroupsQuotas) GetContainerReplicasQuota() *int64 {
