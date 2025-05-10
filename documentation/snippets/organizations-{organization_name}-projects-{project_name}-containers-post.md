@@ -118,7 +118,7 @@ containerRegistryAuthentication := containergroups.ContainerRegistryAuthenticati
 }
 
 
-containerResourceRequirements := shared.ContainerResourceRequirements{
+createContainerResourceRequirements := containergroups.CreateContainerResourceRequirements{
   Cpu: util.ToPointer(int64(123)),
   Memory: util.ToPointer(int64(123)),
   GpuClasses: []string{},
@@ -133,7 +133,7 @@ containerConfiguration := containergroups.ContainerConfiguration{
   Logging: &containerConfigurationLogging,
   Priority: &containerGroupPriority,
   RegistryAuthentication: &containerRegistryAuthentication,
-  Resources: &containerResourceRequirements,
+  Resources: &createContainerResourceRequirements,
 }
 
 countryCode := shared.COUNTRY_CODE_AF

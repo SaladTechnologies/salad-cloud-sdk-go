@@ -22,7 +22,7 @@ type SystemLog struct {
 	// The memory amount in MB
 	ResourceMemory *util.Nullable[int64] `json:"resource_memory,omitempty" required:"true" min:"1024" max:"61440"`
 	// The storage amount in bytes
-	ResourceStorageAmount *util.Nullable[int64] `json:"resource_storage_amount,omitempty" required:"true" min:"1073741824" max:"53687091200"`
+	ResourceStorageAmount *util.Nullable[int64] `json:"resource_storage_amount,omitempty" required:"true" min:"1073741824" max:"268435456000"`
 	// The version instance ID
 	Version *string `json:"version,omitempty" required:"true"`
 }

@@ -1,67 +1,67 @@
-package shared
+package containergroups
 
 import "encoding/json"
 
-// Specifies the resource requirements for a container.
-type ContainerResourceRequirements struct {
+// Specifies the resource requirements for creating a container.
+type CreateContainerResourceRequirements struct {
 	// The number of CPU cores required by the container. Must be between 1 and 16.
 	Cpu *int64 `json:"cpu,omitempty" required:"true" min:"1" max:"16"`
 	// The amount of memory (in MB) required by the container. Must be between 1024 MB and 61440 MB.
 	Memory *int64 `json:"memory,omitempty" required:"true" min:"1024" max:"61440"`
 	// A list of GPU class UUIDs required by the container. Can be null if no GPU is required.
-	GpuClasses []string `json:"gpu_classes,omitempty" required:"true" maxItems:"100"`
+	GpuClasses []string `json:"gpu_classes,omitempty" maxItems:"100"`
 	// The amount of storage (in bytes) required by the container. Must be between 1 GB (1073741824 bytes) and 250 GB (268435456000 bytes).
 	StorageAmount *int64 `json:"storage_amount,omitempty" min:"1073741824" max:"268435456000"`
 }
 
-func (c *ContainerResourceRequirements) GetCpu() *int64 {
+func (c *CreateContainerResourceRequirements) GetCpu() *int64 {
 	if c == nil {
 		return nil
 	}
 	return c.Cpu
 }
 
-func (c *ContainerResourceRequirements) SetCpu(cpu int64) {
+func (c *CreateContainerResourceRequirements) SetCpu(cpu int64) {
 	c.Cpu = &cpu
 }
 
-func (c *ContainerResourceRequirements) GetMemory() *int64 {
+func (c *CreateContainerResourceRequirements) GetMemory() *int64 {
 	if c == nil {
 		return nil
 	}
 	return c.Memory
 }
 
-func (c *ContainerResourceRequirements) SetMemory(memory int64) {
+func (c *CreateContainerResourceRequirements) SetMemory(memory int64) {
 	c.Memory = &memory
 }
 
-func (c *ContainerResourceRequirements) GetGpuClasses() []string {
+func (c *CreateContainerResourceRequirements) GetGpuClasses() []string {
 	if c == nil {
 		return nil
 	}
 	return c.GpuClasses
 }
 
-func (c *ContainerResourceRequirements) SetGpuClasses(gpuClasses []string) {
+func (c *CreateContainerResourceRequirements) SetGpuClasses(gpuClasses []string) {
 	c.GpuClasses = gpuClasses
 }
 
-func (c *ContainerResourceRequirements) GetStorageAmount() *int64 {
+func (c *CreateContainerResourceRequirements) GetStorageAmount() *int64 {
 	if c == nil {
 		return nil
 	}
 	return c.StorageAmount
 }
 
-func (c *ContainerResourceRequirements) SetStorageAmount(storageAmount int64) {
+func (c *CreateContainerResourceRequirements) SetStorageAmount(storageAmount int64) {
 	c.StorageAmount = &storageAmount
 }
 
-func (c ContainerResourceRequirements) String() string {
+func (c CreateContainerResourceRequirements) String() string {
 	jsonData, err := json.MarshalIndent(c, "", "  ")
 	if err != nil {
-		return "error converting struct: ContainerResourceRequirements to string"
+		return "error converting struct: CreateContainerResourceRequirements to string"
 	}
 	return string(jsonData)
 }

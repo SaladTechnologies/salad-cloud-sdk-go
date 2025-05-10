@@ -13,8 +13,8 @@ type ContainerResourceUpdateSchema struct {
 	Memory *util.Nullable[int64] `json:"memory,omitempty" min:"1024" max:"61440"`
 	// List of GPU class identifiers that the container can use, specified as UUIDs.
 	GpuClasses *util.Nullable[[]string] `json:"gpu_classes,omitempty" maxItems:"100"`
-	// The amount of storage to allocate to the container in bytes (between 1GB and 50GB).
-	StorageAmount *util.Nullable[int64] `json:"storage_amount,omitempty" min:"1073741824" max:"53687091200"`
+	// The amount of storage to allocate to the container in bytes (between 1GB and 250GB).
+	StorageAmount *util.Nullable[int64] `json:"storage_amount,omitempty" min:"1073741824" max:"268435456000"`
 }
 
 func (c *ContainerResourceUpdateSchema) GetCpu() *util.Nullable[int64] {

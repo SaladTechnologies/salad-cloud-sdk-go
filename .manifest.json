@@ -1,9 +1,9 @@
 {
-  "liblabVersion": "2.25.1",
-  "date": "2025-03-29T05:58:54.943Z",
+  "liblabVersion": "2.25.14",
+  "date": "2025-05-10T22:51:25.901Z",
   "config": {
     "language": "go",
-    "apiId": 1950,
+    "apiId": 2164,
     "sdkName": "salad-cloud-sdk",
     "sdkVersion": "0.9.0-alpha.12",
     "languages": ["go"],
@@ -371,6 +371,7 @@
         "generateEnumAs": "enum"
       }
     },
+    "mcpServer": false,
     "publishing": {
       "githubOrg": "SaladTechnologies"
     },
@@ -461,7 +462,7 @@
       }
     ],
     "apiName": "SaladCloud API",
-    "apiVersion": "0.9.0-alpha.12",
+    "apiVersion": "0.9.0-alpha.13",
     "authentication": {
       "apiKey": {
         "header": "Salad-Api-Key"
@@ -519,7 +520,8 @@
       "rawQueries": [],
       "queriesData": []
     },
-    "ai": false
+    "ai": false,
+    "specType": "openapi"
   },
   "files": [
     "internal/validation/validate_array_length.go",
@@ -663,6 +665,7 @@
     "documentation/models/create_container_group_networking.md",
     "documentation/models/container_configuration_logging.md",
     "documentation/models/container_registry_authentication.md",
+    "documentation/models/create_container_resource_requirements.md",
     "documentation/models/container_logging_configuration_http_2.md",
     "documentation/models/container_registry_authentication_aws_ecr.md",
     "documentation/models/container_registry_authentication_basic.md",
@@ -758,6 +761,7 @@
     "pkg/containergroups/create_container_group_networking.go",
     "pkg/containergroups/container_configuration_logging.go",
     "pkg/containergroups/container_registry_authentication.go",
+    "pkg/containergroups/create_container_resource_requirements.go",
     "pkg/containergroups/container_logging_configuration_http_2.go",
     "pkg/containergroups/container_registry_authentication_aws_ecr.go",
     "pkg/containergroups/container_registry_authentication_basic.go",
