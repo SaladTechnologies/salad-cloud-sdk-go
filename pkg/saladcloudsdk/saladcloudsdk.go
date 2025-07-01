@@ -4,6 +4,7 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/containergroups"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/inferenceendpoints"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/logs"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/organizationdata"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/queues"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/quotas"
@@ -23,6 +24,7 @@ type SaladCloudSdk struct {
 	InferenceEndpoints *inferenceendpoints.InferenceEndpointsService
 	OrganizationData   *organizationdata.OrganizationDataService
 	WebhookSecretKey   *webhooksecretkey.WebhookSecretKeyService
+	Logs               *logs.LogsService
 	manager            *configmanager.ConfigManager
 }
 
@@ -35,6 +37,7 @@ func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 	inferenceEndpoints := inferenceendpoints.NewInferenceEndpointsService()
 	organizationData := organizationdata.NewOrganizationDataService()
 	webhookSecretKey := webhooksecretkey.NewWebhookSecretKeyService()
+	logs := logs.NewLogsService()
 
 	manager := configmanager.NewConfigManager(config)
 	containerGroups.WithConfigManager(manager)
@@ -45,6 +48,7 @@ func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 	inferenceEndpoints.WithConfigManager(manager)
 	organizationData.WithConfigManager(manager)
 	webhookSecretKey.WithConfigManager(manager)
+	logs.WithConfigManager(manager)
 
 	return &SaladCloudSdk{
 		ContainerGroups:    containerGroups,
@@ -55,6 +59,7 @@ func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 		InferenceEndpoints: inferenceEndpoints,
 		OrganizationData:   organizationData,
 		WebhookSecretKey:   webhookSecretKey,
+		Logs:               logs,
 		manager:            manager,
 	}
 }

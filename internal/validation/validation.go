@@ -14,10 +14,19 @@ func ValidateData(data any) error {
 	}
 
 	dataValue := reflect.ValueOf(data)
-	dataType := reflect.TypeOf(data)
+
+	// Recursively dereference pointers
+	for dataValue.Kind() == reflect.Ptr {
+		if dataValue.IsNil() {
+			return nil
+		}
+		dataValue = dataValue.Elem()
+	}
+
+	dataType := dataValue.Type()
 
 	// Check if this is a Nullable wrapper
-	if dataType.Name() == "Nullable" {
+	if isNullableType(dataValue.Type()) {
 		if dataValue.FieldByName("IsNull").Bool() {
 			return nil
 		}
@@ -38,8 +47,16 @@ func ValidateData(data any) error {
 func validateStruct(data any) error {
 	value := reflect.ValueOf(data)
 
+	// Recursively dereference pointers
+	for value.Kind() == reflect.Ptr {
+		if value.IsNil() {
+			return nil
+		}
+		value = value.Elem()
+	}
+
 	// Check if this is a Nullable wrapper
-	if value.Type().Name() == "Nullable" {
+	if isNullableType(value.Type()) {
 		if value.FieldByName("IsNull").Bool() {
 			return nil
 		}
@@ -79,7 +96,7 @@ func validateStruct(data any) error {
 
 func validateArray(value reflect.Value) error {
 	// Check if this is a Nullable wrapper
-	if value.Type().Name() == "Nullable" {
+	if isNullableType(value.Type()) {
 		if value.FieldByName("IsNull").Bool() {
 			return nil
 		}
@@ -96,6 +113,33 @@ func validateArray(value reflect.Value) error {
 	}
 
 	return nil
+}
+
+func isNullableType(t reflect.Type) bool {
+	// Dereference pointer types until we hit the base type
+	for t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+
+	// Must be a struct
+	if t.Kind() != reflect.Struct {
+		return false
+	}
+
+	// Should have at least the fields "IsNull" (bool) and "Value" (any type)
+	isNullField, hasIsNull := t.FieldByName("IsNull")
+	_, hasValue := t.FieldByName("Value")
+
+	if !hasIsNull || !hasValue {
+		return false
+	}
+
+	// Check that IsNull is a bool
+	if isNullField.Type.Kind() != reflect.Bool {
+		return false
+	}
+
+	return true
 }
 
 func validateField(fieldValue reflect.Value, fieldType reflect.StructField) error {

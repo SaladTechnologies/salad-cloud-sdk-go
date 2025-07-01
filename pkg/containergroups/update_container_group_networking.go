@@ -2,6 +2,7 @@ package containergroups
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
@@ -32,4 +33,8 @@ func (u UpdateContainerGroupNetworking) String() string {
 		return "error converting struct: UpdateContainerGroupNetworking to string"
 	}
 	return string(jsonData)
+}
+
+func (u *UpdateContainerGroupNetworking) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, u)
 }

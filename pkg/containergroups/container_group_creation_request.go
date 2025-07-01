@@ -2,6 +2,7 @@ package containergroups
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
@@ -197,4 +198,8 @@ func (c ContainerGroupCreationRequest) String() string {
 		return "error converting struct: ContainerGroupCreationRequest to string"
 	}
 	return string(jsonData)
+}
+
+func (c *ContainerGroupCreationRequest) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, c)
 }

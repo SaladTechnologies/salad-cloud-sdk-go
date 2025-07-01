@@ -14,6 +14,7 @@ type ConfigManager struct {
 	InferenceEndpoints saladcloudsdkconfig.Config
 	OrganizationData   saladcloudsdkconfig.Config
 	WebhookSecretKey   saladcloudsdkconfig.Config
+	Logs               saladcloudsdkconfig.Config
 }
 
 func NewConfigManager(config saladcloudsdkconfig.Config) *ConfigManager {
@@ -26,6 +27,7 @@ func NewConfigManager(config saladcloudsdkconfig.Config) *ConfigManager {
 		InferenceEndpoints: config,
 		OrganizationData:   config,
 		WebhookSecretKey:   config,
+		Logs:               config,
 	}
 }
 
@@ -38,6 +40,7 @@ func (c *ConfigManager) SetBaseUrl(baseUrl string) {
 	c.InferenceEndpoints.SetBaseUrl(baseUrl)
 	c.OrganizationData.SetBaseUrl(baseUrl)
 	c.WebhookSecretKey.SetBaseUrl(baseUrl)
+	c.Logs.SetBaseUrl(baseUrl)
 }
 
 func (c *ConfigManager) SetTimeout(timeout time.Duration) {
@@ -49,6 +52,7 @@ func (c *ConfigManager) SetTimeout(timeout time.Duration) {
 	c.InferenceEndpoints.SetTimeout(timeout)
 	c.OrganizationData.SetTimeout(timeout)
 	c.WebhookSecretKey.SetTimeout(timeout)
+	c.Logs.SetTimeout(timeout)
 }
 
 func (c *ConfigManager) SetApiKey(apiKey string) {
@@ -60,6 +64,7 @@ func (c *ConfigManager) SetApiKey(apiKey string) {
 	c.InferenceEndpoints.SetApiKey(apiKey)
 	c.OrganizationData.SetApiKey(apiKey)
 	c.WebhookSecretKey.SetApiKey(apiKey)
+	c.Logs.SetApiKey(apiKey)
 }
 
 func (c *ConfigManager) GetContainerGroups() *saladcloudsdkconfig.Config {
@@ -85,4 +90,7 @@ func (c *ConfigManager) GetOrganizationData() *saladcloudsdkconfig.Config {
 }
 func (c *ConfigManager) GetWebhookSecretKey() *saladcloudsdkconfig.Config {
 	return &c.WebhookSecretKey
+}
+func (c *ConfigManager) GetLogs() *saladcloudsdkconfig.Config {
+	return &c.Logs
 }

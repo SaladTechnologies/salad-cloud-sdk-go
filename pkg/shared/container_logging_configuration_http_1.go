@@ -2,6 +2,7 @@ package shared
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
@@ -135,4 +136,8 @@ func (c ContainerLoggingConfigurationHttp1) String() string {
 		return "error converting struct: ContainerLoggingConfigurationHttp1 to string"
 	}
 	return string(jsonData)
+}
+
+func (c *ContainerLoggingConfigurationHttp1) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, c)
 }

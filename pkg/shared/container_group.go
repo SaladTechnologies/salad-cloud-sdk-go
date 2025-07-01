@@ -2,6 +2,7 @@ package shared
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
@@ -41,6 +42,7 @@ type ContainerGroup struct {
 	QueueConnection *ContainerGroupQueueConnection `json:"queue_connection,omitempty"`
 	// Defines how to check if a container is ready to serve traffic. The readiness probe determines whether the container's application is ready to accept traffic. If the readiness probe fails, the container is considered not ready and traffic will not be sent to it.
 	ReadinessProbe *util.Nullable[ContainerGroupReadinessProbe] `json:"readiness_probe,omitempty"`
+	Readme         *string                                      `json:"readme,omitempty" maxLength:"65000" minLength:"2"`
 	// The container group replicas.
 	Replicas *int64 `json:"replicas,omitempty" required:"true" min:"0" max:"500"`
 	// Specifies the policy for restarting containers when they exit or fail.
@@ -252,6 +254,17 @@ func (c *ContainerGroup) SetReadinessProbeNull() {
 	c.ReadinessProbe = &util.Nullable[ContainerGroupReadinessProbe]{IsNull: true}
 }
 
+func (c *ContainerGroup) GetReadme() *string {
+	if c == nil {
+		return nil
+	}
+	return c.Readme
+}
+
+func (c *ContainerGroup) SetReadme(readme string) {
+	c.Readme = &readme
+}
+
 func (c *ContainerGroup) GetReplicas() *int64 {
 	if c == nil {
 		return nil
@@ -317,4 +330,8 @@ func (c ContainerGroup) String() string {
 		return "error converting struct: ContainerGroup to string"
 	}
 	return string(jsonData)
+}
+
+func (c *ContainerGroup) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, c)
 }
