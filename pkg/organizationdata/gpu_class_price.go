@@ -2,6 +2,7 @@ package organizationdata
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
@@ -46,4 +47,8 @@ func (g GpuClassPrice) String() string {
 		return "error converting struct: GpuClassPrice to string"
 	}
 	return string(jsonData)
+}
+
+func (g *GpuClassPrice) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, g)
 }

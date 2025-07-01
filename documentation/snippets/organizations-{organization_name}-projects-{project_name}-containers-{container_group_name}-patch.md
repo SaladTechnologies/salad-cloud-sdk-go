@@ -122,6 +122,7 @@ containerResourceUpdateSchema := containergroups.ContainerResourceUpdateSchema{
   Memory: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
   GpuClasses: []string{},
   StorageAmount: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
+  ShmSize: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
 }
 
 updateContainer := containergroups.UpdateContainer{

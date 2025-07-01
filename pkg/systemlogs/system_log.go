@@ -2,6 +2,7 @@ package systemlogs
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
@@ -22,7 +23,7 @@ type SystemLog struct {
 	// The memory amount in MB
 	ResourceMemory *util.Nullable[int64] `json:"resource_memory,omitempty" required:"true" min:"1024" max:"61440"`
 	// The storage amount in bytes
-	ResourceStorageAmount *util.Nullable[int64] `json:"resource_storage_amount,omitempty" required:"true" min:"1073741824" max:"53687091200"`
+	ResourceStorageAmount *util.Nullable[int64] `json:"resource_storage_amount,omitempty" required:"true" min:"1073741824" max:"268435456000"`
 	// The version instance ID
 	Version *string `json:"version,omitempty" required:"true"`
 }
@@ -144,4 +145,8 @@ func (s SystemLog) String() string {
 		return "error converting struct: SystemLog to string"
 	}
 	return string(jsonData)
+}
+
+func (s *SystemLog) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, s)
 }

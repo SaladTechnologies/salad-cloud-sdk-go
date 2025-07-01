@@ -2,6 +2,7 @@ package containergroups
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
@@ -13,8 +14,10 @@ type ContainerResourceUpdateSchema struct {
 	Memory *util.Nullable[int64] `json:"memory,omitempty" min:"1024" max:"61440"`
 	// List of GPU class identifiers that the container can use, specified as UUIDs.
 	GpuClasses *util.Nullable[[]string] `json:"gpu_classes,omitempty" maxItems:"100"`
-	// The amount of storage to allocate to the container in bytes (between 1GB and 50GB).
-	StorageAmount *util.Nullable[int64] `json:"storage_amount,omitempty" min:"1073741824" max:"53687091200"`
+	// The amount of storage to allocate to the container in bytes (between 1GB and 250GB).
+	StorageAmount *util.Nullable[int64] `json:"storage_amount,omitempty" min:"1073741824" max:"268435456000"`
+	// The size of the shared memory (/dev/shm) in MB. If not specified, defaults to 64MB.
+	ShmSize *util.Nullable[int64] `json:"shm_size,omitempty" min:"64" max:"2147483647"`
 }
 
 func (c *ContainerResourceUpdateSchema) GetCpu() *util.Nullable[int64] {
@@ -77,10 +80,29 @@ func (c *ContainerResourceUpdateSchema) SetStorageAmountNull() {
 	c.StorageAmount = &util.Nullable[int64]{IsNull: true}
 }
 
+func (c *ContainerResourceUpdateSchema) GetShmSize() *util.Nullable[int64] {
+	if c == nil {
+		return nil
+	}
+	return c.ShmSize
+}
+
+func (c *ContainerResourceUpdateSchema) SetShmSize(shmSize util.Nullable[int64]) {
+	c.ShmSize = &shmSize
+}
+
+func (c *ContainerResourceUpdateSchema) SetShmSizeNull() {
+	c.ShmSize = &util.Nullable[int64]{IsNull: true}
+}
+
 func (c ContainerResourceUpdateSchema) String() string {
 	jsonData, err := json.MarshalIndent(c, "", "  ")
 	if err != nil {
 		return "error converting struct: ContainerResourceUpdateSchema to string"
 	}
 	return string(jsonData)
+}
+
+func (c *ContainerResourceUpdateSchema) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, c)
 }

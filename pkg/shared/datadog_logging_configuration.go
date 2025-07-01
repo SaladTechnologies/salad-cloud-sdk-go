@@ -2,6 +2,7 @@ package shared
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
 )
 
@@ -58,4 +59,8 @@ func (d DatadogLoggingConfiguration) String() string {
 		return "error converting struct: DatadogLoggingConfiguration to string"
 	}
 	return string(jsonData)
+}
+
+func (d *DatadogLoggingConfiguration) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, d)
 }

@@ -2,6 +2,7 @@ package containergroups
 
 import (
 	"encoding/json"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/shared"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
@@ -23,8 +24,8 @@ type ContainerConfiguration struct {
 	Priority *util.Nullable[shared.ContainerGroupPriority] `json:"priority,omitempty"`
 	// Authentication configuration for various container registry types, including AWS ECR, Docker Hub, GCP GAR, GCP GCR, and basic authentication.
 	RegistryAuthentication *ContainerRegistryAuthentication `json:"registry_authentication,omitempty"`
-	// Specifies the resource requirements for a container.
-	Resources *shared.ContainerResourceRequirements `json:"resources,omitempty" required:"true"`
+	// Specifies the resource requirements for creating a container.
+	Resources *CreateContainerResourceRequirements `json:"resources,omitempty" required:"true"`
 }
 
 func (c *ContainerConfiguration) GetCommand() *util.Nullable[[]string] {
@@ -112,14 +113,14 @@ func (c *ContainerConfiguration) SetRegistryAuthentication(registryAuthenticatio
 	c.RegistryAuthentication = &registryAuthentication
 }
 
-func (c *ContainerConfiguration) GetResources() *shared.ContainerResourceRequirements {
+func (c *ContainerConfiguration) GetResources() *CreateContainerResourceRequirements {
 	if c == nil {
 		return nil
 	}
 	return c.Resources
 }
 
-func (c *ContainerConfiguration) SetResources(resources shared.ContainerResourceRequirements) {
+func (c *ContainerConfiguration) SetResources(resources CreateContainerResourceRequirements) {
 	c.Resources = &resources
 }
 
@@ -129,4 +130,8 @@ func (c ContainerConfiguration) String() string {
 		return "error converting struct: ContainerConfiguration to string"
 	}
 	return string(jsonData)
+}
+
+func (c *ContainerConfiguration) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, c)
 }
