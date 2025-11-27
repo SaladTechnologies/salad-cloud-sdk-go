@@ -39,15 +39,17 @@ Gets the list of queues in the given project.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.Queues.ListQueues(context.Background(), "organizationName", "projectName")
+response, err := client.Queues.ListQueues(context.Background(), "acme-corp", "dev-env")
 if err != nil {
   panic(err)
 }
@@ -81,6 +83,7 @@ Creates a new queue in the given project.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
@@ -88,16 +91,17 @@ import (
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.QueuePrototype{
-  Name: util.ToPointer("Name"),
-  DisplayName: util.ToPointer("DisplayName"),
-  Description: util.ToPointer("Description"),
+  Name: util.ToPointer("name"),
+  DisplayName: util.ToPointer("AV3ysQq"),
+  Description: util.ToPointer("description"),
 }
 
-response, err := client.Queues.CreateQueue(context.Background(), "organizationName", "projectName", request)
+response, err := client.Queues.CreateQueue(context.Background(), "acme-corp", "dev-env", request)
 if err != nil {
   panic(err)
 }
@@ -131,15 +135,17 @@ Gets an existing queue in the given project.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.Queues.GetQueue(context.Background(), "organizationName", "projectName", "queueName")
+response, err := client.Queues.GetQueue(context.Background(), "acme-corp", "dev-env", "fifo-queue")
 if err != nil {
   panic(err)
 }
@@ -174,6 +180,7 @@ Updates an existing queue in the given project.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
@@ -181,15 +188,16 @@ import (
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.QueuePatch{
-  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "DisplayName" }),
-  Description: util.ToPointer(util.Nullable[string]{ Value: "Description" }),
+  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "5Ecnf" }),
+  Description: util.ToPointer(util.Nullable[string]{ Value: "description" }),
 }
 
-response, err := client.Queues.UpdateQueue(context.Background(), "organizationName", "projectName", "queueName", request)
+response, err := client.Queues.UpdateQueue(context.Background(), "acme-corp", "dev-env", "fifo-queue", request)
 if err != nil {
   panic(err)
 }
@@ -223,15 +231,17 @@ Deletes an existing queue in the given project.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.Queues.DeleteQueue(context.Background(), "organizationName", "projectName", "queueName")
+response, err := client.Queues.DeleteQueue(context.Background(), "acme-corp", "dev-env", "fifo-queue")
 if err != nil {
   panic(err)
 }
@@ -266,21 +276,24 @@ Gets the list of jobs in a queue
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
-
+  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/queues"
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 params := queues.ListQueueJobsRequestParams{
-
+  Page: util.ToPointer(int64(1)),
+  PageSize: util.ToPointer(int64(1)),
 }
 
-response, err := client.Queues.ListQueueJobs(context.Background(), "organizationName", "projectName", "queueName", params)
+response, err := client.Queues.ListQueueJobs(context.Background(), "acme-corp", "dev-env", "fifo-queue", params)
 if err != nil {
   panic(err)
 }
@@ -315,6 +328,7 @@ Creates a new job
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
@@ -322,16 +336,17 @@ import (
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.QueueJobPrototype{
   Input: []byte{},
   Metadata: []byte{},
-  Webhook: util.ToPointer("Webhook"),
+  Webhook: util.ToPointer("webhook"),
 }
 
-response, err := client.Queues.CreateQueueJob(context.Background(), "organizationName", "projectName", "queueName", request)
+response, err := client.Queues.CreateQueueJob(context.Background(), "acme-corp", "dev-env", "fifo-queue", request)
 if err != nil {
   panic(err)
 }
@@ -366,15 +381,17 @@ Gets a job in a queue
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.Queues.GetQueueJob(context.Background(), "organizationName", "projectName", "queueName", "queueJobId")
+response, err := client.Queues.GetQueueJob(context.Background(), "acme-corp", "dev-env", "fifo-queue", "7dcd6922-50e9-4d56-89b5-91cde26f0211")
 if err != nil {
   panic(err)
 }
@@ -409,15 +426,17 @@ Cancels a job in a queue
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.Queues.DeleteQueueJob(context.Background(), "organizationName", "projectName", "queueName", "queueJobId")
+response, err := client.Queues.DeleteQueueJob(context.Background(), "acme-corp", "dev-env", "fifo-queue", "7dcd6922-50e9-4d56-89b5-91cde26f0211")
 if err != nil {
   panic(err)
 }

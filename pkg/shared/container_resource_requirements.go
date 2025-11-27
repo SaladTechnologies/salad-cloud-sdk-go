@@ -5,15 +5,15 @@ import "encoding/json"
 // Specifies the resource requirements for a container.
 type ContainerResourceRequirements struct {
 	// The number of CPU cores required by the container. Must be between 1 and 16.
-	Cpu *int64 `json:"cpu,omitempty" required:"true" min:"1" max:"16"`
+	Cpu *int64 `json:"cpu,omitempty" required:"true" min:"1" max:"1024"`
 	// The amount of memory (in MB) required by the container. Must be between 1024 MB and 61440 MB.
-	Memory *int64 `json:"memory,omitempty" required:"true" min:"1024" max:"61440"`
+	Memory *int64 `json:"memory,omitempty" required:"true" min:"1024" max:"1073741824"`
 	// A list of GPU class UUIDs required by the container. Can be null if no GPU is required.
 	GpuClasses []string `json:"gpu_classes,omitempty" required:"true" maxItems:"100"`
 	// The amount of storage (in bytes) required by the container. Must be between 1 GB (1073741824 bytes) and 250 GB (268435456000 bytes).
-	StorageAmount *int64 `json:"storage_amount,omitempty" min:"1073741824" max:"268435456000"`
-	// The size of the shared memory (/dev/shm) in MB. If not specified, defaults to 64MB.
-	ShmSize *int64 `json:"shm_size,omitempty" min:"64" max:"2147483647"`
+	StorageAmount *int64 `json:"storage_amount,omitempty" min:"1073741824" max:"1125899906842624"`
+	// The size of the shared memory (/dev/shm) in MB. If not specified, defaults to 1024MB.
+	ShmSize *int64 `json:"shm_size,omitempty" min:"64" max:"1073741824"`
 }
 
 func (c *ContainerResourceRequirements) GetCpu() *int64 {

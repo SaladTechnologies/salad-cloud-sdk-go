@@ -6,8 +6,8 @@ The current status.
 
 | Name      | Type   | Required | Description |
 | :-------- | :----- | :------- | :---------- |
-| pending   | string | ✅       | "pending"   |
-| running   | string | ✅       | "running"   |
-| succeeded | string | ✅       | "succeeded" |
-| cancelled | string | ✅       | "cancelled" |
-| failed    | string | ✅       | "failed"    |
+| Pending   | string | ✅       | "pending"   |
+| Running   | string | ✅       | "running"   |
+| Succeeded | string | ✅       | "succeeded" |
+| Cancelled | string | ✅       | "cancelled" |
+| Failed    | string | ✅       | "failed"    |

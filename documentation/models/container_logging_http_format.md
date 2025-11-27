@@ -4,7 +4,7 @@ The format in which logs will be delivered
 
 **Properties**
 
-| Name       | Type   | Required | Description  |
-| :--------- | :----- | :------- | :----------- |
-| json       | string | ✅       | "json"       |
-| json_lines | string | ✅       | "json_lines" |
+| Name      | Type   | Required | Description  |
+| :-------- | :----- | :------- | :----------- |
+| Json      | string | ✅       | "json"       |
+| JsonLines | string | ✅       | "json_lines" |

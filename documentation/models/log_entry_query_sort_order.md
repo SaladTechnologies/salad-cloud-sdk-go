@@ -6,5 +6,5 @@ The sort order of the log entries. `asc` will sort the log entries in chronologi
 
 | Name | Type   | Required | Description |
 | :--- | :----- | :------- | :---------- |
-| desc | string | ✅       | "desc"      |
-| asc  | string | ✅       | "asc"       |
+| Desc | string | ✅       | "desc"      |
+| Asc  | string | ✅       | "asc"       |

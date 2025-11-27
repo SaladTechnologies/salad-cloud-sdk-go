@@ -6,8 +6,8 @@ The action that was taken on the inference endpoint job.
 
 | Name      | Type   | Required | Description |
 | :-------- | :----- | :------- | :---------- |
-| created   | string | ✅       | "created"   |
-| started   | string | ✅       | "started"   |
-| succeeded | string | ✅       | "succeeded" |
-| cancelled | string | ✅       | "cancelled" |
-| failed    | string | ✅       | "failed"    |
+| Created   | string | ✅       | "created"   |
+| Started   | string | ✅       | "started"   |
+| Succeeded | string | ✅       | "succeeded" |
+| Cancelled | string | ✅       | "cancelled" |
+| Failed    | string | ✅       | "failed"    |

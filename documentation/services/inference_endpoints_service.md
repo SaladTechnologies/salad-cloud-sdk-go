@@ -36,21 +36,24 @@ Lists inference endpoints.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
-
+  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/inferenceendpoints"
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 params := inferenceendpoints.ListInferenceEndpointsRequestParams{
-
+  Page: util.ToPointer(int64(1)),
+  PageSize: util.ToPointer(int64(1)),
 }
 
-response, err := client.InferenceEndpoints.ListInferenceEndpoints(context.Background(), "organizationName", params)
+response, err := client.InferenceEndpoints.ListInferenceEndpoints(context.Background(), "acme-corp", params)
 if err != nil {
   panic(err)
 }
@@ -83,15 +86,17 @@ Gets an inference endpoint.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.InferenceEndpoints.GetInferenceEndpoint(context.Background(), "organizationName", "inferenceEndpointName")
+response, err := client.InferenceEndpoints.GetInferenceEndpoint(context.Background(), "acme-corp", "transcribe")
 if err != nil {
   panic(err)
 }
@@ -125,21 +130,24 @@ Lists inference endpoint jobs.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
-
+  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/inferenceendpoints"
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 params := inferenceendpoints.ListInferenceEndpointJobsRequestParams{
-
+  Page: util.ToPointer(int64(1)),
+  PageSize: util.ToPointer(int64(1)),
 }
 
-response, err := client.InferenceEndpoints.ListInferenceEndpointJobs(context.Background(), "organizationName", "inferenceEndpointName", params)
+response, err := client.InferenceEndpoints.ListInferenceEndpointJobs(context.Background(), "acme-corp", "transcribe", params)
 if err != nil {
   panic(err)
 }
@@ -173,6 +181,7 @@ Creates a new inference endpoint job.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
@@ -180,17 +189,18 @@ import (
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := inferenceendpoints.InferenceEndpointJobPrototype{
   Input: []byte{},
   Metadata: []byte{},
-  Webhook: util.ToPointer("Webhook"),
-  WebhookUrl: util.ToPointer("WebhookUrl"),
+  Webhook: util.ToPointer("webhook"),
+  WebhookUrl: util.ToPointer("https://webhook.example.com/events"),
 }
 
-response, err := client.InferenceEndpoints.CreateInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", request)
+response, err := client.InferenceEndpoints.CreateInferenceEndpointJob(context.Background(), "acme-corp", "transcribe", request)
 if err != nil {
   panic(err)
 }
@@ -224,15 +234,17 @@ Gets an inference endpoint job.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.InferenceEndpoints.GetInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", "inferenceEndpointJobId")
+response, err := client.InferenceEndpoints.GetInferenceEndpointJob(context.Background(), "acme-corp", "transcribe", "2fc459a1-1c09-4a34-ade7-54d03fc51d6a")
 if err != nil {
   panic(err)
 }
@@ -266,15 +278,17 @@ Cancels an inference endpoint job.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.InferenceEndpoints.DeleteInferenceEndpointJob(context.Background(), "organizationName", "inferenceEndpointName", "inferenceEndpointJobId")
+response, err := client.InferenceEndpoints.DeleteInferenceEndpointJob(context.Background(), "acme-corp", "transcribe", "2fc459a1-1c09-4a34-ade7-54d03fc51d6a")
 if err != nil {
   panic(err)
 }

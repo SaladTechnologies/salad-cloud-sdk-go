@@ -6,5 +6,5 @@ The compression algorithm to apply to logs before transmission
 
 | Name | Type   | Required | Description |
 | :--- | :----- | :------- | :---------- |
-| none | string | ✅       | "none"      |
-| gzip | string | ✅       | "gzip"      |
+| None | string | ✅       | "none"      |
+| Gzip | string | ✅       | "gzip"      |

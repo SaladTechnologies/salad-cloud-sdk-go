@@ -2,11 +2,11 @@ package main
 
 import (
 	"bufio"
-	"context"
 	"fmt"
 	"os"
 	"strings"
 
+	"context"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 )
@@ -17,7 +17,7 @@ func main() {
 	config := saladcloudsdkconfig.NewConfig()
 	client := saladcloudsdk.NewSaladCloudSdk(config)
 
-	response, err := client.ContainerGroups.ListContainerGroups(context.Background(), "organizationName", "projectName")
+	response, err := client.ContainerGroups.ListContainerGroups(context.Background(), "acme-corp", "dev-env")
 	if err != nil {
 		panic(err)
 	}

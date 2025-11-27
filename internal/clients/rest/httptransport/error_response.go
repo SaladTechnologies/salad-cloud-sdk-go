@@ -1,6 +1,9 @@
 package httptransport
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
 type ErrorResponse[T any] struct {
 	Err         error
@@ -9,6 +12,7 @@ type ErrorResponse[T any] struct {
 	Headers     map[string]string
 	Body        []byte
 	Data        T
+	Raw         *http.Response
 }
 
 func NewErrorResponse[T any](err error, resp *Response[T]) *ErrorResponse[T] {
@@ -26,6 +30,7 @@ func NewErrorResponse[T any](err error, resp *Response[T]) *ErrorResponse[T] {
 		Headers:     resp.Headers,
 		Body:        resp.Body,
 		Data:        resp.Data,
+		Raw:         resp.Raw,
 	}
 }
 

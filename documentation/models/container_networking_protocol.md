@@ -6,4 +6,4 @@ Defines the communication protocol used for network traffic between containers o
 
 | Name | Type   | Required | Description |
 | :--- | :----- | :------- | :---------- |
-| http | string | ✅       | "http"      |
+| Http | string | ✅       | "http"      |

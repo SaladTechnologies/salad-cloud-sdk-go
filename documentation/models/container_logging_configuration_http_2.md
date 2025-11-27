@@ -4,13 +4,13 @@ Configuration for sending container logs to an HTTP endpoint. Defines how logs a
 
 **Properties**
 
-| Name        | Type                                   | Required | Description                                                    |
-| :---------- | :------------------------------------- | :------- | :------------------------------------------------------------- |
-| Host        | string                                 | ✅       | The hostname or IP address of the HTTP logging endpoint        |
-| Port        | int64                                  | ✅       | The port number of the HTTP logging endpoint (1-65535)         |
-| Format      | shared.ContainerLoggingHttpFormat      | ✅       | The format in which logs will be delivered                     |
-| Compression | shared.ContainerLoggingHttpCompression | ✅       | The compression algorithm to apply to logs before transmission |
-| User        | string                                 | ❌       | Optional username for HTTP authentication                      |
-| Password    | string                                 | ❌       | Optional password for HTTP authentication                      |
-| Path        | string                                 | ❌       | Optional URL path for the HTTP endpoint                        |
-| Headers     | []shared.ContainerLoggingHttpHeader    | ❌       | Optional HTTP headers to include in log transmission requests  |
+| Name        | Type                                                                            | Required | Description                                                    |
+| :---------- | :------------------------------------------------------------------------------ | :------- | :------------------------------------------------------------- |
+| Host        | string                                                                          | ✅       | The hostname or IP address of the HTTP logging endpoint        |
+| Port        | int64                                                                           | ✅       | The port number of the HTTP logging endpoint (1-65535)         |
+| Format      | [shared.ContainerLoggingHttpFormat](container_logging_http_format.md)           | ✅       | The format in which logs will be delivered                     |
+| Compression | [shared.ContainerLoggingHttpCompression](container_logging_http_compression.md) | ✅       | The compression algorithm to apply to logs before transmission |
+| User        | string                                                                          | ❌       | Optional username for HTTP authentication                      |
+| Password    | string                                                                          | ❌       | Optional password for HTTP authentication                      |
+| Path        | string                                                                          | ❌       | Optional URL path for the HTTP endpoint                        |
+| Headers     | [][shared.ContainerLoggingHttpHeader](container_logging_http_header.md)         | ❌       | Optional HTTP headers to include in log transmission requests  |

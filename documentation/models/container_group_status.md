@@ -6,9 +6,9 @@ Represents the current operational state of a container group within the Salad p
 
 | Name      | Type   | Required | Description |
 | :-------- | :----- | :------- | :---------- |
-| pending   | string | ✅       | "pending"   |
-| running   | string | ✅       | "running"   |
-| stopped   | string | ✅       | "stopped"   |
-| succeeded | string | ✅       | "succeeded" |
-| failed    | string | ✅       | "failed"    |
-| deploying | string | ✅       | "deploying" |
+| Pending   | string | ✅       | "pending"   |
+| Running   | string | ✅       | "running"   |
+| Stopped   | string | ✅       | "stopped"   |
+| Succeeded | string | ✅       | "succeeded" |
+| Failed    | string | ✅       | "failed"    |
+| Deploying | string | ✅       | "deploying" |

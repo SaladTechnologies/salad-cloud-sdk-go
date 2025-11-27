@@ -21,6 +21,8 @@ type Queue struct {
 	CreateTime *string `json:"create_time,omitempty" required:"true"`
 	// The date and time the queue was last updated.
 	UpdateTime *string `json:"update_time,omitempty" required:"true"`
+	// The current length of the queue
+	CurrentQueueLength *int64 `json:"current_queue_length,omitempty" min:"0" max:"2147483647"`
 }
 
 func (q *Queue) GetId() *string {
@@ -98,6 +100,17 @@ func (q *Queue) GetUpdateTime() *string {
 
 func (q *Queue) SetUpdateTime(updateTime string) {
 	q.UpdateTime = &updateTime
+}
+
+func (q *Queue) GetCurrentQueueLength() *int64 {
+	if q == nil {
+		return nil
+	}
+	return q.CurrentQueueLength
+}
+
+func (q *Queue) SetCurrentQueueLength(currentQueueLength int64) {
+	q.CurrentQueueLength = &currentQueueLength
 }
 
 func (q Queue) String() string {

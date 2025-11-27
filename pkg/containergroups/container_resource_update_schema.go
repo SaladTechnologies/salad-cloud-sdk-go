@@ -8,16 +8,16 @@ import (
 
 // Defines the resource specifications that can be modified for a container group, including CPU, memory, GPU classes, and storage allocations.
 type ContainerResourceUpdateSchema struct {
-	// The number of CPU cores to allocate to the container (between 1 and 16 cores).
-	Cpu *util.Nullable[int64] `json:"cpu,omitempty" min:"1" max:"16"`
-	// The amount of memory to allocate to the container in megabytes (between 1024MB and 61440MB).
-	Memory *util.Nullable[int64] `json:"memory,omitempty" min:"1024" max:"61440"`
+	// The number of CPU cores to allocate to the container (between 1 and 1024).
+	Cpu *util.Nullable[int64] `json:"cpu,omitempty" min:"1" max:"1024"`
+	// The amount of memory to allocate to the container in megabytes (between 1024 and 1073741824).
+	Memory *util.Nullable[int64] `json:"memory,omitempty" min:"1024" max:"1073741824"`
 	// List of GPU class identifiers that the container can use, specified as UUIDs.
 	GpuClasses *util.Nullable[[]string] `json:"gpu_classes,omitempty" maxItems:"100"`
-	// The amount of storage to allocate to the container in bytes (between 1GB and 250GB).
-	StorageAmount *util.Nullable[int64] `json:"storage_amount,omitempty" min:"1073741824" max:"268435456000"`
-	// The size of the shared memory (/dev/shm) in MB. If not specified, defaults to 64MB.
-	ShmSize *util.Nullable[int64] `json:"shm_size,omitempty" min:"64" max:"2147483647"`
+	// The amount of storage to allocate to the container in bytes (between 1 GB and 1 PB).
+	StorageAmount *util.Nullable[int64] `json:"storage_amount,omitempty" min:"1073741824" max:"1125899906842624"`
+	// The amount of shared memory to allocate to the container via `/dev/shm` in megabytes (between 64 and 1073741824). If not specified, defaults to 64 MB.
+	ShmSize *util.Nullable[int64] `json:"shm_size,omitempty" min:"64" max:"1073741824"`
 }
 
 func (c *ContainerResourceUpdateSchema) GetCpu() *util.Nullable[int64] {

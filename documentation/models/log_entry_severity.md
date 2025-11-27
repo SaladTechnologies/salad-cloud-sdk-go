@@ -6,11 +6,12 @@ The severity level of the log entry
 
 | Name      | Type   | Required | Description |
 | :-------- | :----- | :------- | :---------- |
-| debug     | string | ✅       | "debug"     |
-| info      | string | ✅       | "info"      |
-| notice    | string | ✅       | "notice"    |
-| warning   | string | ✅       | "warning"   |
-| error     | string | ✅       | "error"     |
-| critical  | string | ✅       | "critical"  |
-| alert     | string | ✅       | "alert"     |
-| emergency | string | ✅       | "emergency" |
+| Default\_ | string | ✅       | "default"   |
+| Debug     | string | ✅       | "debug"     |
+| Info      | string | ✅       | "info"      |
+| Notice    | string | ✅       | "notice"    |
+| Warning   | string | ✅       | "warning"   |
+| Error     | string | ✅       | "error"     |
+| Critical  | string | ✅       | "critical"  |
+| Alert     | string | ✅       | "alert"     |
+| Emergency | string | ✅       | "emergency" |

@@ -8,6 +8,12 @@ type ContainerGroupInstance struct {
 	Id *string `json:"id,omitempty" required:"true"`
 	// The container group machine identifier.
 	MachineId *string `json:"machine_id,omitempty" required:"true"`
+	// The SSH IP address of the container group instance
+	SshIp *string `json:"ssh_ip,omitempty"`
+	// The SSH port of the container group instance
+	SshPort *int64 `json:"ssh_port,omitempty" min:"1" max:"65535"`
+	// The SSH host key fingerprint of the container group instance
+	SshHostKeyFingerprint *string `json:"ssh_host_key_fingerprint,omitempty" maxLength:"256" minLength:"1"`
 	// The state of the container group instance
 	State *TheContainerGroupInstanceState `json:"state,omitempty" required:"true"`
 	// The UTC timestamp when the container group instance last changed its state. This helps track the lifecycle and state transitions of the instance.
@@ -42,6 +48,39 @@ func (c *ContainerGroupInstance) GetMachineId() *string {
 
 func (c *ContainerGroupInstance) SetMachineId(machineId string) {
 	c.MachineId = &machineId
+}
+
+func (c *ContainerGroupInstance) GetSshIp() *string {
+	if c == nil {
+		return nil
+	}
+	return c.SshIp
+}
+
+func (c *ContainerGroupInstance) SetSshIp(sshIp string) {
+	c.SshIp = &sshIp
+}
+
+func (c *ContainerGroupInstance) GetSshPort() *int64 {
+	if c == nil {
+		return nil
+	}
+	return c.SshPort
+}
+
+func (c *ContainerGroupInstance) SetSshPort(sshPort int64) {
+	c.SshPort = &sshPort
+}
+
+func (c *ContainerGroupInstance) GetSshHostKeyFingerprint() *string {
+	if c == nil {
+		return nil
+	}
+	return c.SshHostKeyFingerprint
+}
+
+func (c *ContainerGroupInstance) SetSshHostKeyFingerprint(sshHostKeyFingerprint string) {
+	c.SshHostKeyFingerprint = &sshHostKeyFingerprint
 }
 
 func (c *ContainerGroupInstance) GetState() *TheContainerGroupInstanceState {

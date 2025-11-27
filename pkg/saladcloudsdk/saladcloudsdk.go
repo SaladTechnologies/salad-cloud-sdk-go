@@ -11,13 +11,11 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/systemlogs"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/webhooksecretkey"
-	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/workloaderrors"
 	"time"
 )
 
 type SaladCloudSdk struct {
 	ContainerGroups    *containergroups.ContainerGroupsService
-	WorkloadErrors     *workloaderrors.WorkloadErrorsService
 	SystemLogs         *systemlogs.SystemLogsService
 	Queues             *queues.QueuesService
 	Quotas             *quotas.QuotasService
@@ -30,7 +28,6 @@ type SaladCloudSdk struct {
 
 func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 	containerGroups := containergroups.NewContainerGroupsService()
-	workloadErrors := workloaderrors.NewWorkloadErrorsService()
 	systemLogs := systemlogs.NewSystemLogsService()
 	queues := queues.NewQueuesService()
 	quotas := quotas.NewQuotasService()
@@ -41,7 +38,6 @@ func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 
 	manager := configmanager.NewConfigManager(config)
 	containerGroups.WithConfigManager(manager)
-	workloadErrors.WithConfigManager(manager)
 	systemLogs.WithConfigManager(manager)
 	queues.WithConfigManager(manager)
 	quotas.WithConfigManager(manager)
@@ -52,7 +48,6 @@ func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 
 	return &SaladCloudSdk{
 		ContainerGroups:    containerGroups,
-		WorkloadErrors:     workloadErrors,
 		SystemLogs:         systemLogs,
 		Queues:             queues,
 		Quotas:             quotas,

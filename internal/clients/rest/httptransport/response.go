@@ -10,6 +10,7 @@ type Response[T any] struct {
 	Headers    map[string]string
 	Body       []byte
 	Data       T
+	Raw        *http.Response
 }
 
 func (r *Response[T]) Clone() Response[T] {
@@ -46,6 +47,7 @@ func NewResponse[T any](resp *http.Response) (*Response[T], error) {
 		Headers:    responseHeaders,
 		Body:       body,
 		Data:       *placeholderData,
+		Raw:        resp,
 	}, nil
 }
 

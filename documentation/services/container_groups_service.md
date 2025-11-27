@@ -43,15 +43,17 @@ Gets the list of container groups
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.ListContainerGroups(context.Background(), "organizationName", "projectName")
+response, err := client.ContainerGroups.ListContainerGroups(context.Background(), "acme-corp", "dev-env")
 if err != nil {
   panic(err)
 }
@@ -85,6 +87,7 @@ Creates a new container group
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
@@ -93,24 +96,25 @@ import (
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 axiomLoggingConfiguration := shared.AxiomLoggingConfiguration{
-  Host: util.ToPointer("Host"),
-  ApiToken: util.ToPointer("ApiToken"),
-  Dataset: util.ToPointer("Dataset"),
+  Host: util.ToPointer("host"),
+  ApiToken: util.ToPointer("api_token"),
+  Dataset: util.ToPointer("dataset"),
 }
 
 
 datadogTagForContainerLogging := shared.DatadogTagForContainerLogging{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 datadogLoggingConfiguration := shared.DatadogLoggingConfiguration{
-  Host: util.ToPointer("Host"),
-  ApiKey: util.ToPointer("ApiKey"),
+  Host: util.ToPointer("host"),
+  ApiKey: util.ToPointer("api_key"),
   Tags: []shared.DatadogTagForContainerLogging{datadogTagForContainerLogging},
 }
 
@@ -118,18 +122,18 @@ containerLoggingHttpFormat := shared.CONTAINER_LOGGING_HTTP_FORMAT_JSON
 
 
 containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 containerLoggingHttpCompression := shared.CONTAINER_LOGGING_HTTP_COMPRESSION_NONE
 
 containerLoggingConfigurationHttp2 := containergroups.ContainerLoggingConfigurationHttp2{
-  Host: util.ToPointer("Host"),
-  Port: util.ToPointer(int64(123)),
-  User: util.ToPointer(util.Nullable[string]{ Value: "User" }),
-  Password: util.ToPointer(util.Nullable[string]{ Value: "Password" }),
-  Path: util.ToPointer(util.Nullable[string]{ Value: "Path" }),
+  Host: util.ToPointer("host"),
+  Port: util.ToPointer(int64(46840)),
+  User: util.ToPointer(util.Nullable[string]{ Value: "user" }),
+  Password: util.ToPointer(util.Nullable[string]{ Value: "password" }),
+  Path: util.ToPointer(util.Nullable[string]{ Value: "path" }),
   Format: &containerLoggingHttpFormat,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
   Compression: &containerLoggingHttpCompression,
@@ -137,20 +141,20 @@ containerLoggingConfigurationHttp2 := containergroups.ContainerLoggingConfigurat
 
 
 newRelicLoggingConfiguration := shared.NewRelicLoggingConfiguration{
-  Host: util.ToPointer("Host"),
-  IngestionKey: util.ToPointer("IngestionKey"),
+  Host: util.ToPointer("host"),
+  IngestionKey: util.ToPointer("ingestion_key"),
 }
 
 
 containerLoggingSplunkConfiguration := shared.ContainerLoggingSplunkConfiguration{
-  Host: util.ToPointer("Host"),
-  Token: util.ToPointer("Token"),
+  Host: util.ToPointer("host"),
+  Token: util.ToPointer("token"),
 }
 
 
 tcpLoggingConfiguration := shared.TcpLoggingConfiguration{
-  Host: util.ToPointer("Host"),
-  Port: util.ToPointer(int64(123)),
+  Host: util.ToPointer("host"),
+  Port: util.ToPointer(int64(44671)),
 }
 
 containerConfigurationLogging := containergroups.ContainerConfigurationLogging{
@@ -166,30 +170,30 @@ containerGroupPriority := shared.CONTAINER_GROUP_PRIORITY_HIGH
 
 
 containerRegistryAuthenticationAwsEcr := containergroups.ContainerRegistryAuthenticationAwsEcr{
-  AccessKeyId: util.ToPointer("AccessKeyId"),
-  SecretAccessKey: util.ToPointer("SecretAccessKey"),
+  AccessKeyId: util.ToPointer("access_key_id"),
+  SecretAccessKey: util.ToPointer("secret_access_key"),
 }
 
 
 containerRegistryAuthenticationBasic := containergroups.ContainerRegistryAuthenticationBasic{
-  Username: util.ToPointer("Username"),
-  Password: util.ToPointer("Password"),
+  Username: util.ToPointer("username"),
+  Password: util.ToPointer("password"),
 }
 
 
 containerRegistryAuthenticationDockerHub := containergroups.ContainerRegistryAuthenticationDockerHub{
-  Username: util.ToPointer("Username"),
-  PersonalAccessToken: util.ToPointer("PersonalAccessToken"),
+  Username: util.ToPointer("username"),
+  PersonalAccessToken: util.ToPointer("personal_access_token"),
 }
 
 
 containerRegistryAuthenticationGcpGar := containergroups.ContainerRegistryAuthenticationGcpGar{
-  ServiceKey: util.ToPointer("ServiceKey"),
+  ServiceKey: util.ToPointer("service_key"),
 }
 
 
 containerRegistryAuthenticationGcpGcr := containergroups.ContainerRegistryAuthenticationGcpGcr{
-  ServiceKey: util.ToPointer("ServiceKey"),
+  ServiceKey: util.ToPointer("service_key"),
 }
 
 containerRegistryAuthentication := containergroups.ContainerRegistryAuthentication{
@@ -202,17 +206,17 @@ containerRegistryAuthentication := containergroups.ContainerRegistryAuthenticati
 
 
 createContainerResourceRequirements := containergroups.CreateContainerResourceRequirements{
-  Cpu: util.ToPointer(int64(123)),
-  Memory: util.ToPointer(int64(123)),
+  Cpu: util.ToPointer(int64(924)),
+  Memory: util.ToPointer(int64(226493682)),
   GpuClasses: []string{},
-  StorageAmount: util.ToPointer(int64(123)),
-  ShmSize: util.ToPointer(int64(123)),
+  StorageAmount: util.ToPointer(int64(3576666867910)),
+  ShmSize: util.ToPointer(int64(64)),
 }
 
 containerConfiguration := containergroups.ContainerConfiguration{
   Command: []string{},
   EnvironmentVariables: map[string]string{},
-  Image: util.ToPointer("Image"),
+  Image: util.ToPointer("acme/:latest"),
   ImageCaching: util.ToPointer(true),
   Logging: &containerConfigurationLogging,
   Priority: &containerGroupPriority,
@@ -229,40 +233,40 @@ containerGroupProbeExec := shared.ContainerGroupProbeExec{
 
 
 containerGroupGRpcProbe := shared.ContainerGroupGRpcProbe{
-  Port: util.ToPointer(int64(123)),
-  Service: util.ToPointer("Service"),
+  Port: util.ToPointer(int64(37648)),
+  Service: util.ToPointer("service"),
 }
 
 
 containerGroupProbeHttpHeader := shared.ContainerGroupProbeHttpHeader{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 httpScheme := shared.HTTP_SCHEME_HTTP
 
 containerGroupHttpProbeConfiguration := shared.ContainerGroupHttpProbeConfiguration{
   Headers: []shared.ContainerGroupProbeHttpHeader{containerGroupProbeHttpHeader},
-  Path: util.ToPointer("Path"),
-  Port: util.ToPointer(int64(123)),
+  Path: util.ToPointer("path"),
+  Port: util.ToPointer(int64(29069)),
   Scheme: &httpScheme,
 }
 
 
 containerGroupTcpProbe := shared.ContainerGroupTcpProbe{
-  Port: util.ToPointer(int64(123)),
+  Port: util.ToPointer(int64(13817)),
 }
 
 containerGroupLivenessProbe := shared.ContainerGroupLivenessProbe{
   Exec: &containerGroupProbeExec,
-  FailureThreshold: util.ToPointer(int64(123)),
+  FailureThreshold: util.ToPointer(int64(3)),
   Grpc: &containerGroupGRpcProbe,
   Http: &containerGroupHttpProbeConfiguration,
-  InitialDelaySeconds: util.ToPointer(int64(123)),
-  PeriodSeconds: util.ToPointer(int64(123)),
-  SuccessThreshold: util.ToPointer(int64(123)),
+  InitialDelaySeconds: util.ToPointer(int64(670)),
+  PeriodSeconds: util.ToPointer(int64(10)),
+  SuccessThreshold: util.ToPointer(int64(1)),
   Tcp: &containerGroupTcpProbe,
-  TimeoutSeconds: util.ToPointer(int64(123)),
+  TimeoutSeconds: util.ToPointer(int64(30)),
 }
 
 theContainerGroupNetworkingLoadBalancer := shared.THE_CONTAINER_GROUP_NETWORKING_LOAD_BALANCER_ROUND_ROBIN
@@ -271,29 +275,29 @@ containerNetworkingProtocol := shared.CONTAINER_NETWORKING_PROTOCOL_HTTP
 
 createContainerGroupNetworking := containergroups.CreateContainerGroupNetworking{
   Auth: util.ToPointer(true),
-  ClientRequestTimeout: util.ToPointer(int64(123)),
+  ClientRequestTimeout: util.ToPointer(int64(100000)),
   LoadBalancer: &theContainerGroupNetworkingLoadBalancer,
-  Port: util.ToPointer(int64(123)),
+  Port: util.ToPointer(int64(60000)),
   Protocol: &containerNetworkingProtocol,
-  ServerResponseTimeout: util.ToPointer(int64(123)),
+  ServerResponseTimeout: util.ToPointer(int64(100000)),
   SingleConnectionLimit: util.ToPointer(true),
 }
 
 
 queueBasedAutoscalerConfiguration := shared.QueueBasedAutoscalerConfiguration{
-  DesiredQueueLength: util.ToPointer(int64(123)),
-  MaxReplicas: util.ToPointer(int64(123)),
-  MaxDownscalePerMinute: util.ToPointer(int64(123)),
-  MaxUpscalePerMinute: util.ToPointer(int64(123)),
-  MinReplicas: util.ToPointer(int64(123)),
-  PollingPeriod: util.ToPointer(int64(123)),
+  DesiredQueueLength: util.ToPointer(int64(53)),
+  MaxReplicas: util.ToPointer(int64(291)),
+  MaxDownscalePerMinute: util.ToPointer(int64(65)),
+  MaxUpscalePerMinute: util.ToPointer(int64(100)),
+  MinReplicas: util.ToPointer(int64(54)),
+  PollingPeriod: util.ToPointer(int64(140)),
 }
 
 
 containerGroupQueueConnection := shared.ContainerGroupQueueConnection{
-  Path: util.ToPointer("Path"),
-  Port: util.ToPointer(int64(123)),
-  QueueName: util.ToPointer("QueueName"),
+  Path: util.ToPointer("path"),
+  Port: util.ToPointer(int64(47568)),
+  QueueName: util.ToPointer("z1h-3z01x9"),
 }
 
 
@@ -303,40 +307,40 @@ containerGroupProbeExec := shared.ContainerGroupProbeExec{
 
 
 containerGroupGRpcProbe := shared.ContainerGroupGRpcProbe{
-  Port: util.ToPointer(int64(123)),
-  Service: util.ToPointer("Service"),
+  Port: util.ToPointer(int64(37648)),
+  Service: util.ToPointer("service"),
 }
 
 
 containerGroupProbeHttpHeader := shared.ContainerGroupProbeHttpHeader{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 httpScheme := shared.HTTP_SCHEME_HTTP
 
 containerGroupHttpProbeConfiguration := shared.ContainerGroupHttpProbeConfiguration{
   Headers: []shared.ContainerGroupProbeHttpHeader{containerGroupProbeHttpHeader},
-  Path: util.ToPointer("Path"),
-  Port: util.ToPointer(int64(123)),
+  Path: util.ToPointer("path"),
+  Port: util.ToPointer(int64(29069)),
   Scheme: &httpScheme,
 }
 
 
 containerGroupTcpProbe := shared.ContainerGroupTcpProbe{
-  Port: util.ToPointer(int64(123)),
+  Port: util.ToPointer(int64(13817)),
 }
 
 containerGroupReadinessProbe := shared.ContainerGroupReadinessProbe{
   Exec: &containerGroupProbeExec,
-  FailureThreshold: util.ToPointer(int64(123)),
+  FailureThreshold: util.ToPointer(int64(3)),
   Grpc: &containerGroupGRpcProbe,
   Http: &containerGroupHttpProbeConfiguration,
-  InitialDelaySeconds: util.ToPointer(int64(123)),
-  PeriodSeconds: util.ToPointer(int64(123)),
-  SuccessThreshold: util.ToPointer(int64(123)),
+  InitialDelaySeconds: util.ToPointer(int64(262)),
+  PeriodSeconds: util.ToPointer(int64(1)),
+  SuccessThreshold: util.ToPointer(int64(1)),
   Tcp: &containerGroupTcpProbe,
-  TimeoutSeconds: util.ToPointer(int64(123)),
+  TimeoutSeconds: util.ToPointer(int64(1)),
 }
 
 containerRestartPolicy := shared.CONTAINER_RESTART_POLICY_ALWAYS
@@ -348,59 +352,59 @@ containerGroupProbeExec := shared.ContainerGroupProbeExec{
 
 
 containerGroupGRpcProbe := shared.ContainerGroupGRpcProbe{
-  Port: util.ToPointer(int64(123)),
-  Service: util.ToPointer("Service"),
+  Port: util.ToPointer(int64(37648)),
+  Service: util.ToPointer("service"),
 }
 
 
 containerGroupProbeHttpHeader := shared.ContainerGroupProbeHttpHeader{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 httpScheme := shared.HTTP_SCHEME_HTTP
 
 containerGroupHttpProbeConfiguration := shared.ContainerGroupHttpProbeConfiguration{
   Headers: []shared.ContainerGroupProbeHttpHeader{containerGroupProbeHttpHeader},
-  Path: util.ToPointer("Path"),
-  Port: util.ToPointer(int64(123)),
+  Path: util.ToPointer("path"),
+  Port: util.ToPointer(int64(29069)),
   Scheme: &httpScheme,
 }
 
 
 containerGroupTcpProbe := shared.ContainerGroupTcpProbe{
-  Port: util.ToPointer(int64(123)),
+  Port: util.ToPointer(int64(13817)),
 }
 
 containerGroupStartupProbe := shared.ContainerGroupStartupProbe{
   Exec: &containerGroupProbeExec,
-  FailureThreshold: util.ToPointer(int64(123)),
+  FailureThreshold: util.ToPointer(int64(15)),
   Grpc: &containerGroupGRpcProbe,
   Http: &containerGroupHttpProbeConfiguration,
-  InitialDelaySeconds: util.ToPointer(int64(123)),
+  InitialDelaySeconds: util.ToPointer(int64(1106)),
   Tcp: &containerGroupTcpProbe,
-  PeriodSeconds: util.ToPointer(int64(123)),
-  SuccessThreshold: util.ToPointer(int64(123)),
-  TimeoutSeconds: util.ToPointer(int64(123)),
+  PeriodSeconds: util.ToPointer(int64(3)),
+  SuccessThreshold: util.ToPointer(int64(2)),
+  TimeoutSeconds: util.ToPointer(int64(10)),
 }
 
 request := containergroups.ContainerGroupCreationRequest{
   AutostartPolicy: util.ToPointer(true),
   Container: &containerConfiguration,
   CountryCodes: []shared.CountryCode{countryCode},
-  DisplayName: util.ToPointer("DisplayName"),
+  DisplayName: util.ToPointer("592CH6"),
   LivenessProbe: &containerGroupLivenessProbe,
-  Name: util.ToPointer("Name"),
+  Name: util.ToPointer("name"),
   Networking: &createContainerGroupNetworking,
   QueueAutoscaler: &queueBasedAutoscalerConfiguration,
   QueueConnection: &containerGroupQueueConnection,
   ReadinessProbe: &containerGroupReadinessProbe,
-  Replicas: util.ToPointer(int64(123)),
+  Replicas: util.ToPointer(int64(309)),
   RestartPolicy: &containerRestartPolicy,
   StartupProbe: &containerGroupStartupProbe,
 }
 
-response, err := client.ContainerGroups.CreateContainerGroup(context.Background(), "organizationName", "projectName", request)
+response, err := client.ContainerGroups.CreateContainerGroup(context.Background(), "acme-corp", "dev-env", request)
 if err != nil {
   panic(err)
 }
@@ -434,15 +438,17 @@ Gets a container group
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.GetContainerGroup(context.Background(), "organizationName", "projectName", "containerGroupName")
+response, err := client.ContainerGroups.GetContainerGroup(context.Background(), "acme-corp", "dev-env", "mandlebrot")
 if err != nil {
   panic(err)
 }
@@ -477,6 +483,7 @@ Updates a container group
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
@@ -484,24 +491,25 @@ import (
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 axiomLoggingConfiguration := shared.AxiomLoggingConfiguration{
-  Host: util.ToPointer("Host"),
-  ApiToken: util.ToPointer("ApiToken"),
-  Dataset: util.ToPointer("Dataset"),
+  Host: util.ToPointer("host"),
+  ApiToken: util.ToPointer("api_token"),
+  Dataset: util.ToPointer("dataset"),
 }
 
 
 datadogTagForContainerLogging := shared.DatadogTagForContainerLogging{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 datadogLoggingConfiguration := shared.DatadogLoggingConfiguration{
-  Host: util.ToPointer("Host"),
-  ApiKey: util.ToPointer("ApiKey"),
+  Host: util.ToPointer("host"),
+  ApiKey: util.ToPointer("api_key"),
   Tags: []shared.DatadogTagForContainerLogging{datadogTagForContainerLogging},
 }
 
@@ -509,18 +517,18 @@ containerLoggingHttpFormat := shared.CONTAINER_LOGGING_HTTP_FORMAT_JSON
 
 
 containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 containerLoggingHttpCompression := shared.CONTAINER_LOGGING_HTTP_COMPRESSION_NONE
 
 containerLoggingConfigurationHttp1 := shared.ContainerLoggingConfigurationHttp1{
-  Host: util.ToPointer("Host"),
-  Port: util.ToPointer(int64(123)),
-  User: util.ToPointer(util.Nullable[string]{ Value: "User" }),
-  Password: util.ToPointer(util.Nullable[string]{ Value: "Password" }),
-  Path: util.ToPointer(util.Nullable[string]{ Value: "Path" }),
+  Host: util.ToPointer("host"),
+  Port: util.ToPointer(int64(55354)),
+  User: util.ToPointer(util.Nullable[string]{ Value: "user" }),
+  Password: util.ToPointer(util.Nullable[string]{ Value: "password" }),
+  Path: util.ToPointer(util.Nullable[string]{ Value: "path" }),
   Format: &containerLoggingHttpFormat,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
   Compression: &containerLoggingHttpCompression,
@@ -528,20 +536,20 @@ containerLoggingConfigurationHttp1 := shared.ContainerLoggingConfigurationHttp1{
 
 
 newRelicLoggingConfiguration := shared.NewRelicLoggingConfiguration{
-  Host: util.ToPointer("Host"),
-  IngestionKey: util.ToPointer("IngestionKey"),
+  Host: util.ToPointer("host"),
+  IngestionKey: util.ToPointer("ingestion_key"),
 }
 
 
 containerLoggingSplunkConfiguration := shared.ContainerLoggingSplunkConfiguration{
-  Host: util.ToPointer("Host"),
-  Token: util.ToPointer("Token"),
+  Host: util.ToPointer("host"),
+  Token: util.ToPointer("token"),
 }
 
 
 tcpLoggingConfiguration := shared.TcpLoggingConfiguration{
-  Host: util.ToPointer("Host"),
-  Port: util.ToPointer(int64(123)),
+  Host: util.ToPointer("host"),
+  Port: util.ToPointer(int64(44671)),
 }
 
 updateContainerLogging := containergroups.UpdateContainerLogging{
@@ -557,30 +565,30 @@ containerGroupPriority := shared.CONTAINER_GROUP_PRIORITY_HIGH
 
 
 containerRegistryAuthenticationAwsEcr := containergroups.ContainerRegistryAuthenticationAwsEcr{
-  AccessKeyId: util.ToPointer("AccessKeyId"),
-  SecretAccessKey: util.ToPointer("SecretAccessKey"),
+  AccessKeyId: util.ToPointer("access_key_id"),
+  SecretAccessKey: util.ToPointer("secret_access_key"),
 }
 
 
 containerRegistryAuthenticationBasic := containergroups.ContainerRegistryAuthenticationBasic{
-  Username: util.ToPointer("Username"),
-  Password: util.ToPointer("Password"),
+  Username: util.ToPointer("username"),
+  Password: util.ToPointer("password"),
 }
 
 
 containerRegistryAuthenticationDockerHub := containergroups.ContainerRegistryAuthenticationDockerHub{
-  Username: util.ToPointer("Username"),
-  PersonalAccessToken: util.ToPointer("PersonalAccessToken"),
+  Username: util.ToPointer("username"),
+  PersonalAccessToken: util.ToPointer("personal_access_token"),
 }
 
 
 containerRegistryAuthenticationGcpGar := containergroups.ContainerRegistryAuthenticationGcpGar{
-  ServiceKey: util.ToPointer("ServiceKey"),
+  ServiceKey: util.ToPointer("service_key"),
 }
 
 
 containerRegistryAuthenticationGcpGcr := containergroups.ContainerRegistryAuthenticationGcpGcr{
-  ServiceKey: util.ToPointer("ServiceKey"),
+  ServiceKey: util.ToPointer("service_key"),
 }
 
 containerRegistryAuthentication := containergroups.ContainerRegistryAuthentication{
@@ -593,17 +601,17 @@ containerRegistryAuthentication := containergroups.ContainerRegistryAuthenticati
 
 
 containerResourceUpdateSchema := containergroups.ContainerResourceUpdateSchema{
-  Cpu: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
-  Memory: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
+  Cpu: util.ToPointer(util.Nullable[int64]{ Value: int64(1013) }),
+  Memory: util.ToPointer(util.Nullable[int64]{ Value: int64(352043675) }),
   GpuClasses: []string{},
-  StorageAmount: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
-  ShmSize: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
+  StorageAmount: util.ToPointer(util.Nullable[int64]{ Value: int64(1032076497908566.1) }),
+  ShmSize: util.ToPointer(util.Nullable[int64]{ Value: int64(64) }),
 }
 
 updateContainer := containergroups.UpdateContainer{
   Command: []string{},
   EnvironmentVariables: map[string]string{},
-  Image: util.ToPointer(util.Nullable[string]{ Value: "Image" }),
+  Image: util.ToPointer(util.Nullable[string]{ Value: "image" }),
   ImageCaching: util.ToPointer(true),
   Logging: &updateContainerLogging,
   Priority: &containerGroupPriority,
@@ -615,7 +623,7 @@ countryCode := shared.COUNTRY_CODE_AF
 
 
 updateContainerGroupNetworking := containergroups.UpdateContainerGroupNetworking{
-  Port: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
+  Port: util.ToPointer(util.Nullable[int64]{ Value: int64(13142) }),
 }
 
 
@@ -625,40 +633,40 @@ containerGroupProbeExec := shared.ContainerGroupProbeExec{
 
 
 containerGroupGRpcProbe := shared.ContainerGroupGRpcProbe{
-  Port: util.ToPointer(int64(123)),
-  Service: util.ToPointer("Service"),
+  Port: util.ToPointer(int64(37648)),
+  Service: util.ToPointer("service"),
 }
 
 
 containerGroupProbeHttpHeader := shared.ContainerGroupProbeHttpHeader{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 httpScheme := shared.HTTP_SCHEME_HTTP
 
 containerGroupHttpProbeConfiguration := shared.ContainerGroupHttpProbeConfiguration{
   Headers: []shared.ContainerGroupProbeHttpHeader{containerGroupProbeHttpHeader},
-  Path: util.ToPointer("Path"),
-  Port: util.ToPointer(int64(123)),
+  Path: util.ToPointer("path"),
+  Port: util.ToPointer(int64(29069)),
   Scheme: &httpScheme,
 }
 
 
 containerGroupTcpProbe := shared.ContainerGroupTcpProbe{
-  Port: util.ToPointer(int64(123)),
+  Port: util.ToPointer(int64(13817)),
 }
 
 containerGroupLivenessProbe := shared.ContainerGroupLivenessProbe{
   Exec: &containerGroupProbeExec,
-  FailureThreshold: util.ToPointer(int64(123)),
+  FailureThreshold: util.ToPointer(int64(3)),
   Grpc: &containerGroupGRpcProbe,
   Http: &containerGroupHttpProbeConfiguration,
-  InitialDelaySeconds: util.ToPointer(int64(123)),
-  PeriodSeconds: util.ToPointer(int64(123)),
-  SuccessThreshold: util.ToPointer(int64(123)),
+  InitialDelaySeconds: util.ToPointer(int64(670)),
+  PeriodSeconds: util.ToPointer(int64(10)),
+  SuccessThreshold: util.ToPointer(int64(1)),
   Tcp: &containerGroupTcpProbe,
-  TimeoutSeconds: util.ToPointer(int64(123)),
+  TimeoutSeconds: util.ToPointer(int64(30)),
 }
 
 
@@ -668,40 +676,40 @@ containerGroupProbeExec := shared.ContainerGroupProbeExec{
 
 
 containerGroupGRpcProbe := shared.ContainerGroupGRpcProbe{
-  Port: util.ToPointer(int64(123)),
-  Service: util.ToPointer("Service"),
+  Port: util.ToPointer(int64(37648)),
+  Service: util.ToPointer("service"),
 }
 
 
 containerGroupProbeHttpHeader := shared.ContainerGroupProbeHttpHeader{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 httpScheme := shared.HTTP_SCHEME_HTTP
 
 containerGroupHttpProbeConfiguration := shared.ContainerGroupHttpProbeConfiguration{
   Headers: []shared.ContainerGroupProbeHttpHeader{containerGroupProbeHttpHeader},
-  Path: util.ToPointer("Path"),
-  Port: util.ToPointer(int64(123)),
+  Path: util.ToPointer("path"),
+  Port: util.ToPointer(int64(29069)),
   Scheme: &httpScheme,
 }
 
 
 containerGroupTcpProbe := shared.ContainerGroupTcpProbe{
-  Port: util.ToPointer(int64(123)),
+  Port: util.ToPointer(int64(13817)),
 }
 
 containerGroupReadinessProbe := shared.ContainerGroupReadinessProbe{
   Exec: &containerGroupProbeExec,
-  FailureThreshold: util.ToPointer(int64(123)),
+  FailureThreshold: util.ToPointer(int64(3)),
   Grpc: &containerGroupGRpcProbe,
   Http: &containerGroupHttpProbeConfiguration,
-  InitialDelaySeconds: util.ToPointer(int64(123)),
-  PeriodSeconds: util.ToPointer(int64(123)),
-  SuccessThreshold: util.ToPointer(int64(123)),
+  InitialDelaySeconds: util.ToPointer(int64(262)),
+  PeriodSeconds: util.ToPointer(int64(1)),
+  SuccessThreshold: util.ToPointer(int64(1)),
   Tcp: &containerGroupTcpProbe,
-  TimeoutSeconds: util.ToPointer(int64(123)),
+  TimeoutSeconds: util.ToPointer(int64(1)),
 }
 
 
@@ -711,56 +719,56 @@ containerGroupProbeExec := shared.ContainerGroupProbeExec{
 
 
 containerGroupGRpcProbe := shared.ContainerGroupGRpcProbe{
-  Port: util.ToPointer(int64(123)),
-  Service: util.ToPointer("Service"),
+  Port: util.ToPointer(int64(37648)),
+  Service: util.ToPointer("service"),
 }
 
 
 containerGroupProbeHttpHeader := shared.ContainerGroupProbeHttpHeader{
-  Name: util.ToPointer("Name"),
-  Value: util.ToPointer("Value"),
+  Name: util.ToPointer("name"),
+  Value: util.ToPointer("value"),
 }
 
 httpScheme := shared.HTTP_SCHEME_HTTP
 
 containerGroupHttpProbeConfiguration := shared.ContainerGroupHttpProbeConfiguration{
   Headers: []shared.ContainerGroupProbeHttpHeader{containerGroupProbeHttpHeader},
-  Path: util.ToPointer("Path"),
-  Port: util.ToPointer(int64(123)),
+  Path: util.ToPointer("path"),
+  Port: util.ToPointer(int64(29069)),
   Scheme: &httpScheme,
 }
 
 
 containerGroupTcpProbe := shared.ContainerGroupTcpProbe{
-  Port: util.ToPointer(int64(123)),
+  Port: util.ToPointer(int64(13817)),
 }
 
 containerGroupStartupProbe := shared.ContainerGroupStartupProbe{
   Exec: &containerGroupProbeExec,
-  FailureThreshold: util.ToPointer(int64(123)),
+  FailureThreshold: util.ToPointer(int64(15)),
   Grpc: &containerGroupGRpcProbe,
   Http: &containerGroupHttpProbeConfiguration,
-  InitialDelaySeconds: util.ToPointer(int64(123)),
+  InitialDelaySeconds: util.ToPointer(int64(1106)),
   Tcp: &containerGroupTcpProbe,
-  PeriodSeconds: util.ToPointer(int64(123)),
-  SuccessThreshold: util.ToPointer(int64(123)),
-  TimeoutSeconds: util.ToPointer(int64(123)),
+  PeriodSeconds: util.ToPointer(int64(3)),
+  SuccessThreshold: util.ToPointer(int64(2)),
+  TimeoutSeconds: util.ToPointer(int64(10)),
 }
 
 
 queueBasedAutoscalerConfiguration := shared.QueueBasedAutoscalerConfiguration{
-  DesiredQueueLength: util.ToPointer(int64(123)),
-  MaxReplicas: util.ToPointer(int64(123)),
-  MaxDownscalePerMinute: util.ToPointer(int64(123)),
-  MaxUpscalePerMinute: util.ToPointer(int64(123)),
-  MinReplicas: util.ToPointer(int64(123)),
-  PollingPeriod: util.ToPointer(int64(123)),
+  DesiredQueueLength: util.ToPointer(int64(53)),
+  MaxReplicas: util.ToPointer(int64(291)),
+  MaxDownscalePerMinute: util.ToPointer(int64(65)),
+  MaxUpscalePerMinute: util.ToPointer(int64(100)),
+  MinReplicas: util.ToPointer(int64(54)),
+  PollingPeriod: util.ToPointer(int64(140)),
 }
 
 request := containergroups.ContainerGroupPatch{
-  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "DisplayName" }),
+  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "ZJjdnvu" }),
   Container: &updateContainer,
-  Replicas: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
+  Replicas: util.ToPointer(util.Nullable[int64]{ Value: int64(56) }),
   CountryCodes: []shared.CountryCode{countryCode},
   Networking: &updateContainerGroupNetworking,
   LivenessProbe: &containerGroupLivenessProbe,
@@ -769,7 +777,7 @@ request := containergroups.ContainerGroupPatch{
   QueueAutoscaler: &queueBasedAutoscalerConfiguration,
 }
 
-response, err := client.ContainerGroups.UpdateContainerGroup(context.Background(), "organizationName", "projectName", "containerGroupName", request)
+response, err := client.ContainerGroups.UpdateContainerGroup(context.Background(), "acme-corp", "dev-env", "mandlebrot", request)
 if err != nil {
   panic(err)
 }
@@ -803,15 +811,17 @@ Deletes a container group
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.DeleteContainerGroup(context.Background(), "organizationName", "projectName", "containerGroupName")
+response, err := client.ContainerGroups.DeleteContainerGroup(context.Background(), "acme-corp", "dev-env", "mandlebrot")
 if err != nil {
   panic(err)
 }
@@ -845,15 +855,17 @@ Starts a container group
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.StartContainerGroup(context.Background(), "organizationName", "projectName", "containerGroupName")
+response, err := client.ContainerGroups.StartContainerGroup(context.Background(), "acme-corp", "dev-env", "mandlebrot")
 if err != nil {
   panic(err)
 }
@@ -887,15 +899,17 @@ Stops a container group
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.StopContainerGroup(context.Background(), "organizationName", "projectName", "containerGroupName")
+response, err := client.ContainerGroups.StopContainerGroup(context.Background(), "acme-corp", "dev-env", "mandlebrot")
 if err != nil {
   panic(err)
 }
@@ -929,15 +943,17 @@ Gets the list of container group instances
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.ListContainerGroupInstances(context.Background(), "organizationName", "projectName", "containerGroupName")
+response, err := client.ContainerGroups.ListContainerGroupInstances(context.Background(), "acme-corp", "dev-env", "mandlebrot")
 if err != nil {
   panic(err)
 }
@@ -972,15 +988,17 @@ Gets a container group instance
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.GetContainerGroupInstance(context.Background(), "organizationName", "projectName", "containerGroupName", "containerGroupInstanceId")
+response, err := client.ContainerGroups.GetContainerGroupInstance(context.Background(), "acme-corp", "dev-env", "mandlebrot", "db3a4591-efc3-46c0-b06a-3d820c0ec100")
 if err != nil {
   panic(err)
 }
@@ -1016,6 +1034,7 @@ Updates a container group instance
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
@@ -1023,14 +1042,15 @@ import (
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := containergroups.ContainerGroupInstancePatch{
-  DeletionCost: util.ToPointer(util.Nullable[int64]{ Value: int64(123) }),
+  DeletionCost: util.ToPointer(util.Nullable[int64]{ Value: int64(34980) }),
 }
 
-response, err := client.ContainerGroups.UpdateContainerGroupInstance(context.Background(), "organizationName", "projectName", "containerGroupName", "containerGroupInstanceId", request)
+response, err := client.ContainerGroups.UpdateContainerGroupInstance(context.Background(), "acme-corp", "dev-env", "mandlebrot", "db3a4591-efc3-46c0-b06a-3d820c0ec100", request)
 if err != nil {
   panic(err)
 }
@@ -1065,15 +1085,17 @@ Reallocates a container group instance to run on a different Salad Node
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.ReallocateContainerGroupInstance(context.Background(), "organizationName", "projectName", "containerGroupName", "containerGroupInstanceId")
+response, err := client.ContainerGroups.ReallocateContainerGroupInstance(context.Background(), "acme-corp", "dev-env", "mandlebrot", "db3a4591-efc3-46c0-b06a-3d820c0ec100")
 if err != nil {
   panic(err)
 }
@@ -1108,15 +1130,17 @@ Stops a container, destroys it, and starts a new one without requiring the image
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.RecreateContainerGroupInstance(context.Background(), "organizationName", "projectName", "containerGroupName", "containerGroupInstanceId")
+response, err := client.ContainerGroups.RecreateContainerGroupInstance(context.Background(), "acme-corp", "dev-env", "mandlebrot", "db3a4591-efc3-46c0-b06a-3d820c0ec100")
 if err != nil {
   panic(err)
 }
@@ -1151,15 +1175,17 @@ Stops a container and restarts it on the same Salad Node
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
 
 )
 
 config := saladcloudsdkconfig.NewConfig()
+config.SetApiKey("API_KEY")
 client := saladcloudsdk.NewSaladCloudSdk(config)
 
-response, err := client.ContainerGroups.RestartContainerGroupInstance(context.Background(), "organizationName", "projectName", "containerGroupName", "containerGroupInstanceId")
+response, err := client.ContainerGroups.RestartContainerGroupInstance(context.Background(), "acme-corp", "dev-env", "mandlebrot", "db3a4591-efc3-46c0-b06a-3d820c0ec100")
 if err != nil {
   panic(err)
 }

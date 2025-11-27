@@ -7,7 +7,6 @@ import (
 
 type ConfigManager struct {
 	ContainerGroups    saladcloudsdkconfig.Config
-	WorkloadErrors     saladcloudsdkconfig.Config
 	SystemLogs         saladcloudsdkconfig.Config
 	Queues             saladcloudsdkconfig.Config
 	Quotas             saladcloudsdkconfig.Config
@@ -20,7 +19,6 @@ type ConfigManager struct {
 func NewConfigManager(config saladcloudsdkconfig.Config) *ConfigManager {
 	return &ConfigManager{
 		ContainerGroups:    config,
-		WorkloadErrors:     config,
 		SystemLogs:         config,
 		Queues:             config,
 		Quotas:             config,
@@ -33,7 +31,6 @@ func NewConfigManager(config saladcloudsdkconfig.Config) *ConfigManager {
 
 func (c *ConfigManager) SetBaseUrl(baseUrl string) {
 	c.ContainerGroups.SetBaseUrl(baseUrl)
-	c.WorkloadErrors.SetBaseUrl(baseUrl)
 	c.SystemLogs.SetBaseUrl(baseUrl)
 	c.Queues.SetBaseUrl(baseUrl)
 	c.Quotas.SetBaseUrl(baseUrl)
@@ -45,7 +42,6 @@ func (c *ConfigManager) SetBaseUrl(baseUrl string) {
 
 func (c *ConfigManager) SetTimeout(timeout time.Duration) {
 	c.ContainerGroups.SetTimeout(timeout)
-	c.WorkloadErrors.SetTimeout(timeout)
 	c.SystemLogs.SetTimeout(timeout)
 	c.Queues.SetTimeout(timeout)
 	c.Quotas.SetTimeout(timeout)
@@ -57,7 +53,6 @@ func (c *ConfigManager) SetTimeout(timeout time.Duration) {
 
 func (c *ConfigManager) SetApiKey(apiKey string) {
 	c.ContainerGroups.SetApiKey(apiKey)
-	c.WorkloadErrors.SetApiKey(apiKey)
 	c.SystemLogs.SetApiKey(apiKey)
 	c.Queues.SetApiKey(apiKey)
 	c.Quotas.SetApiKey(apiKey)
@@ -69,9 +64,6 @@ func (c *ConfigManager) SetApiKey(apiKey string) {
 
 func (c *ConfigManager) GetContainerGroups() *saladcloudsdkconfig.Config {
 	return &c.ContainerGroups
-}
-func (c *ConfigManager) GetWorkloadErrors() *saladcloudsdkconfig.Config {
-	return &c.WorkloadErrors
 }
 func (c *ConfigManager) GetSystemLogs() *saladcloudsdkconfig.Config {
 	return &c.SystemLogs

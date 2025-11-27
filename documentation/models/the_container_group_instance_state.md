@@ -6,8 +6,8 @@ The state of the container group instance
 
 | Name        | Type   | Required | Description   |
 | :---------- | :----- | :------- | :------------ |
-| allocating  | string | ✅       | "allocating"  |
-| downloading | string | ✅       | "downloading" |
-| creating    | string | ✅       | "creating"    |
-| running     | string | ✅       | "running"     |
-| stopping    | string | ✅       | "stopping"    |
+| Allocating  | string | ✅       | "allocating"  |
+| Downloading | string | ✅       | "downloading" |
+| Creating    | string | ✅       | "creating"    |
+| Running     | string | ✅       | "running"     |
+| Stopping    | string | ✅       | "stopping"    |

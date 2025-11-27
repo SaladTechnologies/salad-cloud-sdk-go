@@ -6,7 +6,7 @@ Specifies the priority level for container group execution, which determines res
 
 | Name   | Type   | Required | Description |
 | :----- | :----- | :------- | :---------- |
-| high   | string | ✅       | "high"      |
-| medium | string | ✅       | "medium"    |
-| low    | string | ✅       | "low"       |
-| batch  | string | ✅       | "batch"     |
+| High   | string | ✅       | "high"      |
+| Medium | string | ✅       | "medium"    |
+| Low    | string | ✅       | "low"       |
+| Batch  | string | ✅       | "batch"     |

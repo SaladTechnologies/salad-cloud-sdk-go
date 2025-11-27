@@ -2,12 +2,13 @@ package shared
 
 import (
 	"encoding/json"
-
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
+	"net/http"
 )
 
 type SaladCloudSdkResponse[T any] struct {
 	Data     T
+	Raw      *http.Response
 	Metadata SaladCloudSdkResponseMetadata
 }
 
@@ -19,6 +20,7 @@ type SaladCloudSdkResponseMetadata struct {
 func NewSaladCloudSdkResponse[T any](resp *httptransport.Response[T]) *SaladCloudSdkResponse[T] {
 	return &SaladCloudSdkResponse[T]{
 		Data: resp.Data,
+		Raw:  resp.Raw,
 		Metadata: SaladCloudSdkResponseMetadata{
 			StatusCode: resp.StatusCode,
 			Headers:    resp.Headers,

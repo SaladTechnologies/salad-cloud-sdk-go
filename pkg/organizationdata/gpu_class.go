@@ -14,18 +14,20 @@ type GpuClass struct {
 	IsHighDemand *bool `json:"is_high_demand,omitempty"`
 	// The type of GPU class
 	GpuClassType *GpuClassType `json:"gpu_class_type,omitempty"`
+	// The number of GPUs in the cluster
+	GpuCount *int64 `json:"gpu_count,omitempty" min:"1" max:"512"`
 	// The minimum vCPU count
 	MinVcpu *int64 `json:"min_vcpu,omitempty" min:"0"`
 	// The maximum vCPU count
-	MaxVcpu *int64 `json:"max_vcpu,omitempty"`
-	// The minimum RAM amount in GB
+	MaxVcpu *int64 `json:"max_vcpu,omitempty" min:"0"`
+	// The minimum RAM amount in MB
 	MinRam *int64 `json:"min_ram,omitempty" min:"0"`
-	// The maximum RAM amount in GB
-	MaxRam *int64 `json:"max_ram,omitempty"`
-	// The minimum storage amount in GB
+	// The maximum RAM amount in MB
+	MaxRam *int64 `json:"max_ram,omitempty" min:"0"`
+	// The minimum storage amount in bytes
 	MinStorage *int64 `json:"min_storage,omitempty" min:"0"`
-	// The maximum storage amount in GB
-	MaxStorage *int64 `json:"max_storage,omitempty"`
+	// The maximum storage amount in bytes
+	MaxStorage *int64 `json:"max_storage,omitempty" min:"0"`
 }
 
 func (g *GpuClass) GetId() *string {
@@ -81,6 +83,17 @@ func (g *GpuClass) GetGpuClassType() *GpuClassType {
 
 func (g *GpuClass) SetGpuClassType(gpuClassType GpuClassType) {
 	g.GpuClassType = &gpuClassType
+}
+
+func (g *GpuClass) GetGpuCount() *int64 {
+	if g == nil {
+		return nil
+	}
+	return g.GpuCount
+}
+
+func (g *GpuClass) SetGpuCount(gpuCount int64) {
+	g.GpuCount = &gpuCount
 }
 
 func (g *GpuClass) GetMinVcpu() *int64 {

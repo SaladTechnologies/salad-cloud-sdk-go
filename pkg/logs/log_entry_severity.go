@@ -4,6 +4,7 @@ package logs
 type LogEntrySeverity string
 
 const (
+	LOG_ENTRY_SEVERITY_DEFAULT   LogEntrySeverity = "default"
 	LOG_ENTRY_SEVERITY_DEBUG     LogEntrySeverity = "debug"
 	LOG_ENTRY_SEVERITY_INFO      LogEntrySeverity = "info"
 	LOG_ENTRY_SEVERITY_NOTICE    LogEntrySeverity = "notice"
