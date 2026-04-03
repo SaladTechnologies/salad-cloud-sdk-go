@@ -3,6 +3,7 @@ package inferenceendpoints
 import (
 	"context"
 	restClient "github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/hooks"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// InferenceEndpointsService provides methods to interact with InferenceEndpointsService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type InferenceEndpointsService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewInferenceEndpointsService() *InferenceEndpointsService {
@@ -20,13 +24,26 @@ func NewInferenceEndpointsService() *InferenceEndpointsService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *InferenceEndpointsService) WithConfigManager(manager *configmanager.ConfigManager) *InferenceEndpointsService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *InferenceEndpointsService) WithHook(hook hooks.Hook) *InferenceEndpointsService {
+	api.hook = hook
+	return api
+}
+
 func (api *InferenceEndpointsService) getConfig() *saladcloudsdkconfig.Config {
 	return api.manager.GetInferenceEndpoints()
+}
+
+func (api *InferenceEndpointsService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *InferenceEndpointsService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *InferenceEndpointsService) SetApiKey(apiKey string) {
 }
 
 // Lists inference endpoints.
-func (api *InferenceEndpointsService) ListInferenceEndpoints(ctx context.Context, organizationName string, params ListInferenceEndpointsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointCollection], *shared.SaladCloudSdkError) {
+func (api *InferenceEndpointsService) ListInferenceEndpoints(ctx context.Context, organizationName string, params ListInferenceEndpointsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointCollection], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -58,17 +75,17 @@ func (api *InferenceEndpointsService) ListInferenceEndpoints(ctx context.Context
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InferenceEndpointCollection](config)
+	client := restClient.NewRestClient[InferenceEndpointCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[InferenceEndpointCollection](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[InferenceEndpointCollection](resp), nil
 }
 
 // Gets an inference endpoint.
-func (api *InferenceEndpointsService) GetInferenceEndpoint(ctx context.Context, organizationName string, inferenceEndpointName string) (*shared.SaladCloudSdkResponse[InferenceEndpoint], *shared.SaladCloudSdkError) {
+func (api *InferenceEndpointsService) GetInferenceEndpoint(ctx context.Context, organizationName string, inferenceEndpointName string) (*shared.SaladCloudSdkResponse[InferenceEndpoint], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -81,17 +98,17 @@ func (api *InferenceEndpointsService) GetInferenceEndpoint(ctx context.Context, 
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InferenceEndpoint](config)
+	client := restClient.NewRestClient[InferenceEndpoint, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[InferenceEndpoint](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[InferenceEndpoint](resp), nil
 }
 
 // Lists inference endpoint jobs.
-func (api *InferenceEndpointsService) ListInferenceEndpointJobs(ctx context.Context, organizationName string, inferenceEndpointName string, params ListInferenceEndpointJobsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointJobCollection], *shared.SaladCloudSdkError) {
+func (api *InferenceEndpointsService) ListInferenceEndpointJobs(ctx context.Context, organizationName string, inferenceEndpointName string, params ListInferenceEndpointJobsRequestParams) (*shared.SaladCloudSdkResponse[InferenceEndpointJobCollection], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -105,17 +122,17 @@ func (api *InferenceEndpointsService) ListInferenceEndpointJobs(ctx context.Cont
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InferenceEndpointJobCollection](config)
+	client := restClient.NewRestClient[InferenceEndpointJobCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[InferenceEndpointJobCollection](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[InferenceEndpointJobCollection](resp), nil
 }
 
 // Creates a new inference endpoint job.
-func (api *InferenceEndpointsService) CreateInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, inferenceEndpointJobPrototype InferenceEndpointJobPrototype) (*shared.SaladCloudSdkResponse[InferenceEndpointJob], *shared.SaladCloudSdkError) {
+func (api *InferenceEndpointsService) CreateInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, inferenceEndpointJobPrototype InferenceEndpointJobPrototype) (*shared.SaladCloudSdkResponse[InferenceEndpointJob], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -130,17 +147,17 @@ func (api *InferenceEndpointsService) CreateInferenceEndpointJob(ctx context.Con
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InferenceEndpointJob](config)
+	client := restClient.NewRestClient[InferenceEndpointJob, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[InferenceEndpointJob](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[InferenceEndpointJob](resp), nil
 }
 
 // Gets an inference endpoint job.
-func (api *InferenceEndpointsService) GetInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, inferenceEndpointJobId string) (*shared.SaladCloudSdkResponse[InferenceEndpointJob], *shared.SaladCloudSdkError) {
+func (api *InferenceEndpointsService) GetInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, inferenceEndpointJobId string) (*shared.SaladCloudSdkResponse[InferenceEndpointJob], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -154,17 +171,17 @@ func (api *InferenceEndpointsService) GetInferenceEndpointJob(ctx context.Contex
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InferenceEndpointJob](config)
+	client := restClient.NewRestClient[InferenceEndpointJob, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[InferenceEndpointJob](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[InferenceEndpointJob](resp), nil
 }
 
 // Cancels an inference endpoint job.
-func (api *InferenceEndpointsService) DeleteInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, inferenceEndpointJobId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *InferenceEndpointsService) DeleteInferenceEndpointJob(ctx context.Context, organizationName string, inferenceEndpointName string, inferenceEndpointJobId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -178,10 +195,10 @@ func (api *InferenceEndpointsService) DeleteInferenceEndpointJob(ctx context.Con
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil

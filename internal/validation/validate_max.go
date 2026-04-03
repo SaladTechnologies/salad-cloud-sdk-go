@@ -8,6 +8,8 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
 )
 
+// validateMax validates that a numeric field value is less than or equal to the 'max' tag value.
+// Supports int and float types. Nil values are skipped.
 func validateMax(field reflect.StructField, value reflect.Value) error {
 	maxValue, found := field.Tag.Lookup("max")
 	if !found || maxValue == "" || value.IsNil() {

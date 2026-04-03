@@ -47,6 +47,10 @@ type ContainerGroup struct {
 	Replicas *int64 `json:"replicas,omitempty" required:"true" min:"0" max:"500"`
 	// Specifies the policy for restarting containers when they exit or fail.
 	RestartPolicy *ContainerRestartPolicy `json:"restart_policy,omitempty" required:"true"`
+	// List of scaling actions configurations
+	ScalingActions []ContainerGroupScalingAction `json:"scaling-actions,omitempty" required:"true" maxItems:"100"`
+	// Indicates if scheduled scaling is enabled
+	ScheduledScalingEnabled *bool `json:"scheduled-scaling-enabled,omitempty" required:"true"`
 	// Defines a probe that checks if a container application has started successfully. Startup probes help prevent applications from being prematurely marked as unhealthy during initialization. The probe can use HTTP requests, TCP connections, gRPC calls, or shell commands to determine startup status.
 	StartupProbe *util.Nullable[ContainerGroupStartupProbe] `json:"startup_probe,omitempty"`
 	// ISO 8601 timestamp when this container group was last updated
@@ -285,6 +289,28 @@ func (c *ContainerGroup) GetRestartPolicy() *ContainerRestartPolicy {
 
 func (c *ContainerGroup) SetRestartPolicy(restartPolicy ContainerRestartPolicy) {
 	c.RestartPolicy = &restartPolicy
+}
+
+func (c *ContainerGroup) GetScalingActions() []ContainerGroupScalingAction {
+	if c == nil {
+		return nil
+	}
+	return c.ScalingActions
+}
+
+func (c *ContainerGroup) SetScalingActions(scalingActions []ContainerGroupScalingAction) {
+	c.ScalingActions = scalingActions
+}
+
+func (c *ContainerGroup) GetScheduledScalingEnabled() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.ScheduledScalingEnabled
+}
+
+func (c *ContainerGroup) SetScheduledScalingEnabled(scheduledScalingEnabled bool) {
+	c.ScheduledScalingEnabled = &scheduledScalingEnabled
 }
 
 func (c *ContainerGroup) GetStartupProbe() *util.Nullable[ContainerGroupStartupProbe] {

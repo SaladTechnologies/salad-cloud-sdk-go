@@ -8,6 +8,8 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
 )
 
+// validateMin validates that a numeric field value is greater than or equal to the 'min' tag value.
+// Supports int and float types. Nil values are skipped.
 func validateMin(field reflect.StructField, value reflect.Value) error {
 	minValue, found := field.Tag.Lookup("min")
 	if !found || minValue == "" || value.IsNil() {

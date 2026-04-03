@@ -15,9 +15,9 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.QueuePrototype{
-  Name: util.ToPointer("name"),
-  DisplayName: util.ToPointer("AV3ysQq"),
   Description: util.ToPointer("description"),
+  DisplayName: util.ToPointer("tLWSUinMUjM"),
+  Name: util.ToPointer("name"),
 }
 
 response, err := client.Queues.CreateQueue(context.Background(), "acme-corp", "dev-env", request)

@@ -1,10 +1,14 @@
 package contenttypes
 
 import (
+	"encoding/base64"
 	"fmt"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/unmarshal"
 	"reflect"
 )
 
+// FromBinary deserializes binary response data into a byte slice target.
+// The target must be a non-nil pointer to []byte. Returns an error if conversion fails.
 func FromBinary(data any, target any) error {
 	targetValue := reflect.ValueOf(target)
 
@@ -18,6 +22,12 @@ func FromBinary(data any, target any) error {
 		if targetValue.Kind() == reflect.Slice && targetValue.Type().Elem().Kind() == reflect.Uint8 {
 			targetValue.Set(reflect.ValueOf(b))
 			return nil
+		}
+
+		if targetValue.Kind() == reflect.Struct {
+			base64Str := base64.StdEncoding.EncodeToString(b)
+			jsonBody := []byte(`"` + base64Str + `"`)
+			return unmarshal.Unmarshal(jsonBody, target)
 		}
 	}
 

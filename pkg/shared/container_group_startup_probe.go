@@ -14,12 +14,12 @@ type ContainerGroupStartupProbe struct {
 	Http *ContainerGroupHttpProbeConfiguration `json:"http,omitempty"`
 	// Number of seconds to wait after container startup before the first probe is executed
 	InitialDelaySeconds *int64 `json:"initial_delay_seconds,omitempty" required:"true" min:"0" max:"1200"`
-	// Configuration for a TCP probe used to check container health via network connectivity.
-	Tcp *ContainerGroupTcpProbe `json:"tcp,omitempty"`
 	// How frequently (in seconds) to perform the probe
 	PeriodSeconds *int64 `json:"period_seconds,omitempty" required:"true" min:"1" max:"120"`
 	// Minimum consecutive successes required for the probe to be considered successful
 	SuccessThreshold *int64 `json:"success_threshold,omitempty" required:"true" min:"1" max:"10"`
+	// Configuration for a TCP probe used to check container health via network connectivity.
+	Tcp *ContainerGroupTcpProbe `json:"tcp,omitempty"`
 	// Maximum time (in seconds) to wait for a probe response before considering it failed
 	TimeoutSeconds *int64 `json:"timeout_seconds,omitempty" required:"true" min:"1" max:"60"`
 }
@@ -79,17 +79,6 @@ func (c *ContainerGroupStartupProbe) SetInitialDelaySeconds(initialDelaySeconds 
 	c.InitialDelaySeconds = &initialDelaySeconds
 }
 
-func (c *ContainerGroupStartupProbe) GetTcp() *ContainerGroupTcpProbe {
-	if c == nil {
-		return nil
-	}
-	return c.Tcp
-}
-
-func (c *ContainerGroupStartupProbe) SetTcp(tcp ContainerGroupTcpProbe) {
-	c.Tcp = &tcp
-}
-
 func (c *ContainerGroupStartupProbe) GetPeriodSeconds() *int64 {
 	if c == nil {
 		return nil
@@ -110,6 +99,17 @@ func (c *ContainerGroupStartupProbe) GetSuccessThreshold() *int64 {
 
 func (c *ContainerGroupStartupProbe) SetSuccessThreshold(successThreshold int64) {
 	c.SuccessThreshold = &successThreshold
+}
+
+func (c *ContainerGroupStartupProbe) GetTcp() *ContainerGroupTcpProbe {
+	if c == nil {
+		return nil
+	}
+	return c.Tcp
+}
+
+func (c *ContainerGroupStartupProbe) SetTcp(tcp ContainerGroupTcpProbe) {
+	c.Tcp = &tcp
 }
 
 func (c *ContainerGroupStartupProbe) GetTimeoutSeconds() *int64 {

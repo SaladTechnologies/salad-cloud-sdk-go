@@ -6,15 +6,15 @@ Represents a queue job
 
 | Name       | Type                                         | Required | Description                                      |
 | :--------- | :------------------------------------------- | :------- | :----------------------------------------------- |
+| CreateTime | string                                       | ✅       | The job creation time                            |
+| Events     | [][queues.QueueJobEvent](queue_job_event.md) | ✅       | The job events                                   |
 | Id         | string                                       | ✅       | The job identifier                               |
 | Input      | any                                          | ✅       | The job input. May be any valid JSON.            |
 | Status     | queues.QueueJobStatus                        | ✅       | The job status                                   |
-| Events     | [][queues.QueueJobEvent](queue_job_event.md) | ✅       | The job events                                   |
-| CreateTime | string                                       | ✅       | The job creation time                            |
 | UpdateTime | string                                       | ✅       | The job update time                              |
 | Metadata   | any                                          | ❌       | Additional metadata for the job                  |
-| Webhook    | string                                       | ❌       | The webhook URL to notify when the job completes |
 | Output     | any                                          | ❌       | The job output. May be any valid JSON.           |
+| Webhook    | string                                       | ❌       | The webhook URL to notify when the job completes |
 
 # QueueJobStatus
 

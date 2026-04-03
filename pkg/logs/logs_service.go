@@ -3,6 +3,7 @@ package logs
 import (
 	"context"
 	restClient "github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/hooks"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// LogsService provides methods to interact with LogsService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type LogsService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewLogsService() *LogsService {
@@ -20,13 +24,26 @@ func NewLogsService() *LogsService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *LogsService) WithConfigManager(manager *configmanager.ConfigManager) *LogsService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *LogsService) WithHook(hook hooks.Hook) *LogsService {
+	api.hook = hook
+	return api
+}
+
 func (api *LogsService) getConfig() *saladcloudsdkconfig.Config {
 	return api.manager.GetLogs()
+}
+
+func (api *LogsService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *LogsService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *LogsService) SetApiKey(apiKey string) {
 }
 
 // Retrieve a collection of _log entries_ for the _organization_ identified by `{organization_name}` matching the log query.
-func (api *LogsService) QueryLogEntries(ctx context.Context, organizationName string, logEntryQuery LogEntryQuery) (*shared.SaladCloudSdkResponse[LogEntryCollection], *shared.SaladCloudSdkError) {
+func (api *LogsService) QueryLogEntries(ctx context.Context, organizationName string, logEntryQuery LogEntryQuery) (*shared.SaladCloudSdkResponse[LogEntryCollection], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -59,10 +76,10 @@ func (api *LogsService) QueryLogEntries(ctx context.Context, organizationName st
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[LogEntryCollection](config)
+	client := restClient.NewRestClient[LogEntryCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[LogEntryCollection](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[LogEntryCollection](resp), nil

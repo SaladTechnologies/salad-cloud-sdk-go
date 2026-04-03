@@ -6,10 +6,10 @@ import "encoding/json"
 type QueueBasedAutoscalerConfiguration struct {
 	// The target number of items in the queue that the autoscaler attempts to maintain by scaling the containers up or down
 	DesiredQueueLength *int64 `json:"desired_queue_length,omitempty" required:"true" min:"1" max:"100"`
-	// The maximum number of instances the container can scale up to
-	MaxReplicas *int64 `json:"max_replicas,omitempty" required:"true" min:"1" max:"500"`
 	// The maximum number of instances that can be removed per minute to prevent rapid downscaling
 	MaxDownscalePerMinute *int64 `json:"max_downscale_per_minute,omitempty" min:"1" max:"100"`
+	// The maximum number of instances the container can scale up to
+	MaxReplicas *int64 `json:"max_replicas,omitempty" required:"true" min:"1" max:"500"`
 	// The maximum number of instances that can be added per minute to prevent rapid upscaling
 	MaxUpscalePerMinute *int64 `json:"max_upscale_per_minute,omitempty" min:"1" max:"100"`
 	// The minimum number of instances the container can scale down to, ensuring baseline availability
@@ -29,17 +29,6 @@ func (q *QueueBasedAutoscalerConfiguration) SetDesiredQueueLength(desiredQueueLe
 	q.DesiredQueueLength = &desiredQueueLength
 }
 
-func (q *QueueBasedAutoscalerConfiguration) GetMaxReplicas() *int64 {
-	if q == nil {
-		return nil
-	}
-	return q.MaxReplicas
-}
-
-func (q *QueueBasedAutoscalerConfiguration) SetMaxReplicas(maxReplicas int64) {
-	q.MaxReplicas = &maxReplicas
-}
-
 func (q *QueueBasedAutoscalerConfiguration) GetMaxDownscalePerMinute() *int64 {
 	if q == nil {
 		return nil
@@ -49,6 +38,17 @@ func (q *QueueBasedAutoscalerConfiguration) GetMaxDownscalePerMinute() *int64 {
 
 func (q *QueueBasedAutoscalerConfiguration) SetMaxDownscalePerMinute(maxDownscalePerMinute int64) {
 	q.MaxDownscalePerMinute = &maxDownscalePerMinute
+}
+
+func (q *QueueBasedAutoscalerConfiguration) GetMaxReplicas() *int64 {
+	if q == nil {
+		return nil
+	}
+	return q.MaxReplicas
+}
+
+func (q *QueueBasedAutoscalerConfiguration) SetMaxReplicas(maxReplicas int64) {
+	q.MaxReplicas = &maxReplicas
 }
 
 func (q *QueueBasedAutoscalerConfiguration) GetMaxUpscalePerMinute() *int64 {

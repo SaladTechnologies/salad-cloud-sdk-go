@@ -8,7 +8,8 @@ import (
 	"strconv"
 )
 
-// ToForm converts any value (struct, array, map, or primitive) to form data
+// ToFormData converts structs and primitives to multipart/form-data format for request bodies.
+// Returns the encoded data, Content-Type header with boundary, and any error. Supports nested structs and byte arrays.
 func ToFormData(data interface{}) (*bytes.Reader, string, error) {
 	buffer := &bytes.Buffer{}
 	writer := multipart.NewWriter(buffer)
@@ -30,6 +31,8 @@ func ToFormData(data interface{}) (*bytes.Reader, string, error) {
 	return bytes.NewReader(buffer.Bytes()), contentTypeHeader, nil
 }
 
+// encode recursively encodes a value into multipart form fields.
+// Handles pointers, arrays/slices (byte arrays only), structs, and primitives.
 func encode(key string, v reflect.Value, writer *multipart.Writer) error {
 	if v.Kind() == reflect.Ptr {
 		if v.IsNil() {
@@ -59,6 +62,8 @@ func encode(key string, v reflect.Value, writer *multipart.Writer) error {
 	}
 }
 
+// encodeStruct encodes all exported fields of a struct into multipart form fields.
+// Uses 'form' tags for field names, supports nested bracket notation for nested structs.
 func encodeStruct(prefix string, v reflect.Value, writer *multipart.Writer) error {
 	t := v.Type()
 
@@ -89,6 +94,8 @@ func encodeStruct(prefix string, v reflect.Value, writer *multipart.Writer) erro
 	return nil
 }
 
+// formatValue converts a primitive value to its string representation for form encoding.
+// Supports bool, int, uint, float, and string types.
 func formatValue(v reflect.Value) string {
 	switch v.Kind() {
 	case reflect.Bool:

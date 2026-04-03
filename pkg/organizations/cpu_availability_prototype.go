@@ -1,4 +1,4 @@
-package organizationdata
+package organizations
 
 import (
 	"encoding/json"
@@ -8,14 +8,25 @@ import (
 )
 
 type CpuAvailabilityPrototype struct {
+	// A list of country codes where the resources are available
+	CountryCodes []shared.CountryCode `json:"country_codes,omitempty"`
 	// The number of available CPU cores
 	Cpu *util.Nullable[int64] `json:"cpu,omitempty"`
 	// The amount of available memory in MB
 	Memory *util.Nullable[int64] `json:"memory,omitempty"`
 	// The amount of available storage in bytes
 	StorageAmount *util.Nullable[int64] `json:"storage_amount,omitempty"`
-	// A list of country codes where the resources are available
-	CountryCodes []shared.CountryCode `json:"country_codes,omitempty"`
+}
+
+func (c *CpuAvailabilityPrototype) GetCountryCodes() []shared.CountryCode {
+	if c == nil {
+		return nil
+	}
+	return c.CountryCodes
+}
+
+func (c *CpuAvailabilityPrototype) SetCountryCodes(countryCodes []shared.CountryCode) {
+	c.CountryCodes = countryCodes
 }
 
 func (c *CpuAvailabilityPrototype) GetCpu() *util.Nullable[int64] {
@@ -61,17 +72,6 @@ func (c *CpuAvailabilityPrototype) SetStorageAmount(storageAmount util.Nullable[
 
 func (c *CpuAvailabilityPrototype) SetStorageAmountNull() {
 	c.StorageAmount = &util.Nullable[int64]{IsNull: true}
-}
-
-func (c *CpuAvailabilityPrototype) GetCountryCodes() []shared.CountryCode {
-	if c == nil {
-		return nil
-	}
-	return c.CountryCodes
-}
-
-func (c *CpuAvailabilityPrototype) SetCountryCodes(countryCodes []shared.CountryCode) {
-	c.CountryCodes = countryCodes
 }
 
 func (c CpuAvailabilityPrototype) String() string {

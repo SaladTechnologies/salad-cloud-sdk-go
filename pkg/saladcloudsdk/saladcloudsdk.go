@@ -1,11 +1,13 @@
 package saladcloudsdk
 
 import (
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/hooks"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/containergroups"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/inferenceendpoints"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/logs"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/organizationdata"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/organizations"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/queues"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/quotas"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
@@ -14,6 +16,8 @@ import (
 	"time"
 )
 
+// SaladCloudSdk is the main SDK client that provides access to all service endpoints.
+// It manages configuration, authentication, and service instances with centralized settings.
 type SaladCloudSdk struct {
 	ContainerGroups    *containergroups.ContainerGroupsService
 	SystemLogs         *systemlogs.SystemLogsService
@@ -23,6 +27,7 @@ type SaladCloudSdk struct {
 	OrganizationData   *organizationdata.OrganizationDataService
 	WebhookSecretKey   *webhooksecretkey.WebhookSecretKeyService
 	Logs               *logs.LogsService
+	Organizations      *organizations.OrganizationsService
 	manager            *configmanager.ConfigManager
 }
 
@@ -35,8 +40,10 @@ func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 	organizationData := organizationdata.NewOrganizationDataService()
 	webhookSecretKey := webhooksecretkey.NewWebhookSecretKeyService()
 	logs := logs.NewLogsService()
+	organizations := organizations.NewOrganizationsService()
 
 	manager := configmanager.NewConfigManager(config)
+	hook := hooks.NewDefaultHook()
 	containerGroups.WithConfigManager(manager)
 	systemLogs.WithConfigManager(manager)
 	queues.WithConfigManager(manager)
@@ -45,6 +52,16 @@ func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 	organizationData.WithConfigManager(manager)
 	webhookSecretKey.WithConfigManager(manager)
 	logs.WithConfigManager(manager)
+	organizations.WithConfigManager(manager)
+	containerGroups.WithHook(hook)
+	systemLogs.WithHook(hook)
+	queues.WithHook(hook)
+	quotas.WithHook(hook)
+	inferenceEndpoints.WithHook(hook)
+	organizationData.WithHook(hook)
+	webhookSecretKey.WithHook(hook)
+	logs.WithHook(hook)
+	organizations.WithHook(hook)
 
 	return &SaladCloudSdk{
 		ContainerGroups:    containerGroups,
@@ -55,6 +72,7 @@ func NewSaladCloudSdk(config saladcloudsdkconfig.Config) *SaladCloudSdk {
 		OrganizationData:   organizationData,
 		WebhookSecretKey:   webhookSecretKey,
 		Logs:               logs,
+		Organizations:      organizations,
 		manager:            manager,
 	}
 }

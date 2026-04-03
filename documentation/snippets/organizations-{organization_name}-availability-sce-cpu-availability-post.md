@@ -6,7 +6,7 @@ import (
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdk"
   "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/util"
-  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/organizationdata"
+  "github.com/saladtechnologies/salad-cloud-sdk-go/pkg/organizations"
 )
 
 config := saladcloudsdkconfig.NewConfig()
@@ -15,14 +15,14 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 countryCode := shared.COUNTRY_CODE_AF
 
-request := organizationdata.CpuAvailabilityPrototype{
+request := organizations.CpuAvailabilityPrototype{
+  CountryCodes: []shared.CountryCode{countryCode},
   Cpu: util.ToPointer(util.Nullable[int64]{ Value: int64(4) }),
   Memory: util.ToPointer(util.Nullable[int64]{ Value: int64(8192) }),
   StorageAmount: util.ToPointer(util.Nullable[int64]{ Value: int64(1000000000) }),
-  CountryCodes: []shared.CountryCode{countryCode},
 }
 
-response, err := client.OrganizationData.GetCpuAvailability(context.Background(), "acme-corp", request)
+response, err := client.Organizations.GetCpuAvailability(context.Background(), "acme-corp", request)
 if err != nil {
   panic(err)
 }

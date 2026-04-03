@@ -9,10 +9,21 @@ import (
 
 // Represents the price of a GPU class for a given container group priority
 type GpuClassPrice struct {
-	// Specifies the priority level for container group execution, which determines resource allocation and scheduling precedence.
-	Priority *util.Nullable[shared.ContainerGroupPriority] `json:"priority,omitempty" required:"true"`
 	// The price
 	Price *string `json:"price,omitempty" required:"true" maxLength:"20" minLength:"1" pattern:"^.*$"`
+	// Specifies the priority level for container group execution, which determines resource allocation and scheduling precedence.
+	Priority *util.Nullable[shared.ContainerGroupPriority] `json:"priority,omitempty" required:"true"`
+}
+
+func (g *GpuClassPrice) GetPrice() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Price
+}
+
+func (g *GpuClassPrice) SetPrice(price string) {
+	g.Price = &price
 }
 
 func (g *GpuClassPrice) GetPriority() *util.Nullable[shared.ContainerGroupPriority] {
@@ -28,17 +39,6 @@ func (g *GpuClassPrice) SetPriority(priority util.Nullable[shared.ContainerGroup
 
 func (g *GpuClassPrice) SetPriorityNull() {
 	g.Priority = &util.Nullable[shared.ContainerGroupPriority]{IsNull: true}
-}
-
-func (g *GpuClassPrice) GetPrice() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Price
-}
-
-func (g *GpuClassPrice) SetPrice(price string) {
-	g.Price = &price
 }
 
 func (g GpuClassPrice) String() string {
