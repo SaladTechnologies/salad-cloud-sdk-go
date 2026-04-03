@@ -8,6 +8,8 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
 )
 
+// validatePattern validates that a string field matches the regex pattern specified in its 'pattern' tag.
+// Returns an error if the field value doesn't match the pattern. Nil values are skipped.
 func validatePattern(field reflect.StructField, value reflect.Value) error {
 	pattern, found := field.Tag.Lookup("pattern")
 	if !found {

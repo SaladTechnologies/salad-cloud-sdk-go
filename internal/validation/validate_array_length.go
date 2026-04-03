@@ -8,6 +8,8 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
 )
 
+// validateArrayLength validates that an array or slice length is within 'minLength' and 'maxLength' tag constraints.
+// Only validates array and slice types. Nil slices are skipped.
 func validateArrayLength(field reflect.StructField, value reflect.Value) error {
 	kind := utils.GetReflectKind(value.Type())
 	if kind != reflect.Array && kind != reflect.Slice {
@@ -31,6 +33,7 @@ func validateArrayLength(field reflect.StructField, value reflect.Value) error {
 	return nil
 }
 
+// validateMinLength validates that an array or slice meets the minimum length requirement from 'minLength' tag.
 func validateMinLength(field reflect.StructField, value reflect.Value) error {
 	kind := utils.GetReflectKind(value.Type())
 	if kind == reflect.Slice && value.IsNil() {
@@ -55,6 +58,7 @@ func validateMinLength(field reflect.StructField, value reflect.Value) error {
 	return nil
 }
 
+// validateMaxLength validates that an array or slice doesn't exceed the maximum length from 'maxLength' tag.
 func validateMaxLength(field reflect.StructField, value reflect.Value) error {
 	kind := utils.GetReflectKind(value.Type())
 	if kind == reflect.Slice && value.IsNil() {

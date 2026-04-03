@@ -3,6 +3,7 @@ package containergroups
 import (
 	"context"
 	restClient "github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/hooks"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// ContainerGroupsService provides methods to interact with ContainerGroupsService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type ContainerGroupsService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewContainerGroupsService() *ContainerGroupsService {
@@ -20,13 +24,26 @@ func NewContainerGroupsService() *ContainerGroupsService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *ContainerGroupsService) WithConfigManager(manager *configmanager.ConfigManager) *ContainerGroupsService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *ContainerGroupsService) WithHook(hook hooks.Hook) *ContainerGroupsService {
+	api.hook = hook
+	return api
+}
+
 func (api *ContainerGroupsService) getConfig() *saladcloudsdkconfig.Config {
 	return api.manager.GetContainerGroups()
+}
+
+func (api *ContainerGroupsService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *ContainerGroupsService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *ContainerGroupsService) SetApiKey(apiKey string) {
 }
 
 // Gets the list of container groups
-func (api *ContainerGroupsService) ListContainerGroups(ctx context.Context, organizationName string, projectName string) (*shared.SaladCloudSdkResponse[ContainerGroupCollection], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) ListContainerGroups(ctx context.Context, organizationName string, projectName string) (*shared.SaladCloudSdkResponse[ContainerGroupCollection], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -58,17 +75,17 @@ func (api *ContainerGroupsService) ListContainerGroups(ctx context.Context, orga
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ContainerGroupCollection](config)
+	client := restClient.NewRestClient[ContainerGroupCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[ContainerGroupCollection](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[ContainerGroupCollection](resp), nil
 }
 
 // Creates a new container group
-func (api *ContainerGroupsService) CreateContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupCreationRequest ContainerGroupCreationRequest) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) CreateContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupCreationRequest ContainerGroupCreationRequest) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -83,17 +100,17 @@ func (api *ContainerGroupsService) CreateContainerGroup(ctx context.Context, org
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[shared.ContainerGroup](config)
+	client := restClient.NewRestClient[shared.ContainerGroup, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[shared.ContainerGroup](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[shared.ContainerGroup](resp), nil
 }
 
 // Gets a container group
-func (api *ContainerGroupsService) GetContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) GetContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -107,17 +124,17 @@ func (api *ContainerGroupsService) GetContainerGroup(ctx context.Context, organi
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[shared.ContainerGroup](config)
+	client := restClient.NewRestClient[shared.ContainerGroup, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[shared.ContainerGroup](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[shared.ContainerGroup](resp), nil
 }
 
 // Updates a container group
-func (api *ContainerGroupsService) UpdateContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupPatch ContainerGroupPatch) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) UpdateContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupPatch ContainerGroupPatch) (*shared.SaladCloudSdkResponse[shared.ContainerGroup], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -133,17 +150,17 @@ func (api *ContainerGroupsService) UpdateContainerGroup(ctx context.Context, org
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[shared.ContainerGroup](config)
+	client := restClient.NewRestClient[shared.ContainerGroup, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[shared.ContainerGroup](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[shared.ContainerGroup](resp), nil
 }
 
 // Deletes a container group
-func (api *ContainerGroupsService) DeleteContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) DeleteContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -157,17 +174,17 @@ func (api *ContainerGroupsService) DeleteContainerGroup(ctx context.Context, org
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
 // Starts a container group
-func (api *ContainerGroupsService) StartContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) StartContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -181,17 +198,17 @@ func (api *ContainerGroupsService) StartContainerGroup(ctx context.Context, orga
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
 // Stops a container group
-func (api *ContainerGroupsService) StopContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) StopContainerGroup(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -205,17 +222,17 @@ func (api *ContainerGroupsService) StopContainerGroup(ctx context.Context, organ
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
 // Gets the list of container group instances
-func (api *ContainerGroupsService) ListContainerGroupInstances(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[ContainerGroupInstanceCollection], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) ListContainerGroupInstances(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[ContainerGroupInstanceCollection], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -229,17 +246,17 @@ func (api *ContainerGroupsService) ListContainerGroupInstances(ctx context.Conte
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ContainerGroupInstanceCollection](config)
+	client := restClient.NewRestClient[ContainerGroupInstanceCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[ContainerGroupInstanceCollection](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[ContainerGroupInstanceCollection](resp), nil
 }
 
 // Gets a container group instance
-func (api *ContainerGroupsService) GetContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[ContainerGroupInstance], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) GetContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[ContainerGroupInstance], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -254,17 +271,17 @@ func (api *ContainerGroupsService) GetContainerGroupInstance(ctx context.Context
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ContainerGroupInstance](config)
+	client := restClient.NewRestClient[ContainerGroupInstance, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[ContainerGroupInstance](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[ContainerGroupInstance](resp), nil
 }
 
 // Updates a container group instance
-func (api *ContainerGroupsService) UpdateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string, containerGroupInstancePatch ContainerGroupInstancePatch) (*shared.SaladCloudSdkResponse[ContainerGroupInstance], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) UpdateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string, containerGroupInstancePatch ContainerGroupInstancePatch) (*shared.SaladCloudSdkResponse[ContainerGroupInstance], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -281,17 +298,17 @@ func (api *ContainerGroupsService) UpdateContainerGroupInstance(ctx context.Cont
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ContainerGroupInstance](config)
+	client := restClient.NewRestClient[ContainerGroupInstance, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[ContainerGroupInstance](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[ContainerGroupInstance](resp), nil
 }
 
 // Reallocates a container group instance to run on a different Salad Node
-func (api *ContainerGroupsService) ReallocateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) ReallocateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -306,17 +323,17 @@ func (api *ContainerGroupsService) ReallocateContainerGroupInstance(ctx context.
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
 // Stops a container, destroys it, and starts a new one without requiring the image to be downloaded again on a new Salad Node
-func (api *ContainerGroupsService) RecreateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) RecreateContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -331,17 +348,17 @@ func (api *ContainerGroupsService) RecreateContainerGroupInstance(ctx context.Co
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
 // Stops a container and restarts it on the same Salad Node
-func (api *ContainerGroupsService) RestartContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *ContainerGroupsService) RestartContainerGroupInstance(ctx context.Context, organizationName string, projectName string, containerGroupName string, containerGroupInstanceId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -356,10 +373,10 @@ func (api *ContainerGroupsService) RestartContainerGroupInstance(ctx context.Con
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil

@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// UnmarshalNullable deserializes JSON into a struct with Nullable fields, correctly handling null values.
+// Sets IsNull=true for fields that are explicitly null in the JSON, rather than unmarshaling them as zero values.
 func UnmarshalNullable(source []byte, target any) error {
 	// Use a temporary map to decode the raw JSON
 	var rawMap map[string]json.RawMessage
@@ -60,6 +62,8 @@ func UnmarshalNullable(source []byte, target any) error {
 	return nil
 }
 
+// hasNullableFields checks if a struct contains any Nullable[T] pointer fields.
+// Used to determine if special nullable unmarshaling logic should be applied.
 func hasNullableFields(obj any) bool {
 	t := reflect.TypeOf(obj)
 

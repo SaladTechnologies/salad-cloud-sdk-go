@@ -1,5 +1,7 @@
 package httptransport
 
+// ContentType represents the serialization format for request and response bodies.
+// Used to determine how to serialize request data and deserialize response data.
 type ContentType string
 
 const (

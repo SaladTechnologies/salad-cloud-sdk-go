@@ -3,6 +3,7 @@ package queues
 import (
 	"context"
 	restClient "github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/hooks"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// QueuesService provides methods to interact with QueuesService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type QueuesService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewQueuesService() *QueuesService {
@@ -20,13 +24,26 @@ func NewQueuesService() *QueuesService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *QueuesService) WithConfigManager(manager *configmanager.ConfigManager) *QueuesService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *QueuesService) WithHook(hook hooks.Hook) *QueuesService {
+	api.hook = hook
+	return api
+}
+
 func (api *QueuesService) getConfig() *saladcloudsdkconfig.Config {
 	return api.manager.GetQueues()
+}
+
+func (api *QueuesService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *QueuesService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *QueuesService) SetApiKey(apiKey string) {
 }
 
 // Gets the list of queues in the given project.
-func (api *QueuesService) ListQueues(ctx context.Context, organizationName string, projectName string) (*shared.SaladCloudSdkResponse[QueueCollection], *shared.SaladCloudSdkError) {
+func (api *QueuesService) ListQueues(ctx context.Context, organizationName string, projectName string) (*shared.SaladCloudSdkResponse[QueueCollection], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -58,17 +75,17 @@ func (api *QueuesService) ListQueues(ctx context.Context, organizationName strin
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[QueueCollection](config)
+	client := restClient.NewRestClient[QueueCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[QueueCollection](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[QueueCollection](resp), nil
 }
 
 // Creates a new queue in the given project.
-func (api *QueuesService) CreateQueue(ctx context.Context, organizationName string, projectName string, queuePrototype QueuePrototype) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
+func (api *QueuesService) CreateQueue(ctx context.Context, organizationName string, projectName string, queuePrototype QueuePrototype) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -83,17 +100,17 @@ func (api *QueuesService) CreateQueue(ctx context.Context, organizationName stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[Queue](config)
+	client := restClient.NewRestClient[Queue, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[Queue](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[Queue](resp), nil
 }
 
 // Gets an existing queue in the given project.
-func (api *QueuesService) GetQueue(ctx context.Context, organizationName string, projectName string, queueName string) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
+func (api *QueuesService) GetQueue(ctx context.Context, organizationName string, projectName string, queueName string) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -107,17 +124,17 @@ func (api *QueuesService) GetQueue(ctx context.Context, organizationName string,
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[Queue](config)
+	client := restClient.NewRestClient[Queue, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[Queue](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[Queue](resp), nil
 }
 
 // Updates an existing queue in the given project.
-func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName string, projectName string, queueName string, queuePatch QueuePatch) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError) {
+func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName string, projectName string, queueName string, queuePatch QueuePatch) (*shared.SaladCloudSdkResponse[Queue], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -133,17 +150,17 @@ func (api *QueuesService) UpdateQueue(ctx context.Context, organizationName stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[Queue](config)
+	client := restClient.NewRestClient[Queue, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[Queue](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[Queue](resp), nil
 }
 
 // Deletes an existing queue in the given project.
-func (api *QueuesService) DeleteQueue(ctx context.Context, organizationName string, projectName string, queueName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *QueuesService) DeleteQueue(ctx context.Context, organizationName string, projectName string, queueName string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -157,17 +174,17 @@ func (api *QueuesService) DeleteQueue(ctx context.Context, organizationName stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil
 }
 
 // Gets the list of jobs in a queue
-func (api *QueuesService) ListQueueJobs(ctx context.Context, organizationName string, projectName string, queueName string, params ListQueueJobsRequestParams) (*shared.SaladCloudSdkResponse[QueueJobCollection], *shared.SaladCloudSdkError) {
+func (api *QueuesService) ListQueueJobs(ctx context.Context, organizationName string, projectName string, queueName string, params ListQueueJobsRequestParams) (*shared.SaladCloudSdkResponse[QueueJobCollection], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -182,17 +199,17 @@ func (api *QueuesService) ListQueueJobs(ctx context.Context, organizationName st
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[QueueJobCollection](config)
+	client := restClient.NewRestClient[QueueJobCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[QueueJobCollection](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[QueueJobCollection](resp), nil
 }
 
 // Creates a new job
-func (api *QueuesService) CreateQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobPrototype QueueJobPrototype) (*shared.SaladCloudSdkResponse[QueueJob], *shared.SaladCloudSdkError) {
+func (api *QueuesService) CreateQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobPrototype QueueJobPrototype) (*shared.SaladCloudSdkResponse[QueueJob], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -208,17 +225,17 @@ func (api *QueuesService) CreateQueueJob(ctx context.Context, organizationName s
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[QueueJob](config)
+	client := restClient.NewRestClient[QueueJob, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[QueueJob](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[QueueJob](resp), nil
 }
 
 // Gets a job in a queue
-func (api *QueuesService) GetQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobId string) (*shared.SaladCloudSdkResponse[QueueJob], *shared.SaladCloudSdkError) {
+func (api *QueuesService) GetQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobId string) (*shared.SaladCloudSdkResponse[QueueJob], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -233,17 +250,17 @@ func (api *QueuesService) GetQueueJob(ctx context.Context, organizationName stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[QueueJob](config)
+	client := restClient.NewRestClient[QueueJob, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[QueueJob](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[QueueJob](resp), nil
 }
 
 // Cancels a job in a queue
-func (api *QueuesService) DeleteQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError) {
+func (api *QueuesService) DeleteQueueJob(ctx context.Context, organizationName string, projectName string, queueName string, queueJobId string) (*shared.SaladCloudSdkResponse[any], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -258,10 +275,10 @@ func (api *QueuesService) DeleteQueueJob(ctx context.Context, organizationName s
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[any](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[any](resp), nil

@@ -9,6 +9,8 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
 )
 
+// validateMultipleOf validates that a numeric field value is a multiple of the 'multipleOf' tag value.
+// Supports int and float types. Nil values are skipped.
 func validateMultipleOf(field reflect.StructField, value reflect.Value) error {
 	multipleOfValue, found := field.Tag.Lookup("multipleOf")
 	if !found || multipleOfValue == "" || value.IsNil() {

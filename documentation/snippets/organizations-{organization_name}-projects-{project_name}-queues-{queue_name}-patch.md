@@ -15,8 +15,8 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := queues.QueuePatch{
-  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "5Ecnf" }),
   Description: util.ToPointer(util.Nullable[string]{ Value: "description" }),
+  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "hB13" }),
 }
 
 response, err := client.Queues.UpdateQueue(context.Background(), "acme-corp", "dev-env", "fifo-queue", request)

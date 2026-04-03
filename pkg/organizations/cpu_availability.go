@@ -1,4 +1,4 @@
-package organizationdata
+package organizations
 
 import "encoding/json"
 

@@ -24,7 +24,7 @@ type Container struct {
 	// Specifies the resource requirements for a container.
 	Resources *ContainerResourceRequirements `json:"resources,omitempty" required:"true"`
 	// Size of the container in bytes.
-	Size *int64 `json:"size,omitempty" min:"0" max:"9223372036854776000"`
+	Size *int64 `json:"size,omitempty" min:"0" max:"9223372036854775807"`
 }
 
 func (c *Container) GetCommand() *util.Nullable[[]string] {

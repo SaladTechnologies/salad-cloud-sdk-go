@@ -1,6 +1,6 @@
 package shared
 
-// ISO 3166-1 alpha-2 country codes
+// ISO 3166-1 alpha-2 country code
 type CountryCode string
 
 const (

@@ -1,4 +1,4 @@
-package organizationdata
+package organizations
 
 import (
 	"encoding/json"
@@ -8,27 +8,27 @@ import (
 )
 
 type GpuAvailabilityPrototype struct {
-	// A list of available GPU class names
-	GpuClasses []string `json:"gpu_classes,omitempty" required:"true" minItems:"1"`
+	// A list of country codes where the resources are available
+	CountryCodes []shared.CountryCode `json:"country_codes,omitempty"`
 	// The number of available CPU cores
 	Cpu *util.Nullable[int64] `json:"cpu,omitempty"`
+	// A list of available GPU class names
+	GpuClasses []string `json:"gpu_classes,omitempty" required:"true" minItems:"1"`
 	// The amount of available memory in MB
 	Memory *util.Nullable[int64] `json:"memory,omitempty"`
 	// The amount of available storage in bytes
 	StorageAmount *util.Nullable[int64] `json:"storage_amount,omitempty"`
-	// A list of country codes where the resources are available
-	CountryCodes []shared.CountryCode `json:"country_codes,omitempty"`
 }
 
-func (g *GpuAvailabilityPrototype) GetGpuClasses() []string {
+func (g *GpuAvailabilityPrototype) GetCountryCodes() []shared.CountryCode {
 	if g == nil {
 		return nil
 	}
-	return g.GpuClasses
+	return g.CountryCodes
 }
 
-func (g *GpuAvailabilityPrototype) SetGpuClasses(gpuClasses []string) {
-	g.GpuClasses = gpuClasses
+func (g *GpuAvailabilityPrototype) SetCountryCodes(countryCodes []shared.CountryCode) {
+	g.CountryCodes = countryCodes
 }
 
 func (g *GpuAvailabilityPrototype) GetCpu() *util.Nullable[int64] {
@@ -44,6 +44,17 @@ func (g *GpuAvailabilityPrototype) SetCpu(cpu util.Nullable[int64]) {
 
 func (g *GpuAvailabilityPrototype) SetCpuNull() {
 	g.Cpu = &util.Nullable[int64]{IsNull: true}
+}
+
+func (g *GpuAvailabilityPrototype) GetGpuClasses() []string {
+	if g == nil {
+		return nil
+	}
+	return g.GpuClasses
+}
+
+func (g *GpuAvailabilityPrototype) SetGpuClasses(gpuClasses []string) {
+	g.GpuClasses = gpuClasses
 }
 
 func (g *GpuAvailabilityPrototype) GetMemory() *util.Nullable[int64] {
@@ -74,17 +85,6 @@ func (g *GpuAvailabilityPrototype) SetStorageAmount(storageAmount util.Nullable[
 
 func (g *GpuAvailabilityPrototype) SetStorageAmountNull() {
 	g.StorageAmount = &util.Nullable[int64]{IsNull: true}
-}
-
-func (g *GpuAvailabilityPrototype) GetCountryCodes() []shared.CountryCode {
-	if g == nil {
-		return nil
-	}
-	return g.CountryCodes
-}
-
-func (g *GpuAvailabilityPrototype) SetCountryCodes(countryCodes []shared.CountryCode) {
-	g.CountryCodes = countryCodes
 }
 
 func (g GpuAvailabilityPrototype) String() string {

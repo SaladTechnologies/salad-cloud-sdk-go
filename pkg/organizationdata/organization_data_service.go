@@ -3,6 +3,7 @@ package organizationdata
 import (
 	"context"
 	restClient "github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/hooks"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// OrganizationDataService provides methods to interact with OrganizationDataService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type OrganizationDataService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewOrganizationDataService() *OrganizationDataService {
@@ -20,13 +24,26 @@ func NewOrganizationDataService() *OrganizationDataService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *OrganizationDataService) WithConfigManager(manager *configmanager.ConfigManager) *OrganizationDataService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *OrganizationDataService) WithHook(hook hooks.Hook) *OrganizationDataService {
+	api.hook = hook
+	return api
+}
+
 func (api *OrganizationDataService) getConfig() *saladcloudsdkconfig.Config {
 	return api.manager.GetOrganizationData()
+}
+
+func (api *OrganizationDataService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *OrganizationDataService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *OrganizationDataService) SetApiKey(apiKey string) {
 }
 
 // List the GPU Classes
-func (api *OrganizationDataService) ListGpuClasses(ctx context.Context, organizationName string) (*shared.SaladCloudSdkResponse[GpuClassesList], *shared.SaladCloudSdkError) {
+func (api *OrganizationDataService) ListGpuClasses(ctx context.Context, organizationName string) (*shared.SaladCloudSdkResponse[GpuClassesList], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -57,59 +74,11 @@ func (api *OrganizationDataService) ListGpuClasses(ctx context.Context, organiza
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[GpuClassesList](config)
+	client := restClient.NewRestClient[GpuClassesList, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[GpuClassesList](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[GpuClassesList](resp), nil
-}
-
-// Gets the CPU availability for the given organization
-func (api *OrganizationDataService) GetCpuAvailability(ctx context.Context, organizationName string, cpuAvailabilityPrototype CpuAvailabilityPrototype) (*shared.SaladCloudSdkResponse[CpuAvailability], *shared.SaladCloudSdkError) {
-	config := *api.getConfig()
-
-	request := httptransport.NewRequestBuilder().WithContext(ctx).
-		WithMethod("POST").
-		WithPath("/organizations/{organization_name}/availability/sce-cpu-availability").
-		WithConfig(config).
-		WithBody(cpuAvailabilityPrototype).
-		AddHeader("CONTENT-TYPE", "application/json").
-		AddPathParam("organization_name", organizationName).
-		WithContentType(httptransport.ContentTypeJson).
-		WithResponseContentType(httptransport.ContentTypeJson).
-		Build()
-
-	client := restClient.NewRestClient[CpuAvailability](config)
-	resp, err := client.Call(*request)
-	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[CpuAvailability](err)
-	}
-
-	return shared.NewSaladCloudSdkResponse[CpuAvailability](resp), nil
-}
-
-// Gets the GPU availability for the given organization
-func (api *OrganizationDataService) GetGpuAvailability(ctx context.Context, organizationName string, gpuAvailabilityPrototype GpuAvailabilityPrototype) (*shared.SaladCloudSdkResponse[GpuAvailability], *shared.SaladCloudSdkError) {
-	config := *api.getConfig()
-
-	request := httptransport.NewRequestBuilder().WithContext(ctx).
-		WithMethod("POST").
-		WithPath("/organizations/{organization_name}/availability/sce-gpu-availability").
-		WithConfig(config).
-		WithBody(gpuAvailabilityPrototype).
-		AddHeader("CONTENT-TYPE", "application/json").
-		AddPathParam("organization_name", organizationName).
-		WithContentType(httptransport.ContentTypeJson).
-		WithResponseContentType(httptransport.ContentTypeJson).
-		Build()
-
-	client := restClient.NewRestClient[GpuAvailability](config)
-	resp, err := client.Call(*request)
-	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[GpuAvailability](err)
-	}
-
-	return shared.NewSaladCloudSdkResponse[GpuAvailability](resp), nil
 }

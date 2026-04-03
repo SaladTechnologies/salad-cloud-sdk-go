@@ -15,7 +15,7 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := containergroups.ContainerGroupInstancePatch{
-  DeletionCost: util.ToPointer(util.Nullable[int64]{ Value: int64(34980) }),
+  DeletionCost: util.ToPointer(util.Nullable[int64]{ Value: int64(19725) }),
 }
 
 response, err := client.ContainerGroups.UpdateContainerGroupInstance(context.Background(), "acme-corp", "dev-env", "mandlebrot", "db3a4591-efc3-46c0-b06a-3d820c0ec100", request)

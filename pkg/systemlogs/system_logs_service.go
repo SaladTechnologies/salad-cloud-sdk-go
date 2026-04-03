@@ -3,6 +3,7 @@ package systemlogs
 import (
 	"context"
 	restClient "github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest"
+	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/hooks"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/clients/rest/httptransport"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/configmanager"
 	"github.com/saladtechnologies/salad-cloud-sdk-go/pkg/saladcloudsdkconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// SystemLogsService provides methods to interact with SystemLogsService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type SystemLogsService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewSystemLogsService() *SystemLogsService {
@@ -20,13 +24,26 @@ func NewSystemLogsService() *SystemLogsService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *SystemLogsService) WithConfigManager(manager *configmanager.ConfigManager) *SystemLogsService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *SystemLogsService) WithHook(hook hooks.Hook) *SystemLogsService {
+	api.hook = hook
+	return api
+}
+
 func (api *SystemLogsService) getConfig() *saladcloudsdkconfig.Config {
 	return api.manager.GetSystemLogs()
+}
+
+func (api *SystemLogsService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *SystemLogsService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *SystemLogsService) SetApiKey(apiKey string) {
 }
 
 // Gets the System Logs
-func (api *SystemLogsService) GetSystemLogs(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[SystemLogList], *shared.SaladCloudSdkError) {
+func (api *SystemLogsService) GetSystemLogs(ctx context.Context, organizationName string, projectName string, containerGroupName string) (*shared.SaladCloudSdkResponse[SystemLogList], *shared.SaladCloudSdkError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -59,10 +76,10 @@ func (api *SystemLogsService) GetSystemLogs(ctx context.Context, organizationNam
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SystemLogList](config)
+	client := restClient.NewRestClient[SystemLogList, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewSaladCloudSdkError[SystemLogList](err)
+		return nil, shared.NewSaladCloudSdkError[[]byte](err)
 	}
 
 	return shared.NewSaladCloudSdkResponse[SystemLogList](resp), nil

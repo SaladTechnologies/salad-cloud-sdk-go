@@ -8,6 +8,9 @@ import (
 	"github.com/saladtechnologies/salad-cloud-sdk-go/internal/utils"
 )
 
+// FromComplexObject marshals a discriminated union (oneOf) struct to JSON.
+// Finds the first non-nil field (the active variant) and marshals only that field.
+// Returns an error if all fields are nil.
 func FromComplexObject(obj any) ([]byte, error) {
 	types := utils.GetReflectType(reflect.TypeOf(obj))
 	values := utils.GetReflectValue(reflect.ValueOf(obj))

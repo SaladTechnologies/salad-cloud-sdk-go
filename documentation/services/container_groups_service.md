@@ -101,9 +101,9 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 axiomLoggingConfiguration := shared.AxiomLoggingConfiguration{
-  Host: util.ToPointer("host"),
   ApiToken: util.ToPointer("api_token"),
   Dataset: util.ToPointer("dataset"),
+  Host: util.ToPointer("host"),
 }
 
 
@@ -113,10 +113,12 @@ datadogTagForContainerLogging := shared.DatadogTagForContainerLogging{
 }
 
 datadogLoggingConfiguration := shared.DatadogLoggingConfiguration{
-  Host: util.ToPointer("host"),
   ApiKey: util.ToPointer("api_key"),
+  Host: util.ToPointer("host"),
   Tags: []shared.DatadogTagForContainerLogging{datadogTagForContainerLogging},
 }
+
+containerLoggingHttpCompression := shared.CONTAINER_LOGGING_HTTP_COMPRESSION_NONE
 
 containerLoggingHttpFormat := shared.CONTAINER_LOGGING_HTTP_FORMAT_JSON
 
@@ -126,17 +128,15 @@ containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
   Value: util.ToPointer("value"),
 }
 
-containerLoggingHttpCompression := shared.CONTAINER_LOGGING_HTTP_COMPRESSION_NONE
-
 containerLoggingConfigurationHttp2 := containergroups.ContainerLoggingConfigurationHttp2{
-  Host: util.ToPointer("host"),
-  Port: util.ToPointer(int64(46840)),
-  User: util.ToPointer(util.Nullable[string]{ Value: "user" }),
-  Password: util.ToPointer(util.Nullable[string]{ Value: "password" }),
-  Path: util.ToPointer(util.Nullable[string]{ Value: "path" }),
+  Compression: &containerLoggingHttpCompression,
   Format: &containerLoggingHttpFormat,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
-  Compression: &containerLoggingHttpCompression,
+  Host: util.ToPointer("host"),
+  Password: util.ToPointer(util.Nullable[string]{ Value: "password" }),
+  Path: util.ToPointer(util.Nullable[string]{ Value: "path" }),
+  Port: util.ToPointer(int64(42056)),
+  User: util.ToPointer(util.Nullable[string]{ Value: "user" }),
 }
 
 
@@ -176,14 +176,14 @@ containerRegistryAuthenticationAwsEcr := containergroups.ContainerRegistryAuthen
 
 
 containerRegistryAuthenticationBasic := containergroups.ContainerRegistryAuthenticationBasic{
-  Username: util.ToPointer("username"),
   Password: util.ToPointer("password"),
+  Username: util.ToPointer("username"),
 }
 
 
 containerRegistryAuthenticationDockerHub := containergroups.ContainerRegistryAuthenticationDockerHub{
-  Username: util.ToPointer("username"),
   PersonalAccessToken: util.ToPointer("personal_access_token"),
+  Username: util.ToPointer("username"),
 }
 
 
@@ -206,11 +206,11 @@ containerRegistryAuthentication := containergroups.ContainerRegistryAuthenticati
 
 
 createContainerResourceRequirements := containergroups.CreateContainerResourceRequirements{
-  Cpu: util.ToPointer(int64(924)),
-  Memory: util.ToPointer(int64(226493682)),
+  Cpu: util.ToPointer(int64(827)),
   GpuClasses: []string{},
-  StorageAmount: util.ToPointer(int64(3576666867910)),
+  Memory: util.ToPointer(int64(734164836)),
   ShmSize: util.ToPointer(int64(64)),
+  StorageAmount: util.ToPointer(int64(761306530849177.9)),
 }
 
 containerConfiguration := containergroups.ContainerConfiguration{
@@ -286,8 +286,8 @@ createContainerGroupNetworking := containergroups.CreateContainerGroupNetworking
 
 queueBasedAutoscalerConfiguration := shared.QueueBasedAutoscalerConfiguration{
   DesiredQueueLength: util.ToPointer(int64(53)),
-  MaxReplicas: util.ToPointer(int64(291)),
-  MaxDownscalePerMinute: util.ToPointer(int64(65)),
+  MaxDownscalePerMinute: util.ToPointer(int64(59)),
+  MaxReplicas: util.ToPointer(int64(321)),
   MaxUpscalePerMinute: util.ToPointer(int64(100)),
   MinReplicas: util.ToPointer(int64(54)),
   PollingPeriod: util.ToPointer(int64(140)),
@@ -346,6 +346,12 @@ containerGroupReadinessProbe := shared.ContainerGroupReadinessProbe{
 containerRestartPolicy := shared.CONTAINER_RESTART_POLICY_ALWAYS
 
 
+containerGroupScalingAction := shared.ContainerGroupScalingAction{
+  Replicas: util.ToPointer(int64(461)),
+  Schedule: util.ToPointer("7kwC/T8C   da       x6Ci   bM-rgGYn     bDY6,vT"),
+}
+
+
 containerGroupProbeExec := shared.ContainerGroupProbeExec{
   Command: []string{},
 }
@@ -381,10 +387,10 @@ containerGroupStartupProbe := shared.ContainerGroupStartupProbe{
   FailureThreshold: util.ToPointer(int64(15)),
   Grpc: &containerGroupGRpcProbe,
   Http: &containerGroupHttpProbeConfiguration,
-  InitialDelaySeconds: util.ToPointer(int64(1106)),
-  Tcp: &containerGroupTcpProbe,
+  InitialDelaySeconds: util.ToPointer(int64(503)),
   PeriodSeconds: util.ToPointer(int64(3)),
   SuccessThreshold: util.ToPointer(int64(2)),
+  Tcp: &containerGroupTcpProbe,
   TimeoutSeconds: util.ToPointer(int64(10)),
 }
 
@@ -392,15 +398,17 @@ request := containergroups.ContainerGroupCreationRequest{
   AutostartPolicy: util.ToPointer(true),
   Container: &containerConfiguration,
   CountryCodes: []shared.CountryCode{countryCode},
-  DisplayName: util.ToPointer("592CH6"),
+  DisplayName: util.ToPointer("KMg0KyVwpb"),
   LivenessProbe: &containerGroupLivenessProbe,
   Name: util.ToPointer("name"),
   Networking: &createContainerGroupNetworking,
   QueueAutoscaler: &queueBasedAutoscalerConfiguration,
   QueueConnection: &containerGroupQueueConnection,
   ReadinessProbe: &containerGroupReadinessProbe,
-  Replicas: util.ToPointer(int64(309)),
+  Replicas: util.ToPointer(int64(77)),
   RestartPolicy: &containerRestartPolicy,
+  ScalingActions: []shared.ContainerGroupScalingAction{containerGroupScalingAction},
+  ScheduledScalingEnabled: util.ToPointer(true),
   StartupProbe: &containerGroupStartupProbe,
 }
 
@@ -496,9 +504,9 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 axiomLoggingConfiguration := shared.AxiomLoggingConfiguration{
-  Host: util.ToPointer("host"),
   ApiToken: util.ToPointer("api_token"),
   Dataset: util.ToPointer("dataset"),
+  Host: util.ToPointer("host"),
 }
 
 
@@ -508,10 +516,12 @@ datadogTagForContainerLogging := shared.DatadogTagForContainerLogging{
 }
 
 datadogLoggingConfiguration := shared.DatadogLoggingConfiguration{
-  Host: util.ToPointer("host"),
   ApiKey: util.ToPointer("api_key"),
+  Host: util.ToPointer("host"),
   Tags: []shared.DatadogTagForContainerLogging{datadogTagForContainerLogging},
 }
+
+containerLoggingHttpCompression := shared.CONTAINER_LOGGING_HTTP_COMPRESSION_NONE
 
 containerLoggingHttpFormat := shared.CONTAINER_LOGGING_HTTP_FORMAT_JSON
 
@@ -521,17 +531,15 @@ containerLoggingHttpHeader := shared.ContainerLoggingHttpHeader{
   Value: util.ToPointer("value"),
 }
 
-containerLoggingHttpCompression := shared.CONTAINER_LOGGING_HTTP_COMPRESSION_NONE
-
 containerLoggingConfigurationHttp1 := shared.ContainerLoggingConfigurationHttp1{
-  Host: util.ToPointer("host"),
-  Port: util.ToPointer(int64(55354)),
-  User: util.ToPointer(util.Nullable[string]{ Value: "user" }),
-  Password: util.ToPointer(util.Nullable[string]{ Value: "password" }),
-  Path: util.ToPointer(util.Nullable[string]{ Value: "path" }),
+  Compression: &containerLoggingHttpCompression,
   Format: &containerLoggingHttpFormat,
   Headers: []shared.ContainerLoggingHttpHeader{containerLoggingHttpHeader},
-  Compression: &containerLoggingHttpCompression,
+  Host: util.ToPointer("host"),
+  Password: util.ToPointer(util.Nullable[string]{ Value: "password" }),
+  Path: util.ToPointer(util.Nullable[string]{ Value: "path" }),
+  Port: util.ToPointer(int64(55354)),
+  User: util.ToPointer(util.Nullable[string]{ Value: "user" }),
 }
 
 
@@ -571,14 +579,14 @@ containerRegistryAuthenticationAwsEcr := containergroups.ContainerRegistryAuthen
 
 
 containerRegistryAuthenticationBasic := containergroups.ContainerRegistryAuthenticationBasic{
-  Username: util.ToPointer("username"),
   Password: util.ToPointer("password"),
+  Username: util.ToPointer("username"),
 }
 
 
 containerRegistryAuthenticationDockerHub := containergroups.ContainerRegistryAuthenticationDockerHub{
-  Username: util.ToPointer("username"),
   PersonalAccessToken: util.ToPointer("personal_access_token"),
+  Username: util.ToPointer("username"),
 }
 
 
@@ -601,11 +609,11 @@ containerRegistryAuthentication := containergroups.ContainerRegistryAuthenticati
 
 
 containerResourceUpdateSchema := containergroups.ContainerResourceUpdateSchema{
-  Cpu: util.ToPointer(util.Nullable[int64]{ Value: int64(1013) }),
-  Memory: util.ToPointer(util.Nullable[int64]{ Value: int64(352043675) }),
+  Cpu: util.ToPointer(util.Nullable[int64]{ Value: int64(191) }),
   GpuClasses: []string{},
-  StorageAmount: util.ToPointer(util.Nullable[int64]{ Value: int64(1032076497908566.1) }),
+  Memory: util.ToPointer(util.Nullable[int64]{ Value: int64(909130690) }),
   ShmSize: util.ToPointer(util.Nullable[int64]{ Value: int64(64) }),
+  StorageAmount: util.ToPointer(util.Nullable[int64]{ Value: int64(699558298076245) }),
 }
 
 updateContainer := containergroups.UpdateContainer{
@@ -620,11 +628,6 @@ updateContainer := containergroups.UpdateContainer{
 }
 
 countryCode := shared.COUNTRY_CODE_AF
-
-
-updateContainerGroupNetworking := containergroups.UpdateContainerGroupNetworking{
-  Port: util.ToPointer(util.Nullable[int64]{ Value: int64(13142) }),
-}
 
 
 containerGroupProbeExec := shared.ContainerGroupProbeExec{
@@ -667,6 +670,21 @@ containerGroupLivenessProbe := shared.ContainerGroupLivenessProbe{
   SuccessThreshold: util.ToPointer(int64(1)),
   Tcp: &containerGroupTcpProbe,
   TimeoutSeconds: util.ToPointer(int64(30)),
+}
+
+
+updateContainerGroupNetworking := containergroups.UpdateContainerGroupNetworking{
+  Port: util.ToPointer(util.Nullable[int64]{ Value: int64(17025) }),
+}
+
+
+queueBasedAutoscalerConfiguration := shared.QueueBasedAutoscalerConfiguration{
+  DesiredQueueLength: util.ToPointer(int64(53)),
+  MaxDownscalePerMinute: util.ToPointer(int64(59)),
+  MaxReplicas: util.ToPointer(int64(321)),
+  MaxUpscalePerMinute: util.ToPointer(int64(100)),
+  MinReplicas: util.ToPointer(int64(54)),
+  PollingPeriod: util.ToPointer(int64(140)),
 }
 
 
@@ -713,6 +731,12 @@ containerGroupReadinessProbe := shared.ContainerGroupReadinessProbe{
 }
 
 
+containerGroupScalingAction := shared.ContainerGroupScalingAction{
+  Replicas: util.ToPointer(int64(461)),
+  Schedule: util.ToPointer("7kwC/T8C   da       x6Ci   bM-rgGYn     bDY6,vT"),
+}
+
+
 containerGroupProbeExec := shared.ContainerGroupProbeExec{
   Command: []string{},
 }
@@ -748,33 +772,25 @@ containerGroupStartupProbe := shared.ContainerGroupStartupProbe{
   FailureThreshold: util.ToPointer(int64(15)),
   Grpc: &containerGroupGRpcProbe,
   Http: &containerGroupHttpProbeConfiguration,
-  InitialDelaySeconds: util.ToPointer(int64(1106)),
-  Tcp: &containerGroupTcpProbe,
+  InitialDelaySeconds: util.ToPointer(int64(503)),
   PeriodSeconds: util.ToPointer(int64(3)),
   SuccessThreshold: util.ToPointer(int64(2)),
+  Tcp: &containerGroupTcpProbe,
   TimeoutSeconds: util.ToPointer(int64(10)),
 }
 
-
-queueBasedAutoscalerConfiguration := shared.QueueBasedAutoscalerConfiguration{
-  DesiredQueueLength: util.ToPointer(int64(53)),
-  MaxReplicas: util.ToPointer(int64(291)),
-  MaxDownscalePerMinute: util.ToPointer(int64(65)),
-  MaxUpscalePerMinute: util.ToPointer(int64(100)),
-  MinReplicas: util.ToPointer(int64(54)),
-  PollingPeriod: util.ToPointer(int64(140)),
-}
-
 request := containergroups.ContainerGroupPatch{
-  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "ZJjdnvu" }),
   Container: &updateContainer,
-  Replicas: util.ToPointer(util.Nullable[int64]{ Value: int64(56) }),
   CountryCodes: []shared.CountryCode{countryCode},
-  Networking: &updateContainerGroupNetworking,
+  DisplayName: util.ToPointer(util.Nullable[string]{ Value: "ykW8yoj HBQ" }),
   LivenessProbe: &containerGroupLivenessProbe,
-  ReadinessProbe: &containerGroupReadinessProbe,
-  StartupProbe: &containerGroupStartupProbe,
+  Networking: &updateContainerGroupNetworking,
   QueueAutoscaler: &queueBasedAutoscalerConfiguration,
+  ReadinessProbe: &containerGroupReadinessProbe,
+  Replicas: util.ToPointer(util.Nullable[int64]{ Value: int64(102) }),
+  ScalingActions: []shared.ContainerGroupScalingAction{containerGroupScalingAction},
+  ScheduledScalingEnabled: util.ToPointer(true),
+  StartupProbe: &containerGroupStartupProbe,
 }
 
 response, err := client.ContainerGroups.UpdateContainerGroup(context.Background(), "acme-corp", "dev-env", "mandlebrot", request)
@@ -1047,7 +1063,7 @@ client := saladcloudsdk.NewSaladCloudSdk(config)
 
 
 request := containergroups.ContainerGroupInstancePatch{
-  DeletionCost: util.ToPointer(util.Nullable[int64]{ Value: int64(34980) }),
+  DeletionCost: util.ToPointer(util.Nullable[int64]{ Value: int64(19725) }),
 }
 
 response, err := client.ContainerGroups.UpdateContainerGroupInstance(context.Background(), "acme-corp", "dev-env", "mandlebrot", "db3a4591-efc3-46c0-b06a-3d820c0ec100", request)
